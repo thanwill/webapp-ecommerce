@@ -9,7 +9,7 @@ var logger = require('morgan');
 const Filme = require('./models/filme');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/usuario');
 var filmeRouter = require('./routes/filme');
 
 connectDB();
@@ -27,7 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/usuarios', usersRouter);
 app.use('/filme', filmeRouter);
 
 

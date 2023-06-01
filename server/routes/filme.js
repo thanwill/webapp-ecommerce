@@ -37,4 +37,11 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+// GET de erro caso a rota nao exista
+router.get('*', function(req, res, next) {
+    res.status(404).json({
+      error: 'Rota não encontrada'
+    });
+  });
+
 module.exports = router;
