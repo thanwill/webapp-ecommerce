@@ -1,0 +1,10 @@
+.avatar:hover {
+  cursor: pointer;
+}
+
+.avatar img {
+  width: 150px;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
