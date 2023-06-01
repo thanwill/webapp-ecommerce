@@ -1,45 +1,55 @@
 import React, { useState } from 'react';
+import Title from '../Title';
 import './index.css';
-export default function FilmeFormulario() {
-  const [filme, setFilme] = useState({
-    titulo: '',
-    ano: 0,
-    poster: '',
-    nota: 0,
-    assistido: false,
+export default function CriarUsuario() {
+  const [usuario, setUsuario] = useState({
+    nome: '',
+    email: '',
+    telefone: '',
+    avatarUrl: '',
+    newsletter: false,
   });
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
     const newValue = type === 'checkbox' ? checked : value;
 
-    setFilme((prevFilme) => ({
-      ...prevFilme,
+    setUsuario((prevUsuario) => ({
+      ...prevUsuario,
       [name]: newValue,
     }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    // Faça o que for necessário com o objeto de filme (por exemplo, enviar para um servidor, salvar em um estado global, etc.)
-    console.log(filme);
-
-    // Limpe os campos do formulário
-    setFilme({
-      titulo: '',
-      ano: 0,
-      poster: '',
-      nota: 0,
-      assistido: false,
-    });
+    console.log(usuario);
   };
 
   return (
-    <div className="">
+    <div className="container">
       <div className="row">
         <div className="col-12 col-md-6">
+          <Title
+            title="Cadastre-se"
+            subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+          />
           <form>
+            <div class="mb-3">
+              <div class="form-floating mb-3">
+                <input
+                  type="nome"
+                  class="form-control"
+                  id="floatingInput"
+                  placeholder="Johe Doe"
+                  // validacao
+                  required
+                  minLength={3}
+                  maxLength={100}
+                  pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$"
+                />
+                <label for="floatingInput">Nome completo</label>
+              </div>
+            </div>
             <div class="mb-3">
               <div class="form-floating mb-3">
                 <input
@@ -82,6 +92,9 @@ export default function FilmeFormulario() {
                     type="checkbox"
                     role="switch"
                     id="flexSwitchCheckChecked"
+                    onChange={(e) => {
+                      setUsuario({ ...usuario, newsletter: e.target.checked });
+                    }}
                   />
                   <label
                     class="form-check-label text-muted "
