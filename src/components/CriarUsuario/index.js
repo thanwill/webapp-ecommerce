@@ -59,9 +59,15 @@ export default function CriarUsuario() {
                 if (e.target.validity.valid) {
                   e.target.classList.remove('is-invalid');
                   e.target.classList.add('is-valid');
+                  setValidated(false);
                 } else {
                   e.target.classList.remove('is-valid');
                   e.target.classList.add('is-invalid');
+                  setValidated(true);
+                  // cria um elemento span para exibir a mensagem de erro com a tag invalid-feedback
+                  const span = document.createElement('span');
+                  span.classList.add('invalid-feedback');
+                  span.textContent = e.target.validationMessage;
                 }
               }
             }}
@@ -83,6 +89,9 @@ export default function CriarUsuario() {
                 />
                 <label for="floatingInput">Nome completo</label>
               </div>
+              {validated && (
+                <div class="form-text">Por favor, insira um nome válido.</div>
+              )}
             </div>
             <div class="mb-3">
               <div class="form-floating mb-3">
@@ -97,10 +106,15 @@ export default function CriarUsuario() {
                 />
                 <label for="floatingInput">E-mail</label>
               </div>
-
-              <div id="emailHelp" class="form-text">
-                Nós nunca compartilharemos seu e-mail com mais ninguém.
-              </div>
+              {validated ? (
+                <div id="emailHelp" class="form-text">
+                  Por favor, insira um e-mail válido.
+                </div>
+              ) : (
+                <div id="emailHelp" class="form-text">
+                  Nós nunca compartilharemos seu e-mail com mais ninguém.
+                </div>
+              )}
             </div>
             <div class="mb-3">
               <div class="form-floating">
@@ -113,12 +127,21 @@ export default function CriarUsuario() {
                   pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
                   onChange={(e) => {
                     handleChange(e);
-                    setValidated(true);
                   }}
                 />
                 <label for="floatingPassword">Senha</label>
               </div>
-            </div>        
+
+              {
+                // se validated for true, exibe a mensagem de erro abaixo se for false, a mensagem não é exibida e some da tela
+                validated && (
+                  <div id="emailHelp" class="form-text">
+                    A senha deve conter no mínimo 8 caracteres, uma letra
+                    maiúscula, uma minúscula e um número.
+                  </div>
+                )
+              }
+            </div>
 
             <div className="row">
               <div class="mt-3">
