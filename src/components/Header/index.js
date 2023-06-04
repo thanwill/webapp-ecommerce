@@ -1,8 +1,7 @@
 import React from 'react';
 import './index.css';
-import Title from '../Title';
 import UserProfile from '../Profile';
-import CriarUsuario from '../CriarUsario';
+import CriarUsuario from '../CriarUsuario';
 // cria meu componente header
 
 function Header() {

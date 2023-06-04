@@ -102,7 +102,7 @@ export default function CriarFilme() {
                 </select>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-5">
+            <button type="submit" class="btn btn-primary mt-5" onChange={handleSubmit} >
               Submit
             </button>
           </form>
