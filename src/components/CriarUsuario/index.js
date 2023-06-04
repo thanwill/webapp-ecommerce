@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { UsuarioService } from '../services/usuario';
+import { Form } from 'react-bootstrap';
 import Title from '../Title';
 import './index.css';
-import { useEffect } from 'react';
 
 export default function CriarUsuario() {
   const [usuario, setUsuario] = useState({
@@ -13,6 +13,8 @@ export default function CriarUsuario() {
     newsletter: false,
     plano: '',
   });
+
+  const [validated, setValidated] = useState(false);
 
   // captura o estado do backend
   const [resposta, setResposta] = useState(null);
@@ -27,15 +29,9 @@ export default function CriarUsuario() {
     }));
   };
 
-  useEffect(() => {
-    if (resposta) {
-      console.log(resposta);
-    }
-  }, [resposta]);
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    // captura o retorno do backend e salva no estado resposta
+    // verifica se os campos estão vazios
 
     UsuarioService.criar(usuario)
       .then((resposta) => {
@@ -54,7 +50,22 @@ export default function CriarUsuario() {
             title="Cadastre-se"
             subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit."
           />
-          <form>
+          <Form
+            noValidate
+            onChange={(e) => {
+              // captura o foco de cada input e valida se o pattern está correto ou não adicionando a classe is-invalid ou is-valid
+
+              if (e.target.value !== '') {
+                if (e.target.validity.valid) {
+                  e.target.classList.remove('is-invalid');
+                  e.target.classList.add('is-valid');
+                } else {
+                  e.target.classList.remove('is-valid');
+                  e.target.classList.add('is-invalid');
+                }
+              }
+            }}
+          >
             <div class="mb-3">
               <div class="form-floating mb-3">
                 <input
@@ -67,7 +78,7 @@ export default function CriarUsuario() {
                   required
                   minLength={3}
                   maxLength={100}
-                  pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$"
+                  pattern="^[a-zA-Zà-úÀ-Ú0-9]+(([' -][a-zA-Zà-úÀ-Ú0-9])?[a-zA-Zà-úÀ-Ú0-9]*)*$"
                   onChange={handleChange}
                 />
                 <label for="floatingInput">Nome completo</label>
@@ -81,6 +92,7 @@ export default function CriarUsuario() {
                   class="form-control"
                   id="floatingInput"
                   placeholder="name@example.com"
+                  pattern="^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$"
                   onChange={handleChange}
                 />
                 <label for="floatingInput">E-mail</label>
@@ -98,11 +110,16 @@ export default function CriarUsuario() {
                   class="form-control"
                   id="floatingPassword"
                   placeholder="Password"
-                  onChange={handleChange}
+                  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
+                  onChange={(e) => {
+                    handleChange(e);
+                    setValidated(true);
+                  }}
                 />
                 <label for="floatingPassword">Senha</label>
               </div>
-            </div>
+            </div>        
+
             <div className="row">
               <div class="mt-3">
                 <label for="formFile" class="form-label text-muted">
@@ -190,7 +207,7 @@ export default function CriarUsuario() {
                   {resposta.message}
                 </div>
               )}
-          </form>
+          </Form>
         </div>
       </div>
     </div>
