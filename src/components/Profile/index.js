@@ -3,9 +3,8 @@ import './styles.css';
 import Title from '../Title/index';
 import { useState, useEffect } from 'react';
 import { UsuarioService } from '../services/usuario';
-
+import AtualizarPerfil from '../AtualizarPerfil/index';
 export default function Profile({ id }) {
-
   var avatarUrl = process.env.PUBLIC_URL + '/imagem-perfil.png';
 
   const [usuario, setUsuario] = useState({
@@ -43,10 +42,15 @@ export default function Profile({ id }) {
                 <h2>{usuario.nome}</h2>
                 <p>{usuario.email}</p>
 
-                <p>Plano: 
+                <p>
+                  Plano:
                   {
                     // mostra o plano do usuario basic 1, standard 2, premium 3
-                    usuario.plano === 1 ? 'Basic' : usuario.plano === 2 ? 'Standard' : 'Premium'
+                    usuario.plano === 1
+                      ? ' Basic'
+                      : usuario.plano === 2
+                      ? ' Standard'
+                      : ' Premium'
                   }
                 </p>
               </div>
@@ -54,7 +58,15 @@ export default function Profile({ id }) {
             {
               // cria um botão para editar o perfil
             }
-            <button className="btn btn-secondary mt-3">Editar perfil</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+            >
+              Editar
+            </button>
+            <AtualizarPerfil usuario={usuario} />
           </div>
         </div>
       </div>

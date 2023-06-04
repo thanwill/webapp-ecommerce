@@ -125,12 +125,6 @@ class UsuarioController {
         plano,
       });
 
-      if (error) {
-        return res.status(400).json({
-          error: error.details[0].message,
-        });
-      }
-
       const usuario = await Usuario.findOne({
         id,
       });
@@ -165,14 +159,25 @@ class UsuarioController {
         usuario.plano = plano;
       }
 
-      await usuario.save();
+      const _id = String((await Usuario.findOne({ id: id }))._id);
+      await Usuario.findByIdAndUpdate(String(_id), req.body);
 
-      return res.status(200).json(usuario);
+      return res.status(200).json({
+        message: "Usuário atualizado com sucesso",
+        data : usuario
+      });
     } catch (error) {
       return res.status(500).json({
         error: error.message,
       });
     }
+  }
+
+  async atualizarOld(req, res) {
+    const codigo = req.params.codigo;
+    const _id = String((await Usuario.findOne({ codigo: codigo }))._id);
+    await Usuario.findByIdAndUpdate(String(_id), req.body);
+    res.status(200).json({ message: "Atualizado com sucesso!" });
   }
 
   async deletar(req, res) {
