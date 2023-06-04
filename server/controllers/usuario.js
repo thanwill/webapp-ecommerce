@@ -162,7 +162,7 @@ class UsuarioController {
 
       return res.status(200).json({
         message: "Usuário atualizado com sucesso",
-        data : usuario
+        data: usuario,
       });
     } catch (error) {
       return res.status(500).json({

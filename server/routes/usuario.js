@@ -41,6 +41,17 @@ router.post("/", async (req, res) => {
   }
 });
 
+// upload de imagem
+router.post("/upload",async (req, res) => {
+  try {
+    await Usuario.upload(req, res);
+  } catch (error) {
+    res.status(500).json({
+      error: `${error}`,
+    });
+  }
+});
+
 // atualiza um usuário pelo id
 router.put("/:id", async (req, res) => {
   try {

@@ -1,11 +1,23 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import './index.css';
 import UserProfile from '../Profile';
 import CriarUsuario from '../CriarUsuario';
+import ListarUsuarios from '../ListarUsuarios/index';
+import { UsuarioService } from '../services/usuario';
 // cria meu componente header
 
 function Header() {
-  
+  const [usuarios, setUsuarios] = useState([]);
+
+  // usa o useEffect para executar uma função assim que o componente for montado na tela
+  useEffect(() => {
+    // chama a função listar do service
+    UsuarioService.listar().then((usuarios) => {
+      // atualiza o estado com a lista de usuarios
+      setUsuarios(usuarios);
+    });
+  }, []);
+
   return (
     <>
       <div className="container">
@@ -77,7 +89,7 @@ function Header() {
             aria-labelledby="pills-profile-tab"
             tabindex="0"
           >
-            ...
+            <ListarUsuarios usuarios={usuarios} />
           </div>
           <div
             class="tab-pane fade"
