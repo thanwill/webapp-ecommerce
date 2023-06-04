@@ -41,4 +41,16 @@ router.post("/", async (req, res) => {
   }
 });
 
+// atualiza um usuário pelo id
+router.put("/:id", async (req, res) => {
+  try {
+    await Usuario.atualizar(req, res);
+  } catch (error) {
+    res.status(500).json({
+      error: `${error}`,
+    });
+  }
+});
+
+
 module.exports = router;

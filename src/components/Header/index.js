@@ -5,12 +5,7 @@ import CriarUsuario from '../CriarUsuario';
 // cria meu componente header
 
 function Header() {
-  const user = {
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    phone: '123-456-7890',
-    avatarUrl: process.env.PUBLIC_URL + '/imagem-perfil.png',
-  };
+  
   return (
     <>
       <div className="container">
@@ -92,7 +87,7 @@ function Header() {
             tabindex="0"
           >
             <div className="container">
-              <UserProfile {...user} />
+              <UserProfile id={1} />
             </div>
           </div>
           <div

@@ -18,7 +18,7 @@ export const UsuarioService = {
     
   },
   // exibe um usuario pelo id
-  async exibir(id) {
+  async buscaPorId(id) {
     try {
       const response = await api.get(`/usuario/${id}`);
       return response.data;
@@ -26,4 +26,23 @@ export const UsuarioService = {
       console.error(error);
     }
   },
+  // lista os usuarios
+  async listar() {
+    try {
+      const response = await api.get('/usuario');
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  // atualiza um usuario pelo id
+  async atualizar(id, usuario) {
+    try {
+      await api.put(`/usuario/${id}`, usuario).then((response) => {
+        return response.data;
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 };
