@@ -15,6 +15,7 @@ export default function CriarUsuario() {
   });
 
   const [validated, setValidated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // captura o estado do backend
   const [resposta, setResposta] = useState(null);
@@ -29,9 +30,27 @@ export default function CriarUsuario() {
     }));
   };
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setUsuario((prevUsuario) => ({
+      ...prevUsuario,
+      avatarUrl: file,
+    }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // verifica se os campos estão vazios
+
+    const formData = new FormData();
+    formData.append('nome', usuario.nome);
+    formData.append('email', usuario.email);
+    formData.append('senha', usuario.senha);
+    formData.append('avatarUrl', usuario.avatarUrl);
+    formData.append('newsletter', usuario.newsletter);
+    formData.append('plano', usuario.plano);
+
+    console.log(formData);
 
     UsuarioService.criar(usuario)
       .then((resposta) => {
@@ -39,6 +58,10 @@ export default function CriarUsuario() {
       })
       .catch((error) => {
         setResposta(error.response.data);
+      })
+      .finally(() => {
+        // aguarda 3 segundos para redirecionar para a página de login
+        setLoading(true);
       });
   };
 
@@ -78,7 +101,7 @@ export default function CriarUsuario() {
                   type="nome"
                   name="nome"
                   class="form-control"
-                  id="floatingInput"
+                  id="nome-cadastro"
                   placeholder="Johe Doe"
                   // validacao
                   required
@@ -87,7 +110,7 @@ export default function CriarUsuario() {
                   pattern="^[a-zA-Zà-úÀ-Ú0-9]+(([' -][a-zA-Zà-úÀ-Ú0-9])?[a-zA-Zà-úÀ-Ú0-9]*)*$"
                   onChange={handleChange}
                 />
-                <label for="floatingInput">Nome completo</label>
+                <label for="nome-cadastro">Nome completo</label>
               </div>
               {validated && (
                 <div class="form-text">Por favor, insira um nome válido.</div>
@@ -99,12 +122,12 @@ export default function CriarUsuario() {
                   type="email"
                   name="email"
                   class="form-control"
-                  id="floatingInput"
+                  id="email-cadastro"
                   placeholder="name@example.com"
                   pattern="^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$"
                   onChange={handleChange}
                 />
-                <label for="floatingInput">E-mail</label>
+                <label for="email-cadastro">E-mail</label>
               </div>
               {validated ? (
                 <div id="emailHelp" class="form-text">
@@ -145,17 +168,19 @@ export default function CriarUsuario() {
 
             <div className="row">
               <div class="mt-3">
-                <label for="formFile" class="form-label text-muted">
+                <label for="file-cadastro" class="form-label text-muted">
                   Adicione uma imagem ao seu perfil
                 </label>
                 <input
                   class="form-control"
                   type="file"
-                  id="formFile"
-                  name="formFile"
+                  id="file-cadastro"
+                  name="file-cadastro"
+                  onChange={handleFileChange}
                 />
               </div>
             </div>
+
             <div className="row">
               <div className="input-group mb-3 mt-5">
                 <div class="form-check form-switch">
@@ -211,25 +236,20 @@ export default function CriarUsuario() {
                 </div>
               )}
             </div>
+
             <button
               type="submit"
               class="btn btn-primary mt-5"
               onClick={handleSubmit}
             >
-              Submit
-            </button>
-            {resposta &&
-              resposta.sucess && (
-                <div className="alert alert-success mt-3" role="alert">
-                  {resposta.message}
+              {!loading ? (
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden">Loading...</span>
                 </div>
-              ) &&
-              resposta &&
-              resposta.error && (
-                <div className="alert alert-danger mt-3" role="alert">
-                  {resposta.message}
-                </div>
+              ) : (
+                'Submit'
               )}
+            </button>
           </Form>
         </div>
       </div>

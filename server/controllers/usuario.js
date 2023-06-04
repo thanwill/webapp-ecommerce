@@ -4,7 +4,7 @@ const Usuario = require("../models/usuario");
 class UsuarioController {
   async criar(req, res) {
     try {
-      const { nome, email, senha, foto, newsletter, plano } = req.body;
+      const { nome, email, senha, newsletter, plano } = req.body;
 
       // Validação dos dados
       const schema = Joi.object({
@@ -20,7 +20,6 @@ class UsuarioController {
         nome,
         email,
         senha,
-        foto,
         newsletter,
         plano,
       });
@@ -52,7 +51,6 @@ class UsuarioController {
         nome,
         email,
         senha,
-        foto,
         newsletter,
         plano,
       });

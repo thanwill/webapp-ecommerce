@@ -24,7 +24,6 @@ O Gerenciador de Assinantes oferece as seguintes funcionalidades através de uma
 - Listagem de um único assinante com base em seu código.
 - Listagem de assinantes por nome, sobrenome, cidade, estado e status.
 - Exclusão de um assinante do banco de dados.
-- 
 
 ## Telas
 

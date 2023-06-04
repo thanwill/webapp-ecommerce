@@ -3,8 +3,14 @@ import Title from '../Title';
 import { Form } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { UsuarioService } from '../services/usuario';
+import './index.css';
 
 export default function AtualizarPerfil({ usuario }) {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const [usuarioAtualizado, setUsuarioAtualizado] = useState({
     nome: '',
@@ -23,7 +29,7 @@ export default function AtualizarPerfil({ usuario }) {
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
     const newValue = type === 'checkbox' ? checked : value;
-    console.log(usuario)
+    console.log(usuario);
 
     setUsuarioAtualizado((prevUsuario) => ({
       ...prevUsuario,
@@ -77,7 +83,7 @@ export default function AtualizarPerfil({ usuario }) {
                           type="text"
                           name="nome"
                           class="form-control"
-                          id="floatingInput"
+                          id="nome-update"
                           placeholder="Johe Doe"
                           defaultValue={usuario.nome}
                           onChange={handleChange}
@@ -87,7 +93,7 @@ export default function AtualizarPerfil({ usuario }) {
                           maxLength={100}
                           pattern="^[a-zA-Zà-úÀ-Ú0-9]+(([' -][a-zA-Zà-úÀ-Ú0-9])?[a-zA-Zà-úÀ-Ú0-9]*)*$"
                         />
-                        <label for="floatingInput">Nome completo</label>
+                        <label for="nome-update">Nome completo</label>
                       </div>
                     </div>
                     <div class="mb-3">
@@ -96,18 +102,78 @@ export default function AtualizarPerfil({ usuario }) {
                           type="email"
                           name="email"
                           class="form-control"
-                          id="floatingInput"
+                          id="email-update"
                           placeholder="example@gmail.com"
                           required
                           defaultValue={usuario.email}
                           onChange={handleChange}
                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                         />
-                        <label for="floatingInput">Email</label>
+                        <label for="email-update">Email</label>
+                      </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                      <div class="input-group mb-3">
+                        <input
+                          type={showPassword ? 'text' : 'password'}
+                          name="senha"
+                          class="form-control"
+                          id="senha-update"
+                          placeholder="Senha"
+                          required
+                          defaultValue={usuario.senha}
+                          onChange={handleChange}
+                          minLength={6}
+                          maxLength={20}
+                          aria-describedby="button-addon2"
+                        />
+                        <button
+                          class="btn btn-outline-secondary"
+                          type="button"
+                          id="button-addon2"
+                          onClick={handleTogglePassword}
+                        >
+                          <i
+                            className={`bi bi-eye${
+                              showPassword ? '-slash-fill' : '-fill'
+                            }`}
+                          ></i>
+                        </button>
                       </div>
                     </div>
 
-                    
+                    <div className="row">
+                      <div className="input-group mb-3 mt-5">
+                        <div class="form-check form-switch">
+                          <input
+                            type="checkbox"
+                            name="newsletter"
+                            className="form-check-input"
+                            role="switch"
+                            id="newsletter-switch"
+                            checked={usuarioAtualizado.newsletter}
+                            onChange={handleChange}
+                          />
+
+                          <label
+                            class="form-check-label text-muted "
+                            for="newsletter-switch"
+                          >
+                            Quero receber novidades por e-mail
+                          </label>
+                        </div>
+                        {usuario.newsletter ? (
+                          <div class="form-text">
+                            Você está cadastrado em nossa newsletter.
+                          </div>
+                        ) : (
+                          <div class="form-text">
+                            Você não receberá nossas novidades por email.
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Form>
