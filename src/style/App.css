@@ -1,3 +1,5 @@
+
+
 .App {
   text-align: center;
 }
@@ -34,12 +36,5 @@
   }
   to {
     transform: rotate(360deg);
-  }
-}
-@media screen and (min-width: 760px) {
-  body {
-    
-    display: none;
-    /* Adiciona uma imagen*/
   }
 }

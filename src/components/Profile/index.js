@@ -2,7 +2,7 @@ import React from 'react';
 import './styles.css';
 import Title from '../Title/index';
 import { useState, useEffect } from 'react';
-import { UsuarioService } from '../services/usuario';
+import { UsuarioService } from '../../services/usuario';
 import AtualizarPerfil from '../AtualizarPerfil/index';
 export default function Profile({ id }) {
   var avatarUrl = process.env.PUBLIC_URL + '/imagem-perfil.png';
@@ -26,11 +26,8 @@ export default function Profile({ id }) {
   }, [id]);
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-12 col-md-6 offset-md-3">
-          <div className="user-profiled-flex flex-column align-items-center justify-content-center text-center mb-5">
-            <Title
+    <>
+    <Title
               title="Perfil do usuário"
               subtitle="Aqui você pode ver e editar as informações do seu perfil"
             />
@@ -67,9 +64,6 @@ export default function Profile({ id }) {
               Editar
             </button>
             <AtualizarPerfil usuario={usuario} />
-          </div>
-        </div>
-      </div>
-    </div>
+    </>
   );
 }

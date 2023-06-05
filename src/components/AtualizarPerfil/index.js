@@ -2,7 +2,7 @@
 import Title from '../Title';
 import { Form } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { UsuarioService } from '../services/usuario';
+import { UsuarioService } from '../../services/usuario';
 import './index.css';
 
 export default function AtualizarPerfil({ usuario }) {

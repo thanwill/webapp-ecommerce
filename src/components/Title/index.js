@@ -2,9 +2,11 @@
 
 export default function Title(props) {
   return (
-    <div className={`${props.className} col-12 col-md-6 text-left`} >
+    <div className={`${props.class} mb-3`} >
+      <div className="row">
       <h1 className="">{props.title}</h1>
       <p className="text-muted">{props.subtitle}</p>
+      </div>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import './index.css';
 import UserProfile from '../Profile';
 import CriarUsuario from '../CriarUsuario';
 import ListarUsuarios from '../ListarUsuarios/index';
-import { UsuarioService } from '../services/usuario';
+import { UsuarioService } from '../../services/usuario';
 // cria meu componente header
 
 function Header() {
@@ -20,7 +20,7 @@ function Header() {
 
   return (
     <>
-      <div className="container">
+      <div className="container ">
         <div className="row">
           <div className="col-10 offset-1 col-md-6">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -78,8 +78,10 @@ function Header() {
             aria-labelledby="pills-home-tab"
             tabindex="0"
           >
-            <div className="mb-5">
-              <CriarUsuario />
+            <div className="row">
+              <div className="col-10 offset-1 col-md-6 offset-md-3 mt-5">
+                <CriarUsuario />
+              </div>
             </div>
           </div>
           <div
@@ -89,7 +91,11 @@ function Header() {
             aria-labelledby="pills-profile-tab"
             tabindex="0"
           >
-            <ListarUsuarios usuarios={usuarios} />
+            <div className="row">
+              <div className="col-10 offset-1 col-md-6 offset-md-3 mt-5">
+                <ListarUsuarios usuarios={usuarios} />
+              </div>
+            </div>
           </div>
           <div
             class="tab-pane fade"
@@ -98,8 +104,10 @@ function Header() {
             aria-labelledby="pills-contact-tab"
             tabindex="0"
           >
-            <div className="container">
-              <UserProfile id={1} />
+            <div className="row">
+              <div className="col-10 offset-1 col-md-6 offset-md-3 mt-5">
+                <UserProfile id={1} />
+              </div>
             </div>
           </div>
           <div
