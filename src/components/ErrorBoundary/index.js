@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import Title from '../Title';
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +19,17 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       // Personalize a mensagem de erro para os usuários
-      return <div>Oops! Algo deu errado. Por favor, tente novamente mais tarde.</div>;
+      return (
+        <div className="row">
+          <div className="col-10 offset-1 text-center mt-5 ">
+            <img className='mb-5 mt-5' src="./assets/quebrado.png" alt="" />
+            <Title
+              title="Algo aqui está quebrado ..."
+              subtitle="Considere avaliar os logs do erro no console."
+            />
+          </div>
+        </div>
+      );
     }
 
     // Renderize os componentes filhos normalmente

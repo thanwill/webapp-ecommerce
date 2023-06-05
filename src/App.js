@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './style/App.css';
-import Header from './components/Header';
+import FuncoesUsuario from './components/FuncoesUsuario';
 import ErrorBoundary from './components/ErrorBoundary';
 import MessageDisplay from './components/MessageDisplay';
+import Header from './components/Header';
 
 function App() {
   const [showComponent, setShowComponent] = useState(false);
@@ -28,7 +29,10 @@ function App() {
         {showComponent ? (
           <MessageDisplay />
         ) : (
-          <Header />
+          <>
+            <Header />
+            <FuncoesUsuario />
+          </>
         )}
       </ErrorBoundary>
     </>

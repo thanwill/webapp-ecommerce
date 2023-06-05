@@ -1,129 +1,42 @@
-import { useState, useEffect } from 'react';
-import './index.css';
-import UserProfile from '../Profile';
-import CriarUsuario from '../CriarUsuario';
-import ListarUsuarios from '../ListarUsuarios/index';
-import { UsuarioService } from '../../services/usuario';
-// cria meu componente header
-
-function Header() {
-  const [usuarios, setUsuarios] = useState([]);
-
-  // usa o useEffect para executar uma função assim que o componente for montado na tela
-  useEffect(() => {
-    // chama a função listar do service
-    UsuarioService.listar().then((usuarios) => {
-      // atualiza o estado com a lista de usuarios
-      setUsuarios(usuarios);
-    });
-  }, []);
-
+export default function Header() {
   return (
     <>
-      <div className="container ">
-        <div className="row">
-          <div className="col-10 offset-1 col-md-6">
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link active"
-                  id="pills-home-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-home"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-home"
-                  aria-selected="true"
-                >
-                  Cadastro
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="pills-profile-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-profile"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-profile"
-                  aria-selected="false"
-                >
-                  Registros
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="pills-contact-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-contact"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-contact"
-                  aria-selected="false"
-                >
-                  Sobre
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="tab-content" id="pills-tabContent">
-          <div
-            class="tab-pane fade show active"
-            id="pills-home"
-            role="tabpanel"
-            aria-labelledby="pills-home-tab"
-            tabindex="0"
-          >
-            <div className="row">
-              <div className="col-10 offset-1 col-md-6 offset-md-3 mt-5">
-                <CriarUsuario />
-              </div>
-            </div>
-          </div>
-          <div
-            class="tab-pane fade"
-            id="pills-profile"
-            role="tabpanel"
-            aria-labelledby="pills-profile-tab"
-            tabindex="0"
-          >
-            <div className="row">
-              <div className="col-10 offset-1 col-md-6 offset-md-3 mt-5">
-                <ListarUsuarios usuarios={usuarios} />
-              </div>
-            </div>
-          </div>
-          <div
-            class="tab-pane fade"
-            id="pills-contact"
-            role="tabpanel"
-            aria-labelledby="pills-contact-tab"
-            tabindex="0"
-          >
-            <div className="row">
-              <div className="col-10 offset-1 col-md-6 offset-md-3 mt-5">
-                <UserProfile id={1} />
-              </div>
-            </div>
-          </div>
-          <div
-            class="tab-pane fade"
-            id="pills-disabled"
-            role="tabpanel"
-            aria-labelledby="pills-disabled-tab"
-            tabindex="0"
-          >
-            ...
-          </div>
-        </div>
-      </div>
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar scroll</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Link
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"/></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled">Link</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
     </>
   );
 }
-
-// exporta meu componente header
-export default Header;

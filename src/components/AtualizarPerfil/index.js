@@ -61,7 +61,7 @@ export default function AtualizarPerfil({ usuario }) {
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                <Title title="Atualizar perfil" />
+                Atualizar perfil
               </h1>
               <button
                 type="button"
@@ -165,7 +165,7 @@ export default function AtualizarPerfil({ usuario }) {
                         </div>
                         {usuario.newsletter ? (
                           <div class="form-text">
-                            Você está cadastrado em nossa newsletter.
+                            Você já está cadastrado em nossa newsletter.
                           </div>
                         ) : (
                           <div class="form-text">
