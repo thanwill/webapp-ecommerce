@@ -32,6 +32,9 @@ function App() {
           <>
             <Header />
             <FuncoesUsuario />
+            {
+              // aqui será chamado as páginas de  login, produto e estoque. Serão três componentes de Funcoes.
+            }
           </>
         )}
       </ErrorBoundary>
