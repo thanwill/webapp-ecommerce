@@ -16,4 +16,7 @@ const filmeSchema = new mongoose.Schema({
 });
 
 const Filme = mongoose.model("Filme", filmeSchema);
+// cria o relacionamento
+
+
 module.exports = Filme;

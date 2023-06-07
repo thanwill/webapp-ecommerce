@@ -4,7 +4,7 @@ const usuarioSchema = new mongoose.Schema({
     nome: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     senha: String,
-    foto: String,
+    foto: Buffer,
     newsletter : Boolean,
     plano : Number,
 });

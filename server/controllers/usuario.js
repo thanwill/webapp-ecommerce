@@ -1,39 +1,13 @@
-const Joi = require("joi");
 const Usuario = require("../models/usuario");
+const Joi = require("joi");
 
 class UsuarioController {
-  async criar(req, res) {
+  async criar2(req, res) {
     try {
-      const { nome, email, senha, newsletter, plano } = req.body;
-
-      // Validação dos dados
-      const schema = Joi.object({
-        nome: Joi.string().min(3).required(),
-        email: Joi.string().email().required(),
-        senha: Joi.string().min(6).required(),
-        foto: Joi.string().uri(),
-        newsletter: Joi.boolean().required(),
-        plano: Joi.number().integer().min(0).max(3).required(),
-      });
-
-      const { error } = schema.validate({
-        nome,
-        email,
-        senha,
-        newsletter,
-        plano,
-      });
-
-      if (error) {
-        return res.status(400).json({
-          error: error.details[0].message,
-        });
-      }
+      const { nome, email, senha, foto, newsletter, plano } = req.body;
 
       // Verifica se o usuário já existe
-      const usuarioJaExiste = await Usuario.findOne({
-        email,
-      });
+      const usuarioJaExiste = await Usuario.findOne({ email });
 
       if (usuarioJaExiste) {
         return res.status(409).json({
@@ -41,11 +15,11 @@ class UsuarioController {
         });
       }
 
-      const max = await Usuario.findOne({}).sort({
-        id: -1,
-      });
-
+      const max = await Usuario.findOne({}).sort({ id: -1 });
       const id = max ? max.id + 1 : 1;
+
+      const fotoBuffer = Buffer.from(foto, "base64");
+
       const usuario = new Usuario({
         id,
         nome,
@@ -53,8 +27,55 @@ class UsuarioController {
         senha,
         newsletter,
         plano,
+        foto: fotoBuffer,
       });
+
       const resultado = await usuario.save();
+
+      return res.status(201).json({
+        success: true,
+        message: "Usuário cadastrado com sucesso!",
+        data: resultado,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+  async criar(req, res) {
+    try {
+      const { nome, email, senha, newsletter, plano } = req.body;
+
+      // Verifica se o usuário já existe
+      const usuarioJaExiste = await Usuario.findOne({ email });
+
+      if (usuarioJaExiste) {
+        return res.status(409).json({
+          error: "Usuário já cadastrado",
+        });
+      }
+
+      const max = await Usuario.findOne({}).sort({ id: -1 });
+      const id = max ? max.id + 1 : 1;
+
+      const foto = req.file;
+      console.log(foto);
+
+      // crie o objeto do usuário com os dados e a foto
+      const usuario = new Usuario({
+        id,
+        nome,
+        email,
+        senha,
+        newsletter,
+        plano,
+        foto: foto.buffer,
+      });
+
+      const resultado = usuario.save();
+
       return res.status(201).json({
         success: true,
         message: "Usuário cadastrado com sucesso!",
@@ -114,14 +135,13 @@ class UsuarioController {
         plano: Joi.number().integer().min(0).max(3),
       });
 
-      const { error } = schema.validate({
-        nome,
-        email,
-        senha,
-        foto,
-        newsletter,
-        plano,
-      });
+      const { error } = schema.validate(req.body);
+
+      if (error) {
+        return res.status(400).json({
+          error: error.details[0].message,
+        });
+      }
 
       const usuario = await Usuario.findOne({
         id,

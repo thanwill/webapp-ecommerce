@@ -5,20 +5,17 @@ import Title from '../Title';
 import './index.css';
 
 export default function CriarUsuario() {
+  const [validated, setValidated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [usuario, setUsuario] = useState({
     nome: '',
     email: '',
     senha: '',
-    avatarUrl: '',
+    foto: '',
     newsletter: false,
     plano: '',
   });
-
-  const [validated, setValidated] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  // captura o estado do backend
-  const [resposta, setResposta] = useState(null);
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -34,34 +31,23 @@ export default function CriarUsuario() {
     const file = event.target.files[0];
     setUsuario((prevUsuario) => ({
       ...prevUsuario,
-      avatarUrl: file,
+      foto: file,
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // verifica se os campos estão vazios
 
-    const formData = new FormData();
-    formData.append('nome', usuario.nome);
-    formData.append('email', usuario.email);
-    formData.append('senha', usuario.senha);
-    formData.append('avatarUrl', usuario.avatarUrl);
-    formData.append('newsletter', usuario.newsletter);
-    formData.append('plano', usuario.plano);
-
-    console.log(formData);
+    console.log(usuario);
 
     UsuarioService.criar(usuario)
-      .then((resposta) => {
-        setResposta(resposta);
+      .then((response) => {
+        console.log(response);
+        setLoading(false);
       })
       .catch((error) => {
-        setResposta(error.response.data);
-      })
-      .finally(() => {
-        // aguarda 3 segundos para redirecionar para a página de login
-        setLoading(true);
+        console.log(error);
+        setLoading(false);
       });
   };
 
@@ -146,9 +132,7 @@ export default function CriarUsuario() {
               id="floatingPassword"
               placeholder="Password"
               pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
-              onChange={(e) => {
-                handleChange(e);
-              }}
+              onChange={handleChange}
             />
             <label for="floatingPassword">Senha</label>
           </div>

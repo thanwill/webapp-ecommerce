@@ -1,3 +1,5 @@
+const { upload } = require("../config/multer");
+
 var express = require("express");
 var router = express.Router();
 const Usuario = require("../controllers/usuario");
@@ -29,9 +31,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-
 // cadastra um novo usuário
-router.post("/", async (req, res) => {
+router.post("/", upload.single("foto"), async (req, res) => {
   try {
     await Usuario.criar(req, res);
   } catch (error) {
@@ -42,7 +43,7 @@ router.post("/", async (req, res) => {
 });
 
 // upload de imagem
-router.post("/upload",async (req, res) => {
+router.post("/upload", async (req, res) => {
   try {
     await Usuario.upload(req, res);
   } catch (error) {
@@ -62,6 +63,5 @@ router.put("/:id", async (req, res) => {
     });
   }
 });
-
 
 module.exports = router;
