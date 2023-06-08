@@ -28,9 +28,7 @@ function App() {
           <MessageDisplay />
         ) : (
           <>
-            <RouteConfig>
-              
-            </RouteConfig>
+            <RouteConfig/>
           </>
         )}
       </ErrorBoundary>
