@@ -27,10 +27,14 @@ export default function Profile({ id }) {
 
   return (
     <>
-    <Title
-              title="Perfil do usuário"
-              subtitle="Aqui você pode ver e editar as informações do seu perfil"
-            />
+      <Title
+        title="Perfil do usuário"
+        subtitle="Aqui você pode ver e editar as informações do seu perfil"
+      />
+      {
+        // se o usuário existir, renderiza o componente de atualização
+        usuario ? (
+          <>
             <div className="user-profile  ">
               <div className="avatar mb-5">
                 <img src={avatarUrl} alt="Avatar" />
@@ -52,9 +56,6 @@ export default function Profile({ id }) {
                 </p>
               </div>
             </div>
-            {
-              // cria um botão para editar o perfil
-            }
             <button
               type="button"
               class="btn btn-secondary"
@@ -64,6 +65,11 @@ export default function Profile({ id }) {
               Editar
             </button>
             <AtualizarPerfil usuario={usuario} />
+          </>
+        ) : (
+          <p>Carregando...</p>
+        )
+      }
     </>
   );
 }

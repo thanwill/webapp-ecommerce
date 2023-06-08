@@ -1,9 +1,10 @@
+import { Link } from "react-router-dom";
 export default function Header() {
   return (
     <>
       <nav class="navbar bg-body-tertiary fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"></a>
+    <div class="navbar-brand" ></div>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -15,26 +16,21 @@ export default function Header() {
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Início</a>
+            <div class="nav-link active" aria-current="page" >
+              <Link to="/">Início</Link>
+            </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Usuário</a>
+            <div class="nav-link" >
+              <Link to="/usuarios">Usuários</Link>
+            </div>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Estoque
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Produtos</a></li>
-              <li><a class="dropdown-item" href="#">Depósito</a></li>
-              <li><a class="dropdown-item" href="#">Movimentos</a></li>
+          <li class="nav-item">
+            <div class="nav-link" >
+            <Link to="estoque">Estoque</Link>
+            </div>
+          </li>
 
-              <li>
-                <hr class="dropdown-divider"/>
-              </li>
-              <li><a class="dropdown-item" href="#">Cadastrar usuário</a></li>
-            </ul>
-          </li>
         </ul>
         <form class="d-flex mt-3" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>

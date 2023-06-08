@@ -37,18 +37,22 @@ export default function CriarUsuario() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    console.log(usuario);
-
-    UsuarioService.criar(usuario)
-      .then((response) => {
-        console.log(response);
-        setLoading(false);
-      })
-      .catch((error) => {
+    const form = event.currentTarget;
+    // se o form não for válido, não faz o submit
+    if (form.checkValidity() === false) {
+      event.stopPropagation();
+      setValidated(true);
+    } else {
+      try {
+        setLoading(true);
+        const resultado = await UsuarioService.criar(usuario);
+        console.log(resultado);
+        setLoading(false); // se o resultado for positivo, o loading é desativado
+      } catch (error) {
         console.log(error);
-        setLoading(false);
-      });
+      }
+    }
+
   };
 
   return (
@@ -222,7 +226,9 @@ export default function CriarUsuario() {
           class="btn btn-primary mt-3"
           onClick={handleSubmit}
         >
-          {!loading ? (
+          {
+          // se loading for true, exibe o spinner, se for false, exibe o texto submit
+          !loading ? (
             <div class="spinner-border" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>

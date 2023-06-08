@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './style/App.css';
-import FuncoesUsuario from './components/FuncoesUsuario';
+import RouteConfig from './pages/RouteConfig';
 import ErrorBoundary from './components/ErrorBoundary';
 import MessageDisplay from './components/MessageDisplay';
-import Header from './components/Header';
-
 function App() {
   const [showComponent, setShowComponent] = useState(false);
 
@@ -30,11 +28,9 @@ function App() {
           <MessageDisplay />
         ) : (
           <>
-            <Header />
-            <FuncoesUsuario />
-            {
-              // aqui será chamado as páginas de  login, produto e estoque. Serão três componentes de Funcoes.
-            }
+            <RouteConfig>
+              
+            </RouteConfig>
           </>
         )}
       </ErrorBoundary>

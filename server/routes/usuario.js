@@ -53,10 +53,34 @@ router.post("/upload", async (req, res) => {
   }
 });
 
+// exclui um usuário pelo id
+router.delete("/:id", async (req, res) => {
+  try {
+    await Usuario.excluir(req, res);
+  } catch (error) {
+    res.status(500).json({
+      error: `${error}`,
+    });
+  }
+});
+
+
+
 // atualiza um usuário pelo id
 router.put("/:id", async (req, res) => {
   try {
     await Usuario.atualizar(req, res);
+  } catch (error) {
+    res.status(500).json({
+      error: `${error}`,
+    });
+  }
+});
+
+// atualiza a foto de um usuário pelo id
+router.put("/:id/foto", upload.single("foto"), async (req, res) => {
+  try {
+    await Usuario.carregarFoto(req, res);
   } catch (error) {
     res.status(500).json({
       error: `${error}`,
