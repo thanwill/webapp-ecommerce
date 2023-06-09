@@ -1,4 +1,6 @@
 const Usuario = require("../models/usuario");
+const Comentario = require("../models/comentarios");
+
 const Joi = require("joi");
 
 class UsuarioController {
@@ -187,6 +189,7 @@ class UsuarioController {
       });
     }
   }
+
 }
 
 module.exports = new UsuarioController();

@@ -51,4 +51,16 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// adiciona um novo comentário ao filme
+router.post("/comentar/:id", async (req, res) =>{
+  try {
+    await Filme.adicionarComentario(req, res);
+  } catch (error) {
+    res.status(500).json({
+      error: `${error}`,
+    })
+    
+  }
+})
+
 module.exports = router;
