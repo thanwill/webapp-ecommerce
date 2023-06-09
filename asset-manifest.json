@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/mongo-node/static/css/main.d3e12de0.css",
+    "main.js": "/mongo-node/static/js/main.a3cc0bfe.js",
+    "static/js/787.0bfccc2a.chunk.js": "/mongo-node/static/js/787.0bfccc2a.chunk.js",
+    "static/media/bootstrap-icons.woff?": "/mongo-node/static/media/bootstrap-icons.4753c5ba57962b4d7bf8.woff",
+    "static/media/bootstrap-icons.woff2?": "/mongo-node/static/media/bootstrap-icons.6d63d0501e5ed7b79dab.woff2",
+    "index.html": "/mongo-node/index.html",
+    "main.d3e12de0.css.map": "/mongo-node/static/css/main.d3e12de0.css.map",
+    "main.a3cc0bfe.js.map": "/mongo-node/static/js/main.a3cc0bfe.js.map",
+    "787.0bfccc2a.chunk.js.map": "/mongo-node/static/js/787.0bfccc2a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d3e12de0.css",
+    "static/js/main.a3cc0bfe.js"
+  ]
+}
