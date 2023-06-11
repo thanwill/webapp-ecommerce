@@ -121,6 +121,7 @@ export default function CriarUsuario() {
               id="email-cadastro"
               placeholder="name@example.com"
               pattern="^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$"
+              autocomplete="on"
               onChange={handleChange}
             />
             <label for="email-cadastro">E-mail</label>

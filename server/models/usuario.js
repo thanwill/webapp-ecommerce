@@ -5,7 +5,7 @@ const usuarioSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     senha: String,
     foto: {
-        data: Buffer,
+        imagem: Buffer,
         contentType: String
     },
     newsletter : Boolean,

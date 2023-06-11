@@ -10,20 +10,23 @@ export default function Profile({ id }) {
     nome: '',
     email: '',
     senha: '',
-    foto:'',
+    foto:null,
     newsletter: false,
-    plano: '',
+    plano: 0,
   });
 
-  // usa o service para buscar o usuario pelo id e atualizar o estado
   useEffect(() => {
     async function fetchUsuario() {
-      const usuario = await UsuarioService.buscaPorId(id);
-      setUsuario(usuario);
+      try {
+        const response = await UsuarioService.exibir(id);
+        setUsuario(response);
+      } catch (error) {
+        console.error(error);
+      }
     }
     fetchUsuario();
   }, [id]);
-
+  
   return (
     <>
       <Title

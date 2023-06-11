@@ -64,7 +64,16 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-
+// listar por ID
+router.get("/id/:id", async (req, res) => {
+  try {
+    await Usuario.listarPorId(req, res);
+  } catch (error) {
+    res.status(500).json({
+      error: `${error}`,
+    });
+  }
+});
 
 // atualiza um usuário pelo id
 router.put("/:id", async (req, res) => {
@@ -78,9 +87,22 @@ router.put("/:id", async (req, res) => {
 });
 
 // atualiza a foto de um usuário pelo id
-router.put("/:id/foto", upload.single("foto"), async (req, res) => {
+router.put("/foto/:id", upload.single("foto"), async (req, res) => {
   try {
     await Usuario.carregarFoto(req, res);
+  } catch (error) {
+    res.status(500).json({
+      error: `${error}`,
+    });
+  }
+});
+
+// retorna a foto de um usuário pelo id
+router.get("/foto/:id", async (req, res) => {
+  try {
+    await Usuario.exibirFoto(req, res);
+    res.set("Content-Type", "image/jpeg");
+    return res.send(req.foto);
   } catch (error) {
     res.status(500).json({
       error: `${error}`,

@@ -68,6 +68,7 @@ export default function Header() {
                 <input
                   className='form-control me-2'
                   type='search'
+                  name='search'
                   placeholder='Search'
                   aria-label='Search'
                 />

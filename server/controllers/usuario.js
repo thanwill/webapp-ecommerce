@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 const Usuario = require("../models/usuario");
 const Joi = require("joi");
 
@@ -7,6 +6,7 @@ class UsuarioController {
   async criar(req, res) {
     try {
       const { nome, email, senha, newsletter, plano } = req.body;
+      const { mimetype } = req.file;
 
       // Verifica se o usuário já existe
       const usuarioJaExiste = await Usuario.findOne({ email });
@@ -28,8 +28,7 @@ class UsuarioController {
 
       // Lê o arquivo temporário da foto
       const fotoBuffer = fs.readFileSync(req.file.path);
-      // Remove o arquivo temporário da foto
-      fs.unlinkSync(req.file.path);
+      fs.unlinkSync(req.file.path); // Remove o arquivo temporário da foto
 
       // crie o objeto do usuário com os dados e a foto
       const usuario = new Usuario({
@@ -41,11 +40,12 @@ class UsuarioController {
         plano,
         foto: {
           data: fotoBuffer,
-          contentType: req.file.mimetype,
+          contentType: mimetype,
         },
       });
 
-      usuario.save();
+      // cria um novo usuário no banco de dados que recebeu do formulário
+      await usuario.save();
 
       return res.status(201).json({
         success: true,
@@ -73,6 +73,7 @@ class UsuarioController {
   async exibir(req, res) {
     try {
       const { id } = req.params;
+
       const usuario = await Usuario.findOne({
         id,
       });
@@ -83,20 +84,7 @@ class UsuarioController {
         });
       }
 
-      if (!usuario.foto || !usuario.foto.data) {
-        return res.status(404).json({
-          error: "Imagem do usuário não encontrada",
-        });
-      }
-
-      // Define o cabeçalho Content-Type para o tipo de conteúdo da imagem
-      res.set("Content-Type", usuario.foto.contentType);
-
-      // Retorna a URL de acesso direto ao buffer da imagem
-      return res.status(200).json({
-        fotoUrl: `/imagem/${id}`,
-        usuario: usuario,
-      });
+      return res.status(200).json(usuario);
     } catch (error) {
       return res.status(500).json({
         error: error.message,
@@ -107,7 +95,6 @@ class UsuarioController {
   async atualizar(req, res) {
     try {
       const { id } = req.params;
-      const { nome, email, senha, foto, newsletter, plano } = req.body;
 
       // Validação dos dados
       const schema = Joi.object({
@@ -177,7 +164,7 @@ class UsuarioController {
     }
   }
 
-  async carregarFoto(req, res) {
+  async listarPorId(req, res) {
     try {
       const { id } = req.params;
 
@@ -191,26 +178,61 @@ class UsuarioController {
         });
       }
 
-      if (!req.file) {
-        return res.status(400).json({
-          error: "É necessário enviar uma imagem",
-        });
-      }
-
-      usuario.foto = req.file.filename;
-
-      const _id = String((await Usuario.findOne({ id: id }))._id);
-      await Usuario.findByIdAndUpdate(String(_id), req.body);
-
-      return res.status(200).json({
-        message: "Foto carregada com sucesso",
-        data: usuario,
-      });
+      return res.status(200).json(usuario);
     } catch (error) {
       return res.status(500).json({
         error: error.message,
       });
     }
+  }
+
+  async carregarFoto(req, res) {
+    const { mimetype, buffer } = req.file;
+    const { id } = req.params;
+
+    const usuario = await Usuario.findOne({
+      id,
+    });
+
+    if (!usuario) {
+      return res.status(404).json({
+        error: "Usuário não encontrado",
+      });
+    }
+
+    // cria uma instancia para atualizar o usuário localizado
+    const newPhoto = {
+      data: buffer,
+      contentType: mimetype,
+    };
+
+    // atualiza o usuário com a nova foto
+
+    usuario.foto = await Usuario.findOneAndUpdate({ id }, { $push: { fotos: newPhoto } }, { new: true });
+
+    return res.status(200).json({
+      message: "Foto adicionada com sucesso",
+      data: usuario,
+    });
+  }
+
+  // devolve a foto do usuário para ser exibida no front-end
+  async exibirFoto(req, res) {
+    const { id } = req.params;
+
+    const usuario = await Usuario.findOne({
+      id,
+    });
+
+    if (!usuario) {
+      return res.status(404).json({
+        error: "Usuário não encontrado",
+      });
+    }
+
+    const foto = usuario.foto;
+
+    return res.status(200).send(foto.data);
   }
 }
 
