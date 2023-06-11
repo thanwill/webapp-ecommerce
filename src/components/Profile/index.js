@@ -5,13 +5,12 @@ import { useState, useEffect } from 'react';
 import { UsuarioService } from '../../services/usuario';
 import AtualizarPerfil from '../AtualizarPerfil/index';
 export default function Profile({ id }) {
-  var avatarUrl = process.env.PUBLIC_URL + '/imagem-perfil.png';
 
   const [usuario, setUsuario] = useState({
     nome: '',
     email: '',
     senha: '',
-    avatarUrl: '',
+    foto:'',
     newsletter: false,
     plano: '',
   });
@@ -37,7 +36,7 @@ export default function Profile({ id }) {
           <>
             <div className="user-profile  ">
               <div className="avatar mb-5">
-                <img src={avatarUrl} alt="Avatar" />
+                <img src="" alt="Avatar" />
               </div>
               <div className="user-details">
                 <h2>{usuario.nome}</h2>

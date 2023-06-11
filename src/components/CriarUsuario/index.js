@@ -45,15 +45,23 @@ export default function CriarUsuario() {
     } else {
       try {
         setLoading(true);
-        const resultado = await UsuarioService.criar(usuario);
+        const formData = new FormData();
+        formData.append('nome', usuario.nome);
+        formData.append('email', usuario.email);
+        formData.append('senha', usuario.senha);
+        formData.append('newsletter', usuario.newsletter);
+        formData.append('plano', usuario.plano);
+        formData.append('foto', usuario.foto); // adiciona a imagem ao FormData
+  
+        const resultado = await UsuarioService.criar(formData);
         console.log(resultado);
         setLoading(false); // se o resultado for positivo, o loading é desativado
       } catch (error) {
         console.log(error);
       }
     }
-
   };
+  
 
   return (
     <>

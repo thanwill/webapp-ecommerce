@@ -2,7 +2,6 @@
 const Joi = require("joi");
 const Filme = require("../models/filme");
 const Comentarios = require("../models/comentarios");
-const Usuarios = require("../models/usuario");
 
 class FilmeController {
   async criar(req, res) {

@@ -1,10 +1,9 @@
+const fs = require("fs");
+const path = require("path");
 const Usuario = require("../models/usuario");
-const Comentario = require("../models/comentarios");
-
 const Joi = require("joi");
 
 class UsuarioController {
-  
   async criar(req, res) {
     try {
       const { nome, email, senha, newsletter, plano } = req.body;
@@ -21,6 +20,17 @@ class UsuarioController {
       const max = await Usuario.findOne({}).sort({ id: -1 });
       const id = max ? max.id + 1 : 1;
 
+      if (!req.file) {
+        return res.status(400).json({
+          error: "É necessário enviar uma imagem",
+        });
+      }
+
+      // Lê o arquivo temporário da foto
+      const fotoBuffer = fs.readFileSync(req.file.path);
+      // Remove o arquivo temporário da foto
+      fs.unlinkSync(req.file.path);
+
       // crie o objeto do usuário com os dados e a foto
       const usuario = new Usuario({
         id,
@@ -29,17 +39,17 @@ class UsuarioController {
         senha,
         newsletter,
         plano,
-        // o campo foto é opcional, por isso só é adicionado se existir
-        ...(req.file && { foto: req.file.filename }),
-                
+        foto: {
+          data: fotoBuffer,
+          contentType: req.file.mimetype,
+        },
       });
 
-      const resultado = usuario.save();
+      usuario.save();
 
       return res.status(201).json({
         success: true,
         message: "Usuário cadastrado com sucesso!",
-        data: resultado,
       });
     } catch (error) {
       return res.status(500).json({
@@ -72,7 +82,21 @@ class UsuarioController {
           error: "Usuário não encontrado",
         });
       }
-      return res.status(200).json(usuario);
+
+      if (!usuario.foto || !usuario.foto.data) {
+        return res.status(404).json({
+          error: "Imagem do usuário não encontrada",
+        });
+      }
+
+      // Define o cabeçalho Content-Type para o tipo de conteúdo da imagem
+      res.set("Content-Type", usuario.foto.contentType);
+
+      // Retorna a URL de acesso direto ao buffer da imagem
+      return res.status(200).json({
+        fotoUrl: `/imagem/${id}`,
+        usuario: usuario,
+      });
     } catch (error) {
       return res.status(500).json({
         error: error.message,
@@ -177,7 +201,6 @@ class UsuarioController {
 
       const _id = String((await Usuario.findOne({ id: id }))._id);
       await Usuario.findByIdAndUpdate(String(_id), req.body);
-      
 
       return res.status(200).json({
         message: "Foto carregada com sucesso",
@@ -189,7 +212,6 @@ class UsuarioController {
       });
     }
   }
-
 }
 
 module.exports = new UsuarioController();
