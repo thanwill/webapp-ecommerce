@@ -12,8 +12,8 @@ const usuarioSchema = new mongoose.Schema({
     plano : Number,
     dataCriacao: { type: Date, default: Date.now },
     dataAtualizacao: { type: Date, default: Date.now }
-    
 });
 const Usuario = mongoose.model('Usuario', usuarioSchema);
 module.exports = Usuario;
+
 

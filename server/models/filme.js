@@ -1,4 +1,3 @@
-// importa o mongoose
 const mongoose = require("mongoose");
 const filmeSchema = new mongoose.Schema({
   id: { type: Number, required: true, unique: true },
@@ -16,7 +15,4 @@ const filmeSchema = new mongoose.Schema({
 });
 
 const Filme = mongoose.model("Filme", filmeSchema);
-// cria o relacionamento
-
-
 module.exports = Filme;
