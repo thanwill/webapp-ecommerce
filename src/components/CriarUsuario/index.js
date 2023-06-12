@@ -6,8 +6,7 @@ import "./index.css";
 
 export default function CriarUsuario({onCreate}) {
   const [validated, setValidated] = useState(false);
-  const [loading, setLoading] = useState(true);
-
+  const [loading, setLoading] = useState(false);
   const [usuario, setUsuario] = useState({
     nome: "",
     email: "",
@@ -66,6 +65,20 @@ export default function CriarUsuario({onCreate}) {
             // cria um atraso de 2 segundos 
             setTimeout(() => {
               setLoading(false);
+
+              // remove o value dos inputs
+              const inputs = document.querySelectorAll("input");
+              inputs.forEach(input => {
+                input.value = "";
+              });
+
+              // remove a classe is-valid dos inputs
+              inputs.forEach(input => {
+                input.classList.remove("is-valid");
+              }
+              );
+
+              // tira o
             }, 2000);
             onCreate();
           });
@@ -83,7 +96,7 @@ export default function CriarUsuario({onCreate}) {
       />
       <Form
         noValidate
-        enctype='multipart/form-data'
+        encType='multipart/form-data'
         onChange={e => {
           // captura o foco de cada input e valida se o pattern está correto ou não adicionando a classe is-invalid ou is-valid
 
@@ -118,7 +131,7 @@ export default function CriarUsuario({onCreate}) {
               pattern="^[a-zA-Zà-úÀ-Ú0-9]+(([' -][a-zA-Zà-úÀ-Ú0-9])?[a-zA-Zà-úÀ-Ú0-9]*)*$"
               onChange={handleChange}
             />
-            <label for='nome-cadastro'>Nome completo</label>
+            <label htmlFor='nome-cadastro'>Nome completo</label>
           </div>
           {validated && (
             <div className='form-text'>Por favor, insira um nome válido.</div>
@@ -133,10 +146,10 @@ export default function CriarUsuario({onCreate}) {
               id='email-cadastro'
               placeholder='name@example.com'
               pattern='^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$'
-              autocomplete='on'
+              autoComplete='on'
               onChange={handleChange}
             />
-            <label for='email-cadastro'>E-mail</label>
+            <label htmlFor='email-cadastro'>E-mail</label>
           </div>
           {validated ? (
             <div id='emailHelp' className='form-text'>
@@ -159,7 +172,7 @@ export default function CriarUsuario({onCreate}) {
               pattern='^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$'
               onChange={handleChange}
             />
-            <label for='floatingPassword'>Senha</label>
+            <label htmlFor='floatingPassword'>Senha</label>
           </div>
 
           {
@@ -174,7 +187,7 @@ export default function CriarUsuario({onCreate}) {
         </div>
 
         <div className='mt-3'>
-          <label for='file-cadastro' className='form-label text-muted'>
+          <label htmlFor='file-cadastro' className='form-label text-muted'>
             Adicione uma imagem ao seu perfil
           </label>
           <input
@@ -199,7 +212,7 @@ export default function CriarUsuario({onCreate}) {
               />
               <label
                 className='form-check-label text-muted '
-                for='flexSwitchCheckChecked'>
+                htmlFor='flexSwitchCheckChecked'>
                 Quero receber novidades por e-mail
               </label>
             </div>
@@ -244,18 +257,7 @@ export default function CriarUsuario({onCreate}) {
           type='submit'
           className='btn btn-primary mt-3'
           onClick={handleSubmit}>
-          {
-            // se o loading for true, exibe o spinner
-            loading ? (
-              <div class='d-flex justify-content-center'>
-                <div class='spinner-border' role='status'>
-                  <span class='visually-hidden'>Loading...</span>
-                </div>
-              </div>
-            ) : (
-              <>Cadastrar</>
-            )
-          }
+          Cadastrar
         </button>
       </Form>
     </>

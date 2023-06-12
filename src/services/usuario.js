@@ -37,24 +37,24 @@ export const UsuarioService = {
       throw error;
     }
   },
-  // lista os usuarios
+  // lista todos os usuarios
   async listar() {
     try {
       const response = await api.get("/usuario");
       return response.data;
     } catch (error) {
+      console.error(error);
       throw error;
     }
   },
   // atualiza um usuario pelo id
   async atualizar(id, usuario) {
     try {
-      await api.put(`/usuario/${id}`, usuario).then(response => {
-        return response.data;
-      });
+      const response = await api.put(`/usuario/${id}`, usuario);
+      return response.data;
     } catch (error) {
       console.error(error);
       throw error;
     }
-  },
+  }
 };

@@ -6,6 +6,7 @@ import { UsuarioService } from "../../services/usuario";
 import "./index.css";
 
 export default function AtualizarPerfil({ usuario }) {
+  
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePassword = () => {
@@ -49,10 +50,10 @@ export default function AtualizarPerfil({ usuario }) {
     <>
       <div
         className='modal fade'
-        id='staticBackdrop'
+        id={`modal-update-${usuario.id}`}
         data-bs-backdrop='static'
         data-bs-keyboard='false'
-        tabindex='-1'
+        tabIndex='-1'
         aria-labelledby='staticBackdropLabel'
         aria-hidden='true'>
         <div className='modal-dialog'>
@@ -90,7 +91,7 @@ export default function AtualizarPerfil({ usuario }) {
                           maxLength={100}
                           pattern="^[a-zA-Zà-úÀ-Ú0-9]+(([' -][a-zA-Zà-úÀ-Ú0-9])?[a-zA-Zà-úÀ-Ú0-9]*)*$"
                         />
-                        <label for='nome-update'>Nome completo</label>
+                        <label htmlFor='nome-update'>Nome completo</label>
                       </div>
                     </div>
                     <div className='mb-3'>
@@ -107,7 +108,7 @@ export default function AtualizarPerfil({ usuario }) {
                           autoComplete='on'
                           pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
                         />
-                        <label for='email-update'>Email</label>
+                        <label htmlFor='email-update'>Email</label>
                       </div>
                     </div>
 
@@ -154,7 +155,7 @@ export default function AtualizarPerfil({ usuario }) {
 
                           <label
                             className='form-check-label text-muted '
-                            for='newsletter-switch'>
+                            htmlFor='newsletter-switch'>
                             Quero receber novidades por e-mail
                           </label>
                         </div>

@@ -23,11 +23,11 @@ export default function Login(){
                             <div className="card-body">
                                 <form>
                                     <div className="form-group">
-                                        <label htmlFor="email">E-mail</label>
+                                        <label htmlhtmlFor="email">E-mail</label>
                                         <input type="email" className="form-control" id="email" placeholder="Digite seu e-mail" />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="senha">Senha</label>
+                                        <label htmlhtmlFor="senha">Senha</label>
                                         <input type="password" className="form-control" id="senha" placeholder="Digite sua senha" />
                                     </div>
                                     <button type="submit" className="btn btn-primary btn-block">Entrar</button>
