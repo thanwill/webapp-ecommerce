@@ -4,9 +4,26 @@ var express = require("express");
 var router = express.Router();
 const Usuario = require("../controllers/usuario");
 
-// página de usuários
-router.get("/page", function (req, res, next) {
-  res.render("index", { title: "Usuário" });
+// cadastra um novo usuário
+router.post("/", upload.single("foto"), async (req, res) => {
+  try {
+    await Usuario.criar(req, res);
+  } catch (error) {
+    res.status(500).json({
+      error: `${error}`,
+    });
+  }
+});
+
+// atualiza a foto de um usuário pelo id
+router.put("/foto/:id", upload.single("foto"), async (req, res) => {
+  try {
+    await Usuario.carregarFoto(req, res);
+  } catch (error) {
+    res.status(500).json({
+      error: `${error}`,
+    });
+  }
 });
 
 // lista os usuários cadastrados
@@ -31,16 +48,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// cadastra um novo usuário
-router.post("/", upload.single("foto"), async (req, res) => {
-  try {
-    await Usuario.criar(req, res);
-  } catch (error) {
-    res.status(500).json({
-      error: `${error}`,
-    });
-  }
-});
+
 
 // upload de imagem
 router.post("/upload", async (req, res) => {
@@ -79,17 +87,6 @@ router.get("/id/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     await Usuario.atualizar(req, res);
-  } catch (error) {
-    res.status(500).json({
-      error: `${error}`,
-    });
-  }
-});
-
-// atualiza a foto de um usuário pelo id
-router.put("/foto/:id", upload.single("foto"), async (req, res) => {
-  try {
-    await Usuario.carregarFoto(req, res);
   } catch (error) {
     res.status(500).json({
       error: `${error}`,

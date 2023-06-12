@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { UsuarioService } from '../../services/usuario';
 import { Form } from 'react-bootstrap';
 import Title from '../Title';
 import './index.css';
@@ -12,7 +11,7 @@ export default function CriarUsuario() {
     nome: '',
     email: '',
     senha: '',
-    foto: '',
+    foto: null,
     newsletter: false,
     plano: '',
   });
@@ -53,8 +52,11 @@ export default function CriarUsuario() {
         formData.append('plano', usuario.plano);
         formData.append('foto', usuario.foto); // adiciona a imagem ao FormData
   
-        const resultado = await UsuarioService.criar(formData);
-        console.log(resultado);
+        // imprime no console os dados do FormData
+        for (let pair of formData.entries()) {
+          console.log(pair[0] + ', ' + pair[1]);
+        }
+
         setLoading(false); // se o resultado for positivo, o loading é desativado
       } catch (error) {
         console.log(error);
@@ -71,6 +73,7 @@ export default function CriarUsuario() {
       />
       <Form
         noValidate
+        enctype="multipart/form-data"
         onChange={(e) => {
           // captura o foco de cada input e valida se o pattern está correto ou não adicionando a classe is-invalid ou is-valid
 
@@ -91,12 +94,12 @@ export default function CriarUsuario() {
           }
         }}
       >
-        <div class="mb-3 nome-usuario">
-          <div class="form-floating mb-3">
+        <div className="mb-3 nome-usuario">
+          <div className="form-floating mb-3">
             <input
               type="nome"
               name="nome"
-              class="form-control"
+              className="form-control"
               id="nome-cadastro"
               placeholder="Johe Doe"
               // validacao
@@ -109,15 +112,15 @@ export default function CriarUsuario() {
             <label for="nome-cadastro">Nome completo</label>
           </div>
           {validated && (
-            <div class="form-text">Por favor, insira um nome válido.</div>
+            <div className="form-text">Por favor, insira um nome válido.</div>
           )}
         </div>
-        <div class="mb-3 email-usuario">
-          <div class="form-floating mb-3">
+        <div className="mb-3 email-usuario">
+          <div className="form-floating mb-3">
             <input
               type="email"
               name="email"
-              class="form-control"
+              className="form-control"
               id="email-cadastro"
               placeholder="name@example.com"
               pattern="^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$"
@@ -127,21 +130,21 @@ export default function CriarUsuario() {
             <label for="email-cadastro">E-mail</label>
           </div>
           {validated ? (
-            <div id="emailHelp" class="form-text">
+            <div id="emailHelp" className="form-text">
               Por favor, insira um e-mail válido.
             </div>
           ) : (
-            <div id="emailHelp" class="form-text">
+            <div id="emailHelp" className="form-text">
               Nós nunca compartilharemos seu e-mail com mais ninguém.
             </div>
           )}
         </div>
-        <div class="mb-3 senha-usuario">
-          <div class="form-floating">
+        <div className="mb-3 senha-usuario">
+          <div className="form-floating">
             <input
               type="password"
               name="senha"
-              class="form-control"
+              className="form-control"
               id="floatingPassword"
               placeholder="Password"
               pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
@@ -153,7 +156,7 @@ export default function CriarUsuario() {
           {
             // se validated for true, exibe a mensagem de erro abaixo se for false, a mensagem não é exibida e some da tela
             validated && (
-              <div id="emailHelp" class="form-text">
+              <div id="emailHelp" className="form-text">
                 A senha deve conter no mínimo 8 caracteres, uma letra maiúscula,
                 uma minúscula e um número.
               </div>
@@ -161,12 +164,12 @@ export default function CriarUsuario() {
           }
         </div>
 
-        <div class="mt-3">
-          <label for="file-cadastro" class="form-label text-muted">
+        <div className="mt-3">
+          <label for="file-cadastro" className="form-label text-muted">
             Adicione uma imagem ao seu perfil
           </label>
           <input
-            class="form-control"
+            className="form-control"
             type="file"
             id="file-cadastro"
             name="file-cadastro"
@@ -176,17 +179,17 @@ export default function CriarUsuario() {
 
         <div className="row">
           <div className="input-group mb-3 mt-5">
-            <div class="form-check form-switch">
+            <div className="form-check form-switch">
               <input
                 type="checkbox"
                 name="newsletter"
-                class="form-check-input"
+                className="form-check-input"
                 role="switch"
                 id="flexSwitchCheckChecked"
                 onChange={handleChange}
               />
               <label
-                class="form-check-label text-muted "
+                className="form-check-label text-muted "
                 for="flexSwitchCheckChecked"
               >
                 Quero receber novidades por e-mail
@@ -197,7 +200,7 @@ export default function CriarUsuario() {
         <div className="row">
           <div className="input-group mb-3 mt-3">
             <select
-              class="form-select"
+              className="form-select"
               aria-label="Default select example"
               name="plano"
               required
@@ -210,21 +213,21 @@ export default function CriarUsuario() {
             </select>
           </div>
           {usuario.plano === '1' ? (
-            <div id="emailHelp" class="form-text">
+            <div id="emailHelp" className="form-text">
               O plano Basic é ótimo para quem está começando.
             </div>
           ) : usuario.plano === '2' ? (
-            <div id="emailHelp" class="form-text">
+            <div id="emailHelp" className="form-text">
               Com o plano Standard você tem acesso a todos os recursos da
               plataforma.
             </div>
           ) : usuario.plano === '3' ? (
-            <div id="emailHelp" class="form-text">
+            <div id="emailHelp" className="form-text">
               Com o plano Premium você tem acesso a todos os recursos da
               plataforma e ainda pode compartilhar com amigos e família.
             </div>
           ) : (
-            <div id="emailHelp" class="form-text">
+            <div id="emailHelp" className="form-text">
               Nenhum plano selecionado! Selecione um plano.
             </div>
           )}
@@ -232,14 +235,14 @@ export default function CriarUsuario() {
 
         <button
           type="submit"
-          class="btn btn-primary mt-3"
+          className="btn btn-primary mt-3"
           onClick={handleSubmit}
         >
           {
           // se loading for true, exibe o spinner, se for false, exibe o texto submit
           !loading ? (
-            <div class="spinner-border" role="status">
-              <span class="visually-hidden">Loading...</span>
+            <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           ) : (
             'Submit'

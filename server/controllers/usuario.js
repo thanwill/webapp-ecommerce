@@ -1,4 +1,3 @@
-const fs = require("fs");
 const Usuario = require("../models/usuario");
 const Joi = require("joi");
 
@@ -6,7 +5,7 @@ class UsuarioController {
   async criar(req, res) {
     try {
       const { nome, email, senha, newsletter, plano } = req.body;
-      const { mimetype } = req.file;
+      const { mimetype, buffer } = req.file;
 
       // Verifica se o usuário já existe
       const usuarioJaExiste = await Usuario.findOne({ email });
@@ -20,17 +19,6 @@ class UsuarioController {
       const max = await Usuario.findOne({}).sort({ id: -1 });
       const id = max ? max.id + 1 : 1;
 
-      if (!req.file) {
-        return res.status(400).json({
-          error: "É necessário enviar uma imagem",
-        });
-      }
-
-      // Lê o arquivo temporário da foto
-      const fotoBuffer = fs.readFileSync(req.file.path);
-      fs.unlinkSync(req.file.path); // Remove o arquivo temporário da foto
-
-      // crie o objeto do usuário com os dados e a foto
       const usuario = new Usuario({
         id,
         nome,
@@ -39,12 +27,12 @@ class UsuarioController {
         newsletter,
         plano,
         foto: {
-          data: fotoBuffer,
+          data: buffer,
           contentType: mimetype,
         },
       });
 
-      // cria um novo usuário no banco de dados que recebeu do formulário
+      // cria um novoc usuário com a nova foto
       await usuario.save();
 
       return res.status(201).json({
@@ -59,7 +47,7 @@ class UsuarioController {
     }
   }
 
-  async listar(req, res) {
+  async listar(res) {
     try {
       const usuarios = await Usuario.find({});
       return res.status(200).json(usuarios);
@@ -207,7 +195,6 @@ class UsuarioController {
     };
 
     // atualiza o usuário com a nova foto
-
     usuario.foto = await Usuario.findOneAndUpdate({ id }, { $push: { fotos: newPhoto } }, { new: true });
 
     return res.status(200).json({

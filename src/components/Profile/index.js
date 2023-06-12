@@ -60,7 +60,7 @@ export default function Profile({ id }) {
             </div>
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
               data-bs-toggle="modal"
               data-bs-target="#staticBackdrop"
             >
