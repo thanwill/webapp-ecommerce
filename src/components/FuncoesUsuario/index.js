@@ -10,11 +10,6 @@ function Header() {
   const [usuarios, setUsuarios] = useState([]);
   const [atualizarUsuarios, setAtualizarUsuarios] = useState(false);
 
-  const carregarUsuarios = async () => {
-    const usuarios = await UsuarioService.listar();
-    setUsuarios(usuarios);
-  };
-
   useEffect(() => {
     async function fetchUsuario() {
       try {
@@ -31,8 +26,6 @@ function Header() {
   const handleUsuarioCadastrado = () => {
     setAtualizarUsuarios(true);
   };
-
-  console.log("usuarios", usuarios);
 
   return (
     <>

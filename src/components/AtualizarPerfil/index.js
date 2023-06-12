@@ -6,26 +6,17 @@ import { UsuarioService } from "../../services/usuario";
 import "./index.css";
 
 export default function AtualizarPerfil({ usuario }) {
-  
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const [usuarioAtualizado, setUsuarioAtualizado] = useState({
-    nome: "",
-    email: "",
-    senha: "",
-    foto: null,
-    newsletter: false,
-    plano: "",
-  });
+  const [usuarioAtualizado, setUsuarioAtualizado] = useState(null);
 
   const handleChange = event => {
     const { name, value, type, checked } = event.target;
     const newValue = type === "checkbox" ? checked : value;
-    console.log(usuario);
 
     setUsuarioAtualizado(prevUsuario => ({
       ...prevUsuario,
@@ -35,7 +26,6 @@ export default function AtualizarPerfil({ usuario }) {
 
   const handleSubmit = event => {
     event.preventDefault();
-    // verifica se os campos estão vazios
 
     UsuarioService.atualizar(usuario.id, usuarioAtualizado)
       .then(response => {
@@ -149,7 +139,9 @@ export default function AtualizarPerfil({ usuario }) {
                             className='form-check-input'
                             role='switch'
                             id='newsletter-switch'
-                            checked={usuarioAtualizado.newsletter}
+                            checked={
+                              usuario.newsletter ? usuario.newsletter : false
+                            }
                             onChange={handleChange}
                           />
 

@@ -6,7 +6,6 @@ import "./index.css";
 
 export default function CriarUsuario({onCreate}) {
   const [validated, setValidated] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [usuario, setUsuario] = useState({
     nome: "",
     email: "",
@@ -43,7 +42,6 @@ export default function CriarUsuario({onCreate}) {
       setValidated(true);
     } else {
       try {
-        setLoading(true);
         const formData = new FormData();
         formData.append("nome", usuario.nome);
         formData.append("email", usuario.email);
@@ -64,7 +62,6 @@ export default function CriarUsuario({onCreate}) {
           .finally(() => {
             // cria um atraso de 2 segundos 
             setTimeout(() => {
-              setLoading(false);
 
               // remove o value dos inputs
               const inputs = document.querySelectorAll("input");
