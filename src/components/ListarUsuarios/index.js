@@ -19,28 +19,57 @@ export default function ListarUsuarios({ usuarios }) {
               <div className='row g-0'>
                 <div className='col-md-8'>
                   <div className='card-body'>
-                    <h5 className='card-title'>{usuario.nome}</h5>
+                    <div className='row'>
+                      <div className='col-10'>
+                        <h5 className='card-title'>{usuario.nome}</h5>
+                      </div>
+                      <div className='col'>X</div>
+                    </div>
                     <p className='card-text'>{usuario.email}</p>
                     <p className='card-text'>
                       <small className='text-body-secondary'>
-                        Last updated 3 mins ago
-                      </small>{" "}
-                      <br />
-                      <div className='row'>
-                        <div className='col-4'>
-                         <div className="text-body-secondary" data-bs-toggle="modal" data-bs-target={`#modal-update-${usuario.id}`}>
-                            Editar
-                          </div>
-                         <AtualizarPerfil usuario={usuario} />
-                        </div>
-                        <div className='col-3'>
-                          <small className='text-body-secondary'>Excluir</small>
-                        </div>
-                      </div>
-                      {
-                        // cria um botão para editar o usuario
-                      }
+                        {
+                          // exibe o tempo de criação com base na dataCriacao e a data atual
+                          usuario.dataCriacao ? (
+                            <>
+                              <span className='text-body-secondary'>
+                                Criado há{" "}
+                                {Math.floor(
+                                  (new Date() - new Date(usuario.dataCriacao)) /
+                                    1000 /
+                                    60 /
+                                    60 /
+                                    24
+                                )}{" "}
+                                dias
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <span className='text-body-secondary'>
+                                Criado há{" "}
+                                {Math.floor(
+                                  (new Date() -
+                                    new Date(usuario.dataAtualizacao)) /
+                                    1000 /
+                                    60 /
+                                    60 /
+                                    24
+                                )}{" "}
+                                dias
+                              </span>
+                            </>
+                          )
+                        }
+                      </small>
                     </p>
+                    <div
+                      className='btn btn-primary'
+                      data-bs-toggle='modal'
+                      data-bs-target={`#modal-update-${usuario.id}`}>
+                      Editar
+                    </div>
+                    <AtualizarPerfil usuario={usuario} />
                   </div>
                 </div>
               </div>

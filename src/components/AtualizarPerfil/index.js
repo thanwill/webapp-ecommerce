@@ -17,7 +17,7 @@ export default function AtualizarPerfil({ usuario }) {
     nome: "",
     email: "",
     senha: "",
-    avatarUrl: "",
+    foto: null,
     newsletter: false,
     plano: "",
   });
