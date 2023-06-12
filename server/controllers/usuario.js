@@ -43,6 +43,18 @@ class UsuarioController {
         });
       }
 
+      // verifica mimetype
+      if (!["image/png", "image/jpeg"].includes(mimetype)) {
+        return res.status(400).json({
+          error: "Formato de imagem inválido",
+        });
+      }
+
+      // dataCriacao
+      const dataCriacao = new Date();
+      // dataAtualizacao
+      const dataAtualizacao = new Date();
+      
       const usuario = new Usuario({
         id,
         nome,
@@ -54,6 +66,8 @@ class UsuarioController {
           data: buffer,
           contentType: mimetype,
         },
+        dataCriacao,
+        dataAtualizacao,
       });
 
       // cria um novoc usuário com a nova foto
@@ -71,7 +85,7 @@ class UsuarioController {
     }
   }
 
-  async listar(res) {
+  async listarUsuarios(req, res) {
     try {
       const usuarios = await Usuario.find({});
       return res.status(200).json(usuarios);

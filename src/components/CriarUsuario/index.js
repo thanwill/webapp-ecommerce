@@ -4,7 +4,7 @@ import { Form } from "react-bootstrap";
 import Title from "../Title";
 import "./index.css";
 
-export default function CriarUsuario() {
+export default function CriarUsuario({onCreate}) {
   const [validated, setValidated] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -59,13 +59,15 @@ export default function CriarUsuario() {
         }
 
         UsuarioService.criar(formData)
-          .then(response => {
-            console.log(response);
-            setLoading(false);
-          })
           .catch(error => {
             console.log(error);
-            setLoading(false);
+          })
+          .finally(() => {
+            // cria um atraso de 2 segundos 
+            setTimeout(() => {
+              setLoading(false);
+            }, 2000);
+            onCreate();
           });
       } catch (error) {
         console.log(error);
@@ -243,13 +245,15 @@ export default function CriarUsuario() {
           className='btn btn-primary mt-3'
           onClick={handleSubmit}>
           {
-            // se loading for true, exibe o spinner, se for false, exibe o texto submit
-            !loading ? (
-              <div className='spinner-border' role='status'>
-                <span className='visually-hidden'>Loading...</span>
+            // se o loading for true, exibe o spinner
+            loading ? (
+              <div class='d-flex justify-content-center'>
+                <div class='spinner-border' role='status'>
+                  <span class='visually-hidden'>Loading...</span>
+                </div>
               </div>
             ) : (
-              "Submit"
+              <>Cadastrar</>
             )
           }
         </button>

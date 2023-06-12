@@ -29,7 +29,7 @@ router.put("/foto/:id", upload.single("foto"), async (req, res) => {
 // lista os usuários cadastrados
 router.get("/", async (req, res) => {
   try {
-    await Usuario.listar(req, res);
+    await Usuario.listarUsuarios(req, res);
   } catch (error) {
     res.status(500).json({
       error: `${error}`,

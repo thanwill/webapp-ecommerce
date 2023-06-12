@@ -16,8 +16,6 @@ node_modules/
 .vscode/
 
 # Arquivos de compilação
-*.css
-*.js
 *.map
 
 # Cache
