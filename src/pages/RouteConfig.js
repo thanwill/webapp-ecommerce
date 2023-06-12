@@ -4,6 +4,7 @@ import Perfil from './perfil';
 import Home from './inicio';
 import Header from '../components/Header';
 import Error404 from '../components/404';
+import Login from './login';
 const RouteConfig = () => {
   return (
     <Router basename={process.env.PUBLIC_URL}>
@@ -13,6 +14,7 @@ const RouteConfig = () => {
         <Route path="/usuarios" element={<Perfil/>} />
         <Route path="/estoque" element={<Error404/>} />
         <Route path="/produtos" element={<Error404/>} />
+        <Route path="/login" element={<Login/>} />
         <Route path="*" element={<Error404/>} />
       </Routes>
     </Router>
