@@ -19,6 +19,30 @@ class UsuarioController {
       const max = await Usuario.findOne({}).sort({ id: -1 });
       const id = max ? max.id + 1 : 1;
 
+      // valida os dados
+
+      const schema = Joi.object({
+        nome: Joi.string().min(3).required(),
+        email: Joi.string().email().required(),
+        senha: Joi.string().min(6).required(),
+        newsletter: Joi.boolean().required(),
+        plano: Joi.number().integer().min(0).max(3).required(),
+      });
+
+      const { error } = schema.validate({
+        nome,
+        email,
+        senha,
+        newsletter,
+        plano,
+      });
+
+      if (error) {
+        return res.status(400).json({
+          error: error.details[0].message,
+        });
+      }
+
       const usuario = new Usuario({
         id,
         nome,

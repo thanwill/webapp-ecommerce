@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {UsuarioService} from "../../services/usuario";
+import { UsuarioService } from "../../services/usuario";
 import { Form } from "react-bootstrap";
 import Title from "../Title";
 import "./index.css";
@@ -58,11 +58,15 @@ export default function CriarUsuario() {
           console.log(pair[0] + ", " + pair[1]);
         }
 
-        UsuarioService.criar(formData).then(response => {
-          console.log(response);
-          setLoading(false);
-        });
-
+        UsuarioService.criar(formData)
+          .then(response => {
+            console.log(response);
+            setLoading(false);
+          })
+          .catch(error => {
+            console.log(error);
+            setLoading(false);
+          });
       } catch (error) {
         console.log(error);
       }
