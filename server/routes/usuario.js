@@ -1,24 +1,14 @@
-const { upload } = require("../config/multer");
+// necessário salvar o token no localstorage do navegador
 
+const { upload } = require("../config/multer");
 var express = require("express");
 var router = express.Router();
 const Usuario = require("../controllers/usuario");
 
 // cadastra um novo usuário
-router.post("/", upload.single("foto"), async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     await Usuario.criar(req, res);
-  } catch (error) {
-    res.status(500).json({
-      error: `${error}`,
-    });
-  }
-});
-
-// atualiza a foto de um usuário pelo id
-router.put("/foto/:id", upload.single("foto"), async (req, res) => {
-  try {
-    await Usuario.carregarFoto(req, res);
   } catch (error) {
     res.status(500).json({
       error: `${error}`,
@@ -29,7 +19,7 @@ router.put("/foto/:id", upload.single("foto"), async (req, res) => {
 // lista os usuários cadastrados
 router.get("/", async (req, res) => {
   try {
-    await Usuario.listarUsuarios(req, res);
+    await Usuario.listar_usuarios(req, res);
   } catch (error) {
     res.status(500).json({
       error: `${error}`,
@@ -37,10 +27,10 @@ router.get("/", async (req, res) => {
   }
 });
 
-// exibe um usuário pelo id
-router.get("/:id", async (req, res) => {
+// busca por cod_usuario
+router.get("/:cod_usuario", async (req, res) => {
   try {
-    await Usuario.exibir(req, res);
+    await Usuario.exibir_id(req, res);
   } catch (error) {
     res.status(500).json({
       error: `${error}`,
@@ -48,34 +38,11 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-
-
-// upload de imagem
-router.post("/upload", async (req, res) => {
-  try {
-    await Usuario.upload(req, res);
-  } catch (error) {
-    res.status(500).json({
-      error: `${error}`,
-    });
-  }
-});
 
 // exclui um usuário pelo id
-router.delete("/:id", async (req, res) => {
+router.delete("/:cod_usuario", async (req, res) => {
   try {
-    await Usuario.excluir(req, res);
-  } catch (error) {
-    res.status(500).json({
-      error: `${error}`,
-    });
-  }
-});
-
-// listar por ID
-router.get("/id/:id", async (req, res) => {
-  try {
-    await Usuario.listarPorId(req, res);
+    await Usuario.excluir_id(req, res);
   } catch (error) {
     res.status(500).json({
       error: `${error}`,
@@ -84,9 +51,9 @@ router.get("/id/:id", async (req, res) => {
 });
 
 // atualiza um usuário pelo id
-router.put("/:id", async (req, res) => {
+router.put("/:cod_usuario", async (req, res) => {
   try {
-    await Usuario.atualizar(req, res);
+    await Usuario.atualizar_id(req, res);
   } catch (error) {
     res.status(500).json({
       error: `${error}`,
@@ -94,12 +61,11 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// retorna a foto de um usuário pelo id
-router.get("/foto/:id", async (req, res) => {
+
+// delete all
+router.delete("/all", async (res) => {
   try {
-    await Usuario.exibirFoto(req, res);
-    res.set("Content-Type", "image/jpeg");
-    return res.send(req.foto);
+    await Usuario.excluirTudo(res);
   } catch (error) {
     res.status(500).json({
       error: `${error}`,

@@ -15,7 +15,7 @@ export default function Header() {
               />
             </Link>
 
-            <span className='m-3 text-desable'>E-commerce BR</span>
+            <span className='m-3 text-desable'>E-commerce PetShop</span>
           </div>
           <button
             className='navbar-toggler'
