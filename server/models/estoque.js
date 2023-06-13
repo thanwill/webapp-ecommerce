@@ -12,7 +12,7 @@ const categoriaSchema = new mongoose.Schema({
     },
   },
   nome: { type: String, required: true },
-  descricao: String,
+  descricao: {type: String, required: false},
 });
 
 const produtosSchema = new mongoose.Schema({

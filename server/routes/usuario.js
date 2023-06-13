@@ -1,8 +1,6 @@
 // necessário salvar o token no localstorage do navegador
-
-const { upload } = require("../config/multer");
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const Usuario = require("../controllers/usuario");
 
 // cadastra um novo usuário
