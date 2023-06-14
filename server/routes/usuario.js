@@ -1,14 +1,23 @@
 // necessário salvar o token no localstorage do navegador
-
-const { upload } = require("../config/multer");
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const Usuario = require("../controllers/usuario");
 
 // cadastra um novo usuário
 router.post("/", async (req, res) => {
   try {
     await Usuario.criar(req, res);
+  } catch (error) {
+    res.status(500).json({
+      error: `${error}`,
+    });
+  }
+});
+
+// adiciona um endereço ao usuário
+router.put("/endereco/:cod_usuario", async (req, res) => {
+  try {
+    await Usuario.adicionar_endereco(req, res);
   } catch (error) {
     res.status(500).json({
       error: `${error}`,
@@ -38,7 +47,6 @@ router.get("/:cod_usuario", async (req, res) => {
   }
 });
 
-
 // exclui um usuário pelo id
 router.delete("/:cod_usuario", async (req, res) => {
   try {
@@ -60,7 +68,6 @@ router.put("/:cod_usuario", async (req, res) => {
     });
   }
 });
-
 
 // delete all
 router.delete("/all", async (res) => {

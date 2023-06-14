@@ -1,45 +1,45 @@
 
 const mongoose = require("mongoose");
-const { gerarCodigo } = require("./valida");
+const valida = require("./valida");
 const categoriaSchema = new mongoose.Schema({
   //código, nome e descrição
   cod_categoria: {
-    type: Number,
+    type: String,
     required: true,
     unique: true,
     default: function () {
-      return gerarCodigo("CAT");
+      return valida.gerarCodigo("CAT");
     },
   },
   nome: { type: String, required: true },
-  descricao: String,
+  descricao: {type: String, required: false},
 });
 
 const produtosSchema = new mongoose.Schema({
   //código, nome, descrição, preço, categoria, fornecedor
   cod_produto: {
-    type: Number,
+    type: String,
     required: true,
     unique: true,
     default: function () {
-      return gerarCodigo("PROD");
+      return valida.gerarCodigo("PROD");
     },
   },
   nome: { type: String, required: true },
   descricao: String,
+  // preco float
   preco: { type: Number, required: true },
   categoria: { type: mongoose.Schema.Types.ObjectId, ref: "Categoria" },
-  fornecedor: { type: mongoose.Schema.Types.ObjectId, ref: "Fornecedor" },
 });
 
 const depositoSchema = new mongoose.Schema({
-  // id, nome, endereco (referencia)
+  // código, nome, endereco (referencia)
   cod_deposito: {
-    type: Number,
+    type: String,
     required: true,
     unique: true,
     default: function () {
-      return gerarCodigo("DEP");
+      return valida.gerarCodigo("DEP");
     },
   },
   nome: { type: String, required: true },
@@ -53,7 +53,7 @@ const movimentacaoSchema = new mongoose.Schema({
     required: true,
     unique: true,
     default: function () {
-      return gerarCodigo("MOV");
+      return valida.gerarCodigo("MOV");
     },
   },
   produto: { type: mongoose.Schema.Types.ObjectId, ref: "Produto" },
