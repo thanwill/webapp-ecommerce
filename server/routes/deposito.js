@@ -1,18 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const { CategoriaController } = require("../controllers/estoque");
+const { depositoController } = require("../controllers/estoque");
 
+/* ROTAS PARA DEPOSITOS */
 
-// cadastra uma nova categoria
+// cadastra um novo deposito
 router.post("/", async (req, res) => {
   try {
-    await CategoriaController.criar(req, res);
+    await depositoController.criar(req, res);
   } catch (error) {
     res.status(500).json({
       error: `${error}`,
     });
   }
 });
-
 
 module.exports = router;

@@ -1,5 +1,8 @@
 const Usuario = require("../models/usuario");
+const Endereco = require("../models/endereco");
+
 const Joi = require("joi");
+const { enderecoController } = require("./endereco");
 
 class UsuarioController {
   // cadastra um novo usuário
@@ -74,6 +77,55 @@ class UsuarioController {
     }
   }
 
+  // passa o cod_endereco para o usuário
+  async adicionar_endereco(req, res) {
+    try {
+      const cod_usuario = req.params.codigo;
+
+      const endereco = req.body;
+
+      // verifica se o usuario existe
+
+      const usuarioJaExiste = await Usuario.findOne(cod_usuario);
+
+      if (!usuarioJaExiste) {
+        return res.status(404).json({ error: "Usuário não encontrado" });
+      }
+
+      // verifica se o endereco já existe
+      const enderecoJaExiste = await Endereco.findOne(endereco);
+
+      if (!enderecoJaExiste) {
+        return res.status(404).json({ error: "Endereço não encontrado" });
+      }
+
+      console.log(enderecoJaExiste);
+
+      // adiciona o endereco ao usuario
+      await Usuario.updateOne(
+        { cod_usuario },
+        {
+          $push: {
+            endereco: enderecoJaExiste,
+          },
+        }
+      );
+
+      console.log(usuarioJaExiste);
+      
+
+      return res.status(200).json({
+        success: true,
+        message: "Endereço adicionado com sucesso!",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+  }
+
   async listar_usuarios(req, res) {
     try {
       const usuarios = await Usuario.find({});
@@ -106,8 +158,8 @@ class UsuarioController {
   async atualizar_id(req, res) {
     try {
       const { cod_usuario } = req.params;
-      const cliente = req.body;
-      const _id = String((await Usuario.findOne({ cod_usuario }))._id);
+      const { nome, email, notificacoes, plano, telefone, cpf, cartao } = req.body;
+      const _id = String((await Usuario.findOne({ cod_usuario }))._id); // pega o id do usuário a partir do cod_usuario
 
       const usuario = await Usuario.findOne({ cod_usuario });
 
@@ -116,6 +168,18 @@ class UsuarioController {
           error: "Usuário não encontrado",
         });
       }
+
+      // cria um cliente com os novos dados apenas para os atributos que foram passados
+      const cliente = {};
+      if (nome) cliente.nome = nome;
+      if (email) cliente.email = email;
+      if (notificacoes) cliente.notificacoes = notificacoes;
+      if (plano) cliente.plano = plano;
+      if (telefone) cliente.telefone = telefone;
+      if (cpf) cliente.cpf = cpf;
+      if (cartao) cliente.cartao = cartao;
+
+      // atualiza o usuário
 
       await Usuario.findByIdAndUpdate(_id, cliente);
 

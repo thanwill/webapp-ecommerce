@@ -14,6 +14,17 @@ router.post("/", async (req, res) => {
   }
 });
 
+// adiciona um endereço ao usuário
+router.put("/endereco/:cod_usuario", async (req, res) => {
+  try {
+    await Usuario.adicionar_endereco(req, res);
+  } catch (error) {
+    res.status(500).json({
+      error: `${error}`,
+    });
+  }
+});
+
 // lista os usuários cadastrados
 router.get("/", async (req, res) => {
   try {
@@ -36,7 +47,6 @@ router.get("/:cod_usuario", async (req, res) => {
   }
 });
 
-
 // exclui um usuário pelo id
 router.delete("/:cod_usuario", async (req, res) => {
   try {
@@ -58,7 +68,6 @@ router.put("/:cod_usuario", async (req, res) => {
     });
   }
 });
-
 
 // delete all
 router.delete("/all", async (res) => {

@@ -30,8 +30,7 @@ const usuarioSchema = new mongoose.Schema({
     cvc: String,
   },
   // endereco da model endereco
-  endereco: { type: mongoose.Schema.Types.ObjectId, ref: "Endereco" },
-
+  endereco: { type: mongoose.Schema.Types.ObjectId, ref: "Endereco", required: false },
   dataCriacao: { type: Date, default: Date.now, required: true, defaul: Date.now },
   dataAtualizacao: { type: Date, default: Date.now, required: true, defaul: Date.now },
 });

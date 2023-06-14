@@ -1,7 +1,6 @@
 
 
 const connectDB = require('./config/db');
-const User = require('./models/usuario');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -10,7 +9,11 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/usuario');
-var CategoriaRouter = require('./routes/estoque');
+var CategoriaRouter = require('./routes/categoria');
+var ProdutoRouter = require('./routes/produto');
+var DepositoRouter = require('./routes/deposito');
+var EnderecoRouter = require('./routes/endereco.js');
+
 
 var cors = require('cors');
 connectDB();
@@ -35,6 +38,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/usuario', usersRouter);
 app.use('/categoria', CategoriaRouter);
+app.use('/produto', ProdutoRouter);
+app.use('/deposito', DepositoRouter);
+app.use('/endereco', EnderecoRouter);
+
 
 
 
