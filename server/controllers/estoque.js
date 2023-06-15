@@ -1,4 +1,5 @@
 const { Categoria, Produto, Deposito, Movimento } = require("../models/estoque");
+const Endereco = require("../models/endereco");
 
 class CategoriaController {
   async criar(req, res) {
@@ -185,8 +186,13 @@ class DepositoController {
   // código, nome, endereco (referencia)
   async criar(req, res) {
     try {
-      const { nome, endereco } = req.body;      
-      const deposito = new Deposito({ nome, endereco });
+      const { nome, rua, numero, complemento, bairro, cidade, estado, cep } = req.body;
+
+      const endereco = new Endereco({ rua, numero, complemento, bairro, cidade, estado, cep });
+      await endereco.save();
+
+      const deposito = new Deposito({ nome, endereco: endereco._id });
+      
       await deposito.save();
       return res.status(201).json(deposito);
     } catch (error) {

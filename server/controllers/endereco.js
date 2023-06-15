@@ -5,11 +5,11 @@ class EnderecoController {
   // rua, numero, complemento, bairro, cidade, estado, cep
 
   // cadastra um novo endereco e retorna o cod_endereco para ser salvo no usuario
-  async criar(req, res) {
+  // retorna o _id do endereco criado no monogo para relacionar com usuário.
+  async criar(endereco, res) {
     try {
-      const endereco = req.body;
       await Endereco.create(endereco);
-      return res.status(201).json(endereco);
+      return endereco;
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: error.message });
@@ -69,12 +69,24 @@ class EnderecoController {
   }
 
   // limpa a colletion de enderecos
-  async limpar(req, res) {
+  async excluirTudo(res) {
     try {
+      const enderecos = await Endereco.find({});
+      if (enderecos.length === 0) {
+        return res.status(404).json({
+          error: "Não há endereços cadastrados",
+        });
+      }
+      console.log(enderecos);
       await Endereco.deleteMany({});
-      return res.status(200).json({ message: "Endereços apagados com sucesso!" });
+      return res.status(200).json({
+        message: "Todos os endereços foram removidos com sucesso",
+      });
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      console.log(error);
+      return res.status(500).json({
+        error: error.message,
+      });
     }
   }
 }
