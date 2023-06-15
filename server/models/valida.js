@@ -1,3 +1,4 @@
+
 function gerarCodigo(prefixo) {
     const data = new Date();
     const ano = data.getFullYear();
