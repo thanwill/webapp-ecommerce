@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { categoriaController } = require("../controllers/estoque");
 
+//router.use(login);
+
 /* ROTAS PARA CATEGORIAS */
 // cadastra uma nova categoria
 router.post("/", async (req, res) => {

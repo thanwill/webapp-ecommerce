@@ -1,4 +1,5 @@
-const { Categoria, Produto, Deposito, Movimento } = require("../models/estoque");
+const { Categoria, Produto, Deposito, Movimento, ItemMovimento } = require("../models/estoque");
+const Endereco = require("../models/endereco");
 
 class CategoriaController {
   async criar(req, res) {
@@ -185,8 +186,12 @@ class DepositoController {
   // código, nome, endereco (referencia)
   async criar(req, res) {
     try {
-      const { nome, endereco } = req.body;      
-      const deposito = new Deposito({ nome, endereco });
+      const { nome, rua, numero, complemento, bairro, cidade, estado, cep } = req.body;
+      const endereco = new Endereco({ rua, numero, complemento, bairro, cidade, estado, cep });
+      await endereco.save();
+
+      const deposito = new Deposito({ nome, endereco: endereco._id });
+
       await deposito.save();
       return res.status(201).json(deposito);
     } catch (error) {
@@ -194,13 +199,191 @@ class DepositoController {
       return res.status(500).json({ error: "Erro ao criar deposito" });
     }
   }
+
+  async listar_depositos(req, res) {
+    try {
+      const depositos = await Deposito.find().populate("endereco");
+      return res.status(200).json(depositos);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Erro ao listar depositos" });
+    }
+  }
+
+  async listar_cod(req, res) {
+    try {
+      const { cod_deposito } = req.params;
+      const deposito = await Deposito.findOne({ cod_deposito }).populate("endereco");
+      return res.status(200).json(deposito);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Erro ao listar deposito" });
+    }
+  }
+
+  // exclui o deposito e o endereco
+  async excluir(req, res) {
+    try {
+      const { cod_deposito } = req.params;
+      const deposito = await Deposito.findOne({ cod_deposito: cod_deposito });
+      if (!deposito) {
+        return res.status(404).json({ error: "Depósito não encontrado" });
+      }
+
+      await Deposito.findByIdAndDelete(deposito._id);
+
+      return res.status(200).json({ message: "Depósito excluído com sucesso" });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Erro ao excluir deposito" });
+    }
+  }
+}
+
+class MovimentoController {
+  // cod_movimento, itens, motivo, documento, data_criacao, deposito_origem, local_destino, array de itens.
+
+  async criar(req, res) {
+    try {
+      const { itens, motivo, documento, deposito_origem, local_destino } = req.body;
+
+      // procura o deposito de origem
+      const origem = await Deposito.findOne({ cod_deposito: deposito_origem });
+
+      if (!origem) {
+        return res.status(404).json({ error: "Depósito de origem não encontrado" });
+      }
+
+      // procura o deposito de destino
+      const destino = await Deposito.findOne({ cod_deposito: local_destino });
+      if (!destino) {
+        return res.status(404).json({ error: "Depósito de destino não encontrado" });
+      }
+
+      // verifica se o deposito de origem é o mesmo do destino
+      if (origem._id === destino._id) {
+        return res.status(404).json({ error: "Depósito de origem e destino não podem ser iguais" });
+      }
+
+      console.log(itens[0]);
+      const itens_id = [];
+      let valor_total = 0.0;
+      // verifica se os itens existem
+      for (let i = 0; i < itens.length; i++) {
+        
+        // procura pelo itemMovimento no banco
+        const item = await ItemMovimento.findOne({ cod_item: itens[i] });
+        itens_id.push(item._id);
+        // cria o valor total do movimento
+        valor_total += item.valor_unitario * item.quantidade;
+                
+        //console.log(item);
+        if (!item) {          
+          return res.status(404).json({ error: "Item não encontrado" });
+        }
+      }
+
+    
+      
+      
+
+      // cria um movimento com os dados validados
+      const movimento = new Movimento({
+        // array de itens
+        itens:itens_id,
+        motivo,
+        documento,
+        deposito_origem: origem._id,
+        local_destino: destino._id,
+        valor_total,
+      });
+
+      await movimento.save();
+
+      return res.status(201).json(movimento);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Erro ao criar movimento" });
+    }
+  }
+}
+
+class ItensMovimentoController {
+  // cod_item, valor_unitario, cod_movimento, cod_produto, quantidade
+
+  async criar(req, res) {
+    try {
+      const { valor_unitario, cod_produto, quantidade } = req.body;
+      // const _id = String((await Usuario.findOne({ cod_usuario }))._id); // pega o id do usuário a partir do cod_usuario
+
+      const produto = await Produto.findOne({ cod_produto: cod_produto });
+
+      console.log(produto);
+      if (!produto) {
+        return res.status(404).json({ error: "Produto não encontrado" });
+      }
+
+      const item = new ItemMovimento({ valor_unitario, cod_produto: produto._id, quantidade });
+
+      await item.save();
+      return res.status(201).json(item);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Erro ao criar item" });
+    }
+  }
+
+  async listar_itens(req, res) {
+    try {
+      const itens = await ItemMovimento.find().populate("cod_produto");
+      return res.status(200).json(itens);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Erro ao listar itens" });
+    }
+  }
+
+  async listar_cod(req, res) {
+    try {
+      const { cod_item } = req.params;
+      const item = await ItemMovimento.findOne({ cod_item }).populate("cod_produto");
+      console.log(item.valor_unitario);
+      console.log(typeof item.valor_unitario);
+      return res.status(200).json(item);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Erro ao listar item" });
+    }
+  }
+
+  async excluir(req, res) {
+    try {
+      const { cod_item } = req.params;
+      const item = await ItemMovimento.findOne({ cod_item: cod_item });
+      if (!item) {
+        return res.status(404).json({ error: "Item não encontrado" });
+      }
+
+      await ItemMovimento.findByIdAndDelete(item._id);
+
+      return res.status(200).json({ message: "Item excluído com sucesso" });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Erro ao excluir item" });
+    }
+  }
 }
 
 const depositoController = new DepositoController();
 const produtoController = new ProdutoController();
 const categoriaController = new CategoriaController();
+const movimentoController = new MovimentoController();
+const itensMovimentoController = new ItensMovimentoController();
+
 module.exports = {
   categoriaController,
   produtoController,
   depositoController,
+  movimentoController,
+  itensMovimentoController,
 };

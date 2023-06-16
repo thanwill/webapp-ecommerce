@@ -10,6 +10,8 @@ class UsuarioController {
   async criar(req, res) {
     try {
       const { nome, email, senha, notificacoes, telefone, cpf, plano, cartao } = req.body;
+      // endereco
+      const { rua, numero, complemento, bairro, cidade, estado, cep } = req.body;
 
       // Verifica se o usuário já existe
       const usuarioJaExiste = await Usuario.findOne({ email });
@@ -52,6 +54,24 @@ class UsuarioController {
         });
       }
 
+
+      // cria um novo endereco
+      const endereco = new Endereco({
+        rua,
+        numero,
+        complemento,
+        bairro,
+        cidade,
+        estado,
+        cep,        
+      });
+
+      const novo_endereco = await enderecoController.criar(endereco, res);
+      console.log(novo_endereco);
+      
+      // procura o _id do novo endereco
+      const _id = String((await Endereco.findOne(novo_endereco))._id);
+
       const usuario = new Usuario({
         nome,
         email,
@@ -61,6 +81,7 @@ class UsuarioController {
         telefone,
         cpf,
         cartao,
+        endereco: _id,
       });
 
       // cria um novoc usuário com a nova foto
@@ -72,13 +93,16 @@ class UsuarioController {
         success: true,
         message: "Usuário cadastrado com sucesso!",
       });
+      
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         success: false,
         error: error.message,
       });
     }
   }
+
 
   // passa o cod_endereco para o usuário
   async adicionar_endereco(req, res) {
@@ -115,7 +139,6 @@ class UsuarioController {
       );
 
       console.log(usuarioJaExiste);
-      
 
       return res.status(200).json({
         success: true,
@@ -224,11 +247,23 @@ class UsuarioController {
   // exclui toda a base
   async excluirTudo(res) {
     try {
+
+      // verifica se há usuários cadastrados e retorna o n'umero de usuários
+      const usuarios = await Usuario.find({});
+      if (usuarios.length === 0) {
+        return res.status(404).json({
+          error: "Não há usuários cadastrados",
+        });
+      }
+
+      // exclui todos os usuários
+
       await Usuario.deleteMany({});
       return res.status(200).json({
         message: "Todos os usuários foram removidos com sucesso",
       });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         error: error.message,
       });
