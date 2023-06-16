@@ -1,5 +1,6 @@
 const Usuario = require("../models/usuario");
 const Endereco = require("../models/endereco");
+const auth = require('../config/auth.js');
 
 const Joi = require("joi");
 const { enderecoController } = require("./endereco");
@@ -64,6 +65,8 @@ class UsuarioController {
 
       // cria um novoc usuário com a nova foto
       await usuario.save();
+
+      auth.incluirToken(usuario);
 
       return res.status(201).json({
         success: true,

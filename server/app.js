@@ -1,5 +1,3 @@
-
-
 const connectDB = require('./config/db');
 var createError = require('http-errors');
 var express = require('express');
@@ -13,7 +11,7 @@ var CategoriaRouter = require('./routes/categoria');
 var ProdutoRouter = require('./routes/produto');
 var DepositoRouter = require('./routes/deposito');
 var EnderecoRouter = require('./routes/endereco.js');
-
+var AuthRouter = require('./routes/auth');
 
 var cors = require('cors');
 connectDB();
@@ -41,10 +39,7 @@ app.use('/categoria', CategoriaRouter);
 app.use('/produto', ProdutoRouter);
 app.use('/deposito', DepositoRouter);
 app.use('/endereco', EnderecoRouter);
-
-
-
-
+app.use('/auth', AuthRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
