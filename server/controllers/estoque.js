@@ -88,11 +88,38 @@ class CategoriaController {
 class ProdutoController {
   async criar(req, res) {
     try {
+      const produtos = req.body; // Array de produtos enviado no corpo da requisição
+
+      for (let i = 0; i < produtos.length; i++) {
+        const { nome, descricao, preco, cod_categoria } = produtos[i];
+        const categoria = await Categoria.findOne({ cod_categoria });
+
+        if (!categoria) {
+          return res.status(404).json({ error: "Categoria não encontrada" });
+        }
+
+        const produto = new Produto({ nome, descricao, preco, categoria });
+        // aguarda 1 milesegundo para criar o produto e depois passa para o proximo
+        await new Promise((resolve) => setTimeout(resolve, 1));
+        await produto.save();
+      }
+
+      return res.status(201).json({ message: "Produtos criados com sucesso" });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Erro ao criar produtos" });
+    }
+  }
+
+  async criarOld(req, res) {
+    try {
       const { nome, descricao, preco, cod_categoria } = req.body;
       const categoria = await Categoria.findOne({ cod_categoria });
+
       if (!categoria) {
         return res.status(404).json({ error: "Categoria não encontrada" });
       }
+
       const produto = new Produto({ nome, descricao, preco, categoria });
       await produto.save();
       return res.status(201).json(produto);
@@ -270,27 +297,22 @@ class MovimentoController {
       let valor_total = 0.0;
       // verifica se os itens existem
       for (let i = 0; i < itens.length; i++) {
-        
         // procura pelo itemMovimento no banco
         const item = await ItemMovimento.findOne({ cod_item: itens[i] });
         itens_id.push(item._id);
         // cria o valor total do movimento
         valor_total += item.valor_unitario * item.quantidade;
-                
+
         //console.log(item);
-        if (!item) {          
+        if (!item) {
           return res.status(404).json({ error: "Item não encontrado" });
         }
       }
 
-    
-      
-      
-
       // cria um movimento com os dados validados
       const movimento = new Movimento({
         // array de itens
-        itens:itens_id,
+        itens: itens_id,
         motivo,
         documento,
         deposito_origem: origem._id,

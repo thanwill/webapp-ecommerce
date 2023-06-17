@@ -1,9 +1,9 @@
 import React from 'react';
-import Catalogo from '../components/Catalogo/index';
+import Produtos from '../components/ListagemProdutos/index';
 export default function Inicio() {
   return (
     <>
-      <Catalogo />
+      <Produtos />
     </>
   );
 }
