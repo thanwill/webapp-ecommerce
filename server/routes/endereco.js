@@ -47,7 +47,7 @@ router.get("/", async (req, res) => {
 // limpa a colletion de enderecos
 router.delete("/all", async (req, res) => {
   try {
-    await enderecoController.limpar(req, res);
+    await enderecoController.excluirTudo(req, res);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: `${error}` });
