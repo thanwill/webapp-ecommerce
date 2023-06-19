@@ -1,4 +1,3 @@
-import "./style.css";
 
 export default function Produtos({ produtos, categorias }) {
   console.log(produtos);

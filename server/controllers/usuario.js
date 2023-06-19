@@ -53,8 +53,7 @@ class UsuarioController {
           error: error.details[0].message,
         });
       }
-
-
+      
       // cria um novo endereco
       const endereco = new Endereco({
         rua,

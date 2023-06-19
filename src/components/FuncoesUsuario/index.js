@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./index.css";
 import UserProfile from "../Profile";
 import CriarUsuario from "../CriarUsuario";
 import ListarUsuarios from "../ListarUsuarios/index";

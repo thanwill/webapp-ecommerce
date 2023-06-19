@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { UsuarioService } from "../../services/usuario";
 import { Form } from "react-bootstrap";
 import Title from "../Title";
-import "./index.css";
 
 export default function CriarUsuario({onCreate}) {
   const [validated, setValidated] = useState(false);
@@ -223,7 +222,7 @@ export default function CriarUsuario({onCreate}) {
               name='plano'
               required
               onChange={handleChange}>
-              <option selected>Selecione seu plano</option>
+              <option selected disabled>Selecione seu plano</option>
               <option value='1'>Basic</option>
               <option value='2'>Standard</option>
               <option value='3'>Premium</option>

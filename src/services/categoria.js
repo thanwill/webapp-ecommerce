@@ -6,6 +6,16 @@ const api = axios.create({
 
 // busca por todas as categorias
 export const CategoriaService = {
+  async criar(categoria) {
+    try {
+      const response = await api.post("/categoria", categoria);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+  
   async listar() {
     try {
       const response = await api.get("/categoria");
@@ -16,27 +26,25 @@ export const CategoriaService = {
     }
   },
   // busca a cateogoria pelo id dela
-    async buscar(id) {
-        try {
-            const response = await api.get(`/categoria/${id}`);
-            return response.data;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-        }
+  async buscar(id) {
+    try {
+      const response = await api.get(`/categoria/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
 };
 
 export const ProdutoService = {
-    async listar() {
-      try {
-        const response = await api.get("/produto");
-        return response.data;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
-    },
-  };
-  
-
+  async listar() {
+    try {
+      const response = await api.get("/produto");
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+};

@@ -1,13 +1,3 @@
-// OAuth 2.0 do Google
-
-// 1. Criar um projeto no Google Cloud Platform
-// 2. Ativar a API do Google+ no projeto
-// 3. Criar um OAuth Client ID no projeto
-// 4. Configurar o OAuth Client ID no projeto
-// 5. Configurar o OAuth Client ID no frontend
-// 6. Configurar o OAuth Client ID no backend
-// 7. Testar o login com o Google
-
 import React from "react";
 import { useState } from "react";
 import Title from "../components/Title/index";
@@ -74,6 +64,17 @@ export default function Login() {
                       <label htmlFor='floatingPassword'>Senha</label>
                     </div>
                   </div>
+                  <div className='mb-3'>
+                    <select
+                      class='form-select'
+                      aria-label='Default select example'>
+                      <option selected>Open this select menu</option>
+                      <option value='1'>One</option>
+                      <option value='2'>Two</option>
+                      <option value='3'>Three</option>
+                    </select>
+                  </div>
+
                   <button
                     type='submit'
                     className='btn btn-primary btn-block'

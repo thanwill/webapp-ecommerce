@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import CategoriaStep from "./CategoriaStep";
-import ProdutoStep from "./ProdutoStep";
 import ItemStep from "./ItemStep";
 import MovimentoStep from "./MovimentoStep";
 
@@ -13,11 +11,12 @@ export default class CadastroMovimento extends Component {
     local_destino: "",
     itens: [],
   };
-  nextStep() {
+  nextStep = () => {
     const { step } = this.state;
     this.setState({ step: step + 1 });
-  }
-  prevStep() {
+  };
+  
+  prevStep = ()=> {
     const { step } = this.state;
     this.setState({ step: step - 1 });
   }
@@ -26,23 +25,39 @@ export default class CadastroMovimento extends Component {
     this.setState({ [input]: e.target.value });
   };
 
+  handeSubmit = () => {
+    const { motivo, documento, deposito_origem, local_destino, itens } =
+      this.state;
+
+    const movimento = {
+      motivo,
+      documento,
+      deposito_origem,
+      local_destino,
+      itens,
+    };
+
+    console.log(movimento);
+  };
+
   render() {
     const { step } = this.state;
-    const { motivo, documento, deposito_origem, local_destino, itens } = this.state;
+    const { motivo, documento, deposito_origem, local_destino, itens } =
+      this.state;
     const values = { motivo, documento, deposito_origem, local_destino, itens };
 
     switch (step) {
       case 1:
         return (
-          <CategoriaStep
-            nextStep={this.nextStep}
+          <MovimentoStep
+            nextStep={this.nextStep}            
             handleChange={this.handleChange}
             values={values}
           />
         );
       case 2:
         return (
-          <ProdutoStep
+          <ItemStep
             nextStep={this.nextStep}
             prevStep={this.prevStep}
             handleChange={this.handleChange}
