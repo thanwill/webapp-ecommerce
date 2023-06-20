@@ -1,8 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import Title from "../components/Title/index";
+import { AuthService } from "../services/login";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [usuario, setUsuario] = useState({
     email: "",
     senha: "",
@@ -18,7 +22,9 @@ export default function Login() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(usuario);
+    AuthService.login(usuario.email, usuario.senha);
+    navigate("/estoque");
+
   }
 
   return (
@@ -64,16 +70,7 @@ export default function Login() {
                       <label htmlFor='floatingPassword'>Senha</label>
                     </div>
                   </div>
-                  <div className='mb-3'>
-                    <select
-                      class='form-select'
-                      aria-label='Default select example'>
-                      <option selected>Open this select menu</option>
-                      <option value='1'>One</option>
-                      <option value='2'>Two</option>
-                      <option value='3'>Three</option>
-                    </select>
-                  </div>
+                  
 
                   <button
                     type='submit'

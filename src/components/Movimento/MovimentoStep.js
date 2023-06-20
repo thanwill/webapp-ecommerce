@@ -1,68 +1,139 @@
-/*
-{
-  "motivo": "entrada",
-  "documento": "Nota Fiscal",
-  "deposito_origem": "DEP2023615233322",
-  "local_destino": "DEP2023615224950",
-  "itens": [
-      "ITM202361605417",
-      "ITM202361605425"
-  ]
-}
-*/
 import React from "react";
 import Title from "../Title";
 import { Form } from "react-bootstrap";
+import CaixaStep from "./CaixaStep";
+import { EnderecoServices, DepositosServices } from "../../services/estoque";
 
 const MovimentoStep = ({ nextStep, prevStep, handleChange, values }) => {
-  const continuar = e => {
-    e.preventDefault();
-    nextStep();
+  // cria um estado para armazenar os enderecos
+  const [enderecos, setEnderecos] = React.useState([]);
+  const [depositos, setDepositos] = React.useState([]);
+
+  const [depositoOrigem, setDepositoOrigem] = React.useState(null);
+  // cria uma função para listar os enderecos
+  const listarEnderecos = async () => {
+    try {
+      const response = await EnderecoServices.listar();
+      setEnderecos(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const listarDepositos = async () => {
+    try {
+      const response = await DepositosServices.listar();
+      setDepositos(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  React.useEffect(() => {
+    // executa a função listarEnderecos
+    listarEnderecos();
+    listarDepositos();
+  }, []);
 
   return (
     <>
       <Title
-        title={"Cadastro de Movimento"}
+        title={"Movimentos"}
         subtitle={"Selecione a categoria do movimento"}
       />
 
-      {
-        // o formulário vai conter campos motivo, documento e um select para o deposito_origem
-      }
-
-      <Form
-        style={{
-          width: "50%",
-          margin: "auto",
-          marginTop: "2rem",
-          marginBottom: "2rem",
-        }}>
-        <div className=''>
-          {
-            // lista as opcoes de movitos como entrada e saida,
-          }
-          <select class='form-select' aria-label='Default select example'>
-            <option selected>Open this select menu</option>
-            <option value='1'>One</option>
-            <option value='2'>Two</option>
-            <option value='3'>Three</option>
-          </select>
+      <Form>
+        {
+          // cria o campo select para o motivo
+        }
+        <div className='row'>
+          <div className='input-group mt-3'>
+            <select className='form-select' aria-label='Selecione o motivo' onChange={handleChange('motivo')} >
+              <option selected disabled>
+                Selecione o motivo
+              </option>
+              <option value='Compra de estoque'>Compra de estoque</option>
+              <option value='Venda de estoque'>Venda de estoque</option>
+              <option value='Devolução de cliente'>Devolução de cliente</option>
+              <option value='Devolução de fornecedor'>
+                Devolução de fornecedor
+              </option>
+              <option value='Transferência interna'>
+                Transferência interna
+              </option>
+              <option value='Ajuste de estoque'>Ajuste de estoque</option>
+              <option value='Perda ou roubo de estoque'>
+                Perda ou roubo de estoque
+              </option>
+              <option value='Inventário físico'>Inventário físico</option>
+              <option value='Outro motivo'>Outro motivo</option>
+            </select>
+          </div>
         </div>
 
-        <div className='mb-3'>
-          <select class='form-select' aria-label='Default select example'>
-            <option selected>Open this select menu</option>
-            <option value='1'>One</option>
-            <option value='2'>Two</option>
-            <option value='3'>Three</option>
-          </select>
-        </div>
+        <div className='row'>
+          <div className='input-group mt-3'>
+            <select className='form-select' aria-label='Selecione o motivo' onChange={handleChange('documento')}>
+              <option selected disabled>
+                Selecione o documento
+              </option>
+              {/*
+                Nota fiscal de compra
+                Nota fiscal de venda
+                Ordem de compra
+                Ordem de venda
+                Recibo de devolução
+                Fatura de transferência
+                Relatório de ajuste
+                Boletim de ocorrência
+                Nenhum documento
 
-        <button className='btn btn-primary' onClick={continuar}>
-          Continuar
-        </button>
+                */}
+              <option value='Nota fiscal de compra'>
+                Nota fiscal de compra
+              </option>
+              <option value='Nota fiscal de venda'>Nota fiscal de venda</option>
+              <option value='Ordem de compra'>Ordem de compra</option>
+              <option value='Ordem de venda'>Ordem de venda</option>
+              <option value='Recibo de devolução'>Recibo de devolução</option>
+              <option value='Fatura de transferência'>
+                Fatura de transferência
+              </option>
+              <option value='Relatório de ajuste'>Relatório de ajuste</option>
+              <option value='Boletim de ocorrência'>
+                Boletim de ocorrência
+              </option>
+              <option value='Nenhum documento'>Nenhum documento</option>
+            </select>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='input-group mt-3'>
+            {
+              // cria o campo select para o deposito_origem
+              enderecos.length > 0 && (
+                <>
+                  <select className='form-select' aria-label='Selecione a orgem' onChange={handleChange('deposito_origem')}>
+                    <option selected disabled>
+                      Selecione a origem
+                    </option>
+                    {
+                      // percorre o array de enderecos e cria uma option para cada endereco
+                      depositos.map(deposito => (
+                        <option value={deposito.cod_deposito} key={deposito.cod_deposito}>
+                          {deposito.nome}
+                        </option>
+                      ))
+                    }
+                  </select>
+                </>
+              )
+            }
+          </div>
+          
+        </div>
       </Form>
+      <CaixaStep nextStep={nextStep} values={values} />
     </>
   );
 };

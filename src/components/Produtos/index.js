@@ -8,7 +8,7 @@ export default function Produtos({ produtos, categorias }) {
         produtos &&
           produtos.map(produto => {
             return (
-              <div className='col-12 col-sm-6 col-md-4 col-lg-3 mb-4'>
+              <div className='col-12'>
                 <div className='card' key={produto._id}>
                   <svg
                     className='bd-placeholder-img card-img-top'

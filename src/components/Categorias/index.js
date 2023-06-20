@@ -12,17 +12,17 @@ export default function Categorias() {
   }, []);
   return (
     <>
-      <div class='mb-3 card'>
-        <div class='card-body'>
-          <div class='flex-between-center row'>
-            <div class='d-flex align-items-center mb-2 mb-sm-0 col-sm-auto'>
-              <select class='form-select form-select-sm'>
+      <div className='mb-3 card'>
+        <div className='card-body'>
+          <div className='flex-between-center row'>
+            <div className='d-flex align-items-center mb-2 mb-sm-0 col-sm-auto'>
+              <select className='form-select form-select-sm'>
                 {categorias.map(categoria => {
                   return <option value={categoria.id}>{categoria.nome}</option>;
                 })}
                 <option value='9'>All</option>
               </select>
-              <h6 class='mb-0 ms-2'>Filtre por categorias</h6>
+              <h6 className='mb-0 ms-2'>Filtre por categorias</h6>
             </div>
           </div>
         </div>

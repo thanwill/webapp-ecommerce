@@ -89,6 +89,7 @@ class EnderecoController {
       });
     }
   }
+  
 }
 
 const enderecoController = new EnderecoController();

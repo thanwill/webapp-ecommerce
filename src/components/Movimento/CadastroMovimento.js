@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import ItemStep from "./ItemStep";
 import MovimentoStep from "./MovimentoStep";
+import Resumo from "./Resumo";
+import { AuthService } from "../../services/login";
+import jwt from "jwt-decode";
 
 export default class CadastroMovimento extends Component {
   state = {
@@ -11,18 +14,35 @@ export default class CadastroMovimento extends Component {
     local_destino: "",
     itens: [],
   };
+
   nextStep = () => {
     const { step } = this.state;
     this.setState({ step: step + 1 });
   };
-  
-  prevStep = ()=> {
+
+  prevStep = () => {
     const { step } = this.state;
     this.setState({ step: step - 1 });
-  }
+  };
 
   handleChange = input => e => {
-    this.setState({ [input]: e.target.value });
+    const { value } = e.target;
+    if (input === "itens") {
+      const { itens } = this.state;
+      const isChecked = itens.includes(value);
+
+      if (isChecked) {
+        this.setState(prevState => ({
+          itens: prevState.itens.filter(item => item !== value),
+        }));
+      } else {
+        this.setState(prevState => ({
+          itens: [...prevState.itens, value],
+        }));
+      }
+    } else {
+      this.setState({ [input]: value });
+    }
   };
 
   handeSubmit = () => {
@@ -37,7 +57,19 @@ export default class CadastroMovimento extends Component {
       itens,
     };
 
-    console.log(movimento);
+    const storedToken = localStorage.getItem("token");
+
+    if (storedToken) {
+      try {
+        const data = jwt(storedToken);
+        console.log(data);
+        alert("Compra efetuada com sucesso para o cliente codigo:");
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      alert("Usuario não autenticado! Por favor fazer o login!");
+    }
   };
 
   render() {
@@ -50,7 +82,7 @@ export default class CadastroMovimento extends Component {
       case 1:
         return (
           <MovimentoStep
-            nextStep={this.nextStep}            
+            nextStep={this.nextStep}
             handleChange={this.handleChange}
             values={values}
           />
@@ -60,25 +92,18 @@ export default class CadastroMovimento extends Component {
           <ItemStep
             nextStep={this.nextStep}
             prevStep={this.prevStep}
-            handleChange={this.handleChange}
+            handleChangeItem={this.handleChangeItem}
             values={values}
           />
         );
       case 3:
         return (
-          <ItemStep
+          <Resumo
             nextStep={this.nextStep}
             prevStep={this.prevStep}
             handleChange={this.handleChange}
-            values={values}
-          />
-        );
-      case 4:
-        return (
-          <MovimentoStep
-            nextStep={this.nextStep}
-            prevStep={this.prevStep}
-            handleChange={this.handleChange}
+            // handeSubmit
+            handeSubmit={this.handeSubmit}
             values={values}
           />
         );
