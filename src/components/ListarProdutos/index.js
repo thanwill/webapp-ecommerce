@@ -65,9 +65,7 @@ export default function ListarProdutos() {
                 <Title title='Produtos' subtitle='Confira nossos produtos' />
 
                 <Produtos itens={itens} categorias={categorias} />
-                {
-                  //<Produtos produtos={itens} categorias={categorias}/>
-                }
+                
               </div>
             </div>
           </div>

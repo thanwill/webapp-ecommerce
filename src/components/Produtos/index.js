@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 export default function Produtos({ itens, categorias }) {
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState(0);
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState();
 
   const handleCategoriaChange = event => {
     const categoria = parseInt(event.target.value);
     setCategoriaSelecionada(categoria);
   };
 
-  const produtosFiltrados = itens.filter(
-    item =>
-      categoriaSelecionada === 0 || item.cod_categoria === categoriaSelecionada
-  );
+  console.log(itens);
+  console.log(categorias);
+  console.log(categoriaSelecionada);
+
+  const produtosFiltrados = categoriaSelecionada === 0 ? itens : itens.filter(item => item.cod_categoria === categoriaSelecionada);
+
 
   return (
     <>
