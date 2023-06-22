@@ -1,8 +1,9 @@
 import React from 'react';
+import Produtos from '../components/ListarProdutos/index';
 export default function Inicio() {
   return (
     <>
-      <h1>null</h1>
+      <Produtos />
     </>
   );
 }

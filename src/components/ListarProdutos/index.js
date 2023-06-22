@@ -1,31 +1,22 @@
-import { useState, useEffect } from "react";
-import UserProfile from "../Profile";
-import CriarUsuario from "../CriarUsuario";
-import ListarUsuarios from "../ListarUsuarios/index";
-import { UsuarioService } from "../../services/usuario";
-// cria meu componente header
+import { useEffect, useState } from "react";
+import { CategoriaService, ItensServices } from "../../services/estoque";
+//import Categorias from "../Categorias/index.js";
+import Produtos from "../Produtos/index.js";
+import Title from "../Title/index.js";
 
-function Header() {
-  const [usuarios, setUsuarios] = useState([]);
-  const [atualizarUsuarios, setAtualizarUsuarios] = useState(false);
+export default function ListarProdutos() {
+  const [itens, setItens] = useState([]);
+  const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
-    async function fetchUsuario() {
-      try {
-        const response = await UsuarioService.listar();
-        setUsuarios(response);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchUsuario();
-  }, [atualizarUsuarios]);
+    CategoriaService.listar().then(categorias => {
+      setCategorias(categorias);
+    });
 
-
-  const handleUsuarioCadastrado = () => {
-    setAtualizarUsuarios(true);
-  };
-
+    ItensServices.listar().then(itens => {
+      setItens(itens);
+    });
+  }, []);
   return (
     <>
       <div className='container '>
@@ -42,7 +33,7 @@ function Header() {
                   role='tab'
                   aria-controls='pills-home'
                   aria-selected='true'>
-                  Adicionar
+                  Produtos
                 </button>
               </li>
               <li className='nav-item' role='presentation'>
@@ -55,20 +46,7 @@ function Header() {
                   role='tab'
                   aria-controls='pills-profile'
                   aria-selected='false'>
-                  Registros
-                </button>
-              </li>
-              <li className='nav-item' role='presentation'>
-                <button
-                  className='nav-link'
-                  id='pills-contact-tab'
-                  data-bs-toggle='pill'
-                  data-bs-target='#pills-contact'
-                  type='button'
-                  role='tab'
-                  aria-controls='pills-contact'
-                  aria-selected='false'>
-                  Perfil
+                  Serviços
                 </button>
               </li>
             </ul>
@@ -84,7 +62,12 @@ function Header() {
             tabIndex='0'>
             <div className='row'>
               <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'>
-                <CriarUsuario onCreate={handleUsuarioCadastrado} />
+                <Title title='Produtos' subtitle='Confira nossos produtos' />
+
+                <Produtos itens={itens} categorias={categorias} />
+                {
+                  //<Produtos produtos={itens} categorias={categorias}/>
+                }
               </div>
             </div>
           </div>
@@ -95,9 +78,7 @@ function Header() {
             aria-labelledby='pills-profile-tab'
             tabIndex='0'>
             <div className='row'>
-              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'>
-                <ListarUsuarios usuarios={usuarios} />
-              </div>
+              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'></div>
             </div>
           </div>
           <div
@@ -107,9 +88,7 @@ function Header() {
             aria-labelledby='pills-contact-tab'
             tabIndex='0'>
             <div className='row'>
-              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5'>
-                <UserProfile id={5} />
-              </div>
+              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5'></div>
             </div>
           </div>
           <div
@@ -125,6 +104,3 @@ function Header() {
     </>
   );
 }
-
-// exporta meu componente header
-export default Header;

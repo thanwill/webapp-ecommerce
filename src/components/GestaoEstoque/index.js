@@ -1,31 +1,6 @@
-import { useState, useEffect } from "react";
-import UserProfile from "../Profile";
-import CriarUsuario from "../CriarUsuario";
-import ListarUsuarios from "../ListarUsuarios/index";
-import { UsuarioService } from "../../services/usuario";
-// cria meu componente header
 
-function Header() {
-  const [usuarios, setUsuarios] = useState([]);
-  const [atualizarUsuarios, setAtualizarUsuarios] = useState(false);
-
-  useEffect(() => {
-    async function fetchUsuario() {
-      try {
-        const response = await UsuarioService.listar();
-        setUsuarios(response);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchUsuario();
-  }, [atualizarUsuarios]);
-
-
-  const handleUsuarioCadastrado = () => {
-    setAtualizarUsuarios(true);
-  };
-
+import CadastroMovimento from '../Movimento/CadastroMovimento';
+export default function Funcoes() {
   return (
     <>
       <div className='container '>
@@ -84,7 +59,7 @@ function Header() {
             tabIndex='0'>
             <div className='row'>
               <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'>
-                <CriarUsuario onCreate={handleUsuarioCadastrado} />
+                <CadastroMovimento/>                
               </div>
             </div>
           </div>
@@ -96,7 +71,7 @@ function Header() {
             tabIndex='0'>
             <div className='row'>
               <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'>
-                <ListarUsuarios usuarios={usuarios} />
+                <p className='text-center'>Registros</p>
               </div>
             </div>
           </div>
@@ -108,7 +83,7 @@ function Header() {
             tabIndex='0'>
             <div className='row'>
               <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5'>
-                <UserProfile id={5} />
+                <p className='text-center'>Perfil</p>
               </div>
             </div>
           </div>
@@ -123,8 +98,5 @@ function Header() {
         </div>
       </div>
     </>
-  );
+  )
 }
-
-// exporta meu componente header
-export default Header;

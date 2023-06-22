@@ -2,10 +2,15 @@ const jwt = require("jsonwebtoken");
 const auth = require("./app.json");
 const bcryptjs = require("bcryptjs");
 
+// inclui o token no objeto usuario
 async function incluirToken(usuario) {
+  /*
+  
+  */
   const token = await jwt.sign({ id: usuario.id }, auth.appId, {
     expiresIn: 3600, // Expira em 3600 segundos ou 1 hora.
   });
+  
   usuario.token = token;
   usuario.senha = undefined; // não retorna a senha na consulta
 }

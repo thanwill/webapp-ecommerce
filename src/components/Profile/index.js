@@ -1,5 +1,4 @@
 import React from "react";
-import "./styles.css";
 import Title from "../Title/index";
 import { useState, useEffect } from "react";
 import { UsuarioService } from "../../services/usuario";
@@ -153,9 +152,9 @@ export default function Profile({ id }) {
                                   <button
                                     className='btn btn-outline-secondary'
                                     type='button'
-                                    id='button-addon2'
->                                    <i
-                                      className={`bi bi-eye`}></i>
+                                    id='button-addon2'>
+                                    {" "}
+                                    <i className={`bi bi-eye`}></i>
                                   </button>
                                 </div>
                               </div>
@@ -207,7 +206,6 @@ export default function Profile({ id }) {
                           Fechar
                         </button>
                         <button type='button' className='btn btn-primary'>
-                          
                           Salvar
                         </button>
                       </div>

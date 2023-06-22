@@ -12,7 +12,10 @@
     "bootstrap-icons": "^1.10.5",
     "classnames": "^2.3.2",
     "formik": "^2.4.1",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
+    "material-design-icons": "^3.0.1",
+    "materialize-css": "^1.0.0",
     "moment": "^2.29.4",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -35,7 +38,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"  
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

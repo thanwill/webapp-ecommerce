@@ -1,45 +1,41 @@
-const connectDB = require('./config/db');
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const connectDB = require("./config/db");
+const express = require("express");
+const app = express();
+const cookieParser = require("cookie-parser");
+const createError = require("http-errors");
+const logger = require("morgan");
+const cors = require("cors");
+const path = require("path");
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/usuario');
-var CategoriaRouter = require('./routes/categoria');
-var ProdutoRouter = require('./routes/produto');
-var DepositoRouter = require('./routes/deposito');
-var EnderecoRouter = require('./routes/endereco.js');
-var AuthRouter = require('./routes/auth');
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/usuario");
+const CategoriaRouter = require("./routes/categoria");
+const ProdutoRouter = require("./routes/produto");
+const DepositoRouter = require("./routes/deposito");
+const EnderecoRouter = require("./routes/endereco.js");
+const MovimentoRouter = require("./routes/movimento.js");
+const AuthRouter = require("./routes/auth");
 
-var cors = require('cors');
 connectDB();
-var app = express();
-
 app.use(cors());
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "jade");
 
-//app.use(passport.initialize());
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({
-  extended: false
-}));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/usuario', usersRouter);
-app.use('/categoria', CategoriaRouter);
-app.use('/produto', ProdutoRouter);
-app.use('/deposito', DepositoRouter);
-app.use('/endereco', EnderecoRouter);
-app.use('/auth', AuthRouter);
+app.use(express.static(path.join(__dirname, "public"))); // Verificar a funcionalidade desse código.
+
+app.use("/", indexRouter);
+app.use("/usuario", usersRouter);
+app.use("/categoria", CategoriaRouter);
+app.use("/produto", ProdutoRouter);
+app.use("/deposito", DepositoRouter);
+app.use("/endereco", EnderecoRouter);
+app.use("/movimento", MovimentoRouter);
+app.use("/auth", AuthRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -50,11 +46,11 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render("error");
 });
 
 module.exports = app;

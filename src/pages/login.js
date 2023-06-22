@@ -1,18 +1,12 @@
-// OAuth 2.0 do Google
-
-// 1. Criar um projeto no Google Cloud Platform
-// 2. Ativar a API do Google+ no projeto
-// 3. Criar um OAuth Client ID no projeto
-// 4. Configurar o OAuth Client ID no projeto
-// 5. Configurar o OAuth Client ID no frontend
-// 6. Configurar o OAuth Client ID no backend
-// 7. Testar o login com o Google
-
 import React from "react";
 import { useState } from "react";
 import Title from "../components/Title/index";
+import { AuthService } from "../services/login";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [usuario, setUsuario] = useState({
     email: "",
     senha: "",
@@ -25,10 +19,13 @@ export default function Login() {
       [name]: value,
     });
   }
+  
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(usuario);
+    AuthService.login(usuario.email, usuario.senha);
+    navigate("/estoque");
+
   }
 
   return (
@@ -74,6 +71,8 @@ export default function Login() {
                       <label htmlFor='floatingPassword'>Senha</label>
                     </div>
                   </div>
+                  
+
                   <button
                     type='submit'
                     className='btn btn-primary btn-block'

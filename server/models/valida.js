@@ -7,7 +7,8 @@ function gerarCodigo(prefixo) {
     const hora = data.getHours();
     const minuto = data.getMinutes();
     const segundo = data.getSeconds();
-    const codigo = `${prefixo}${ano}${mes}${dia}${hora}${minuto}${segundo}`;
+    const milisegundo = data.getMilliseconds();
+    const codigo = `${prefixo}${ano}${mes}${dia}${hora}${minuto}${segundo}${milisegundo}`;
     return codigo;
   }
   
