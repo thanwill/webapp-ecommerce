@@ -16,7 +16,6 @@ const EnderecoRouter = require("./routes/endereco.js");
 const MovimentoRouter = require("./routes/movimento.js");
 const AuthRouter = require("./routes/auth");
 
-
 connectDB();
 app.use(cors());
 app.set("views", path.join(__dirname, "views"));

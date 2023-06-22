@@ -9,7 +9,6 @@ const auth = require("../config/auth");
 const bcryptjs = require("bcryptjs");
 
 class LoginController {
-
   async login(req, res) {
     const { email, senha } = req.body;
     const cliente = await Usuario.findOne({ email: email }).select("+senha");
@@ -37,6 +36,9 @@ class LoginController {
     if (!token) {
       return res.status(401).send({ error: "Token não encontrado!" });
     }
+    }
+    await auth.incluirToken(cliente);
+    res.status(200).json(cliente);
   }
 }
 

@@ -213,11 +213,11 @@ class DepositoController {
   async criar(req, res) {
     try {
       const { nome, rua, numero, complemento, bairro, cidade, estado, cep } = req.body;
+
       const endereco = new Endereco({ rua, numero, complemento, bairro, cidade, estado, cep });
       await endereco.save();
 
       const deposito = new Deposito({ nome, endereco: endereco._id });
-
       await deposito.save();
       return res.status(201).json(deposito);
     } catch (error) {
