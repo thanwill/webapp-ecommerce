@@ -124,16 +124,16 @@ const ItemStep = ({ nextStep, prevStep, handleChange, values }) => {
         </div>
 
         <div className='row'>
-          <div class='input-group mt-3'>
-            <span class='input-group-text'>$</span>
+          <div className='input-group mt-3'>
+            <span className='input-group-text'>$</span>
             <input
               type='text'
-              class='form-control'
+              className='form-control'
               placeholder='Valor por unidade'
               onChange={handleChangeItens("valor_unitario")}
             />
-            <span class='input-group-text' onClick={handleSubmit}>
-              <i class='bi bi-send-plus'></i>
+            <span className='input-group-text' onClick={handleSubmit}>
+              <i className='bi bi-send-plus'></i>
             </span>
           </div>
         </div>
@@ -174,7 +174,7 @@ const ItemStep = ({ nextStep, prevStep, handleChange, values }) => {
                               );
                               setItensCadastrados(itens);
                             }}>
-                            <i class='bi bi-trash'></i>
+                            <i className='bi bi-trash'></i>
                           </th>
                           <td>{item.nome}</td>
                           <td>{item.quantidade}</td>

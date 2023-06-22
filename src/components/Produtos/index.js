@@ -1,86 +1,97 @@
+import React, { useState } from "react";
+export default function Produtos({ itens, categorias }) {
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState(0);
 
-export default function Produtos({ produtos, categorias }) {
-  console.log(produtos);
+  const handleCategoriaChange = event => {
+    const categoria = parseInt(event.target.value);
+    setCategoriaSelecionada(categoria);
+  };
+
+  const produtosFiltrados = itens.filter(
+    item =>
+      categoriaSelecionada === 0 || item.cod_categoria === categoriaSelecionada
+  );
+
   return (
     <>
-      {
-        // Se produtos for diferente de vazio, renderiza o componente
-        produtos &&
-          produtos.map(produto => {
-            return (
-              <div className='col-12'>
-                <div className='card' key={produto._id}>
-                  <svg
-                    className='bd-placeholder-img card-img-top'
-                    width='100%'
-                    height='200'
-                    xmlns='http://www.w3.org/2000/svg'
-                    role='img'
-                    aria-label='Placeholder: Image cap'
-                    preserveAspectRatio='xMidYMid slice'
-                    focusable='false'>
-                    <title>Placeholder</title>
-                    <rect width='100%' height='100%' fill='#868e96'></rect>
-                  </svg>
-                  <div className='card-body'>
-                    <h5 className='card-title'>{produto.nome}</h5>
-                    <p className='card-text'>{produto.descricao}</p>
-                    <ul className='list-group list-group-flush'>
-                      <li className='list-group-item'>
-                        {categorias.map(categoria => {
-                          if (categoria._id === produto.categoria) {
-                            return categoria.nome;
-                          }
-                        })}
-                      </li>
-                      <li className='list-group-item'>
-                        
-                      </li>
-                    </ul>
-                    <a href=' ' className='btn btn-primary'>
-                      Comprar
-                    </a>
-                  </div>
-                </div>
-              </div>
-            );
-          })
-      }
-
-      <div className='card'>
-        <svg
-          className='bd-placeholder-img card-img-top'
-          width='100%'
-          height='200'
-          xmlns='http://www.w3.org/2000/svg'
-          role='img'
-          aria-label='Placeholder: Image cap'
-          preserveAspectRatio='xMidYMid slice'
-          focusable='false'>
-          <title>Placeholder</title>
-          <rect width='100%' height='100%' fill='#868e96'></rect>
-        </svg>
+      <div className='mb-3 card'>
         <div className='card-body'>
-          <h5 className='card-title'>Card title</h5>
-          <p className='card-text'>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-        </div>
-        <ul className='list-group list-group-flush'>
-          <li className='list-group-item'>An item</li>
-          <li className='list-group-item'>A second item</li>
-          <li className='list-group-item'>A third item</li>
-        </ul>
-        <div className='card-body'>
-          <a href='#' className='card-link'>
-            Card link
-          </a>
-          <a href='#' className='card-link'>
-            Another link
-          </a>
+          <div className='flex-between-center row'>
+            <div className='d-flex align-items-center mb-2 mb-sm-0 col-sm-auto'>
+              <select
+                className='form-select form-select-sm'
+                value={categoriaSelecionada.toString()}
+                onChange={handleCategoriaChange}>
+                {
+                  // verifica se a lista de categorias está vazia
+                  categorias.length === 0 ? (
+                    // se estiver vazia, exibe uma opção vazia
+                    <option value='0'>Nenhuma categoria cadastrada</option>
+                  ) : (
+                    categorias.map(categoria => {
+                      return (
+                        <option
+                          key={categoria.cod_categoria}
+                          value={categoria.cod_categoria}>
+                          {categoria.nome}
+                        </option>
+                      );
+                    })
+                  )
+                }
+                <option value='9'>All</option>
+              </select>
+              <h6 className='mb-0 ms-2'>Filtre por categorias</h6>
+            </div>
+          </div>
         </div>
       </div>
+
+      {produtosFiltrados.length > 0 ? (
+        produtosFiltrados.map(item => (
+          <div className='card mt-5' key={item.cod_item}>
+            <svg
+              className='bd-placeholder-img card-img-top'
+              width='100%'
+              height='200'
+              role='img'
+              aria-label='Placeholder: Image cap'
+              preserveAspectRatio='xMidYMid slice'
+              focusable='false'>
+              <title>Placeholder</title>
+              <rect width='100%' height='100%' fill='#868e96'></rect>
+            </svg>
+            <div className='card-body'>
+              <h5 className='card-title'>{item.nome}</h5>
+              <p className='card-text'>{}</p>
+            </div>
+            <ul className='list-group list-group-flush'>
+              <li className='list-group-item'>
+                {
+                  // exbi item.valor_unitario em formato de moeda
+                  new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(item.valor_unitario)
+                }
+              </li>
+              <li className='list-group-item'>Categoria: {item.categoria}</li>
+              <li className='list-group-item'>Semelhantes</li>
+            </ul>
+            <div className='card-body'>
+              <div className='card-link text-center'>
+                <i className='bi bi-bag p-3'></i> COMPRAR
+              </div>
+            </div>
+          </div>
+        ))
+      ) : (
+        // se não houver itens, exibe uma mensagem
+        <div className='alert alert-warning mt-5' role='alert'>
+          Nenhum item encontrado
+        </div>
+
+      )}
     </>
   );
 }

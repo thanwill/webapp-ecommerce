@@ -88,26 +88,20 @@ class CategoriaController {
 class ProdutoController {
   async criar(req, res) {
     try {
-      const produtos = req.body; // Array de produtos enviado no corpo da requisição
+      const { nome, descricao, preco, cod_categoria } = req.body;
+      const categoria = await Categoria.findOne({ cod_categoria: cod_categoria });
 
-      for (let i = 0; i < produtos.length; i++) {
-        const { nome, descricao, preco, cod_categoria } = produtos[i];
-        const categoria = await Categoria.findOne({ cod_categoria });
-
-        if (!categoria) {
-          return res.status(404).json({ error: "Categoria não encontrada" });
-        }
-
-        const produto = new Produto({ nome, descricao, preco, categoria });
-        // aguarda 1 milesegundo para criar o produto e depois passa para o proximo
-        await new Promise((resolve) => setTimeout(resolve, 1));
-        await produto.save();
+      if (!categoria) {
+        return res.status(404).json({ error: "Categoria não encontrada" });
       }
+      const produto = new Produto({ nome, descricao, preco, categoria });
 
-      return res.status(201).json({ message: "Produtos criados com sucesso" });
+      await produto.save();
+
+      return res.status(201).json(produto);
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erro ao criar produtos" });
+      return res.status(500).json({ error: "Erro ao criar produto" });
     }
   }
 
@@ -142,7 +136,12 @@ class ProdutoController {
   async listar_cod(req, res) {
     try {
       const { cod_produto } = req.params;
-      const produto = await Produto.findOne({ cod_produto });
+      const produto = await Produto.findOne({ cod_produto }).populate("categoria");
+
+      if (!produto) {
+        return res.status(404).json({ error: "Produto não encontrado" });
+      }
+
       return res.status(200).json(produto);
     } catch (error) {
       console.log(error);
@@ -338,16 +337,16 @@ class ItensMovimentoController {
       const { valor_unitario, cod_produto, quantidade } = req.body;
       // const _id = String((await Usuario.findOne({ cod_usuario }))._id); // pega o id do usuário a partir do cod_usuario
 
-      const produto = await Produto.findOne({ cod_produto: cod_produto });
+      const produto = await Produto.findOne({ produto: cod_produto }).populate("categoria");
 
-      console.log(produto);
       if (!produto) {
         return res.status(404).json({ error: "Produto não encontrado" });
       }
 
-      const item = new ItemMovimento({ valor_unitario, cod_produto: produto._id, quantidade });
+      const item = new ItemMovimento({ valor_unitario, produto: produto._id, quantidade });
 
       await item.save();
+
       return res.status(201).json(item);
     } catch (error) {
       console.log(error);
@@ -355,9 +354,9 @@ class ItensMovimentoController {
     }
   }
 
-  async listar_itens(req, res) {
+  async listar_itensOld(req, res) {
     try {
-      const itens = await ItemMovimento.find().populate("cod_produto");
+      const itens = await ItemMovimento.find().populate("produto");
       return res.status(200).json(itens);
     } catch (error) {
       console.log(error);
@@ -365,13 +364,69 @@ class ItensMovimentoController {
     }
   }
 
+  async listar_itens(req, res) {
+    const itensEncontratos = await ItemMovimento.find().populate("produto");
+
+    const itens = [];
+
+    for (const item of itensEncontratos) {
+      const { cod_item } = item;
+
+      const itemEncontrado = await ItemMovimento.findOne({ cod_item }).populate("produto");
+
+      if (!itemEncontrado) {
+        return res.status(404).json({ error: "Item não encontrado" });
+      }
+
+      const produto = await Produto.findOne({ cod_produto: itemEncontrado.produto.cod_produto }).populate("categoria");
+
+      if (!produto) {
+        return res.status(404).json({ error: "Produto não encontrado" });
+      }
+
+      const item_completo = {
+        cod_item: item.cod_item,
+        valor_unitario: item.valor_unitario,
+        quantidade: item.quantidade,
+        cod_produto: produto.cod_produto,
+        nome: produto.nome,
+        descricao: produto.descricao,
+        categoria: produto.categoria.nome,
+        cod_categoria: produto.categoria.cod_categoria,
+      };
+
+      itens.push(item_completo);
+    }
+
+    // itens_completos agora contém os itens no formato desejado
+
+    return res.status(200).json( itens );
+  }
+
   async listar_cod(req, res) {
     try {
       const { cod_item } = req.params;
-      const item = await ItemMovimento.findOne({ cod_item }).populate("cod_produto");
-      console.log(item.valor_unitario);
-      console.log(typeof item.valor_unitario);
-      return res.status(200).json(item);
+
+      const item = await ItemMovimento.findOne({ cod_item }).populate("produto");
+
+      if (!item) {
+        return res.status(404).json({ error: "Item não encontrado" });
+      }
+
+      const produto = await Produto.findOne({ cod_produto: item.produto.cod_produto }).populate("categoria");
+
+      const item_completo = {
+        cod_item: item.cod_item,
+        valor_unitario: item.valor_unitario,
+        quantidade: item.quantidade,
+        cod_produto: produto.cod_produto,
+        nome: produto.nome,
+        descricao: produto.descricao,
+        categoria: produto.categoria.nome,
+        cod_categoria: produto.categoria.cod_categoria,
+      };
+
+      return res.status(200).json({ item_completo });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: "Erro ao listar item" });

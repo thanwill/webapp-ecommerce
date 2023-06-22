@@ -1,35 +1,22 @@
 import { useEffect, useState } from "react";
-import { CategoriaService, ProdutoService } from "../../services/categoria.js";
-import Categorias from "../Categorias/index.js";
+import { CategoriaService, ItensServices } from "../../services/estoque";
+//import Categorias from "../Categorias/index.js";
 import Produtos from "../Produtos/index.js";
 import Title from "../Title/index.js";
 
 export default function ListarProdutos() {
-  const [produtos, setProdutos] = useState([]);
+  const [itens, setItens] = useState([]);
   const [categorias, setCategorias] = useState([]);
-
-  console.log(produtos);
-  console.log(categorias);
 
   useEffect(() => {
     CategoriaService.listar().then(categorias => {
       setCategorias(categorias);
     });
 
-    ProdutoService.listar().then(produtos => {
-      setProdutos(produtos);
+    ItensServices.listar().then(itens => {
+      setItens(itens);
     });
   }, []);
-
-  /* usa o useEffect para executar uma função assim que o componente for montado na tela
-  useEffect(() => {
-    // chama a função listar do service
-    ProdutosService.listar().then(produtos => {
-      // atualiza o estado com a lista de usuarios
-      setProdutos(produtos);
-    });
-  }, []);*/
-
   return (
     <>
       <div className='container '>
@@ -76,9 +63,11 @@ export default function ListarProdutos() {
             <div className='row'>
               <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'>
                 <Title title='Produtos' subtitle='Confira nossos produtos' />
-                <Categorias />
-                <Produtos produtos={produtos} categorias={categorias}/>
-                
+
+                <Produtos itens={itens} categorias={categorias} />
+                {
+                  //<Produtos produtos={itens} categorias={categorias}/>
+                }
               </div>
             </div>
           </div>

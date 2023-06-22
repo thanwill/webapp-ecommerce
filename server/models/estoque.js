@@ -76,18 +76,13 @@ const itemMovimentoSchema = new mongoose.Schema({
   // valor_unitario float
   valor_unitario: { type: Number, required: true },
   quantidade: { type: Number, required: true },
-  cod_produto: { type: mongoose.Schema.Types.ObjectId, ref: "Produto" },
+  produto: { type: mongoose.Schema.Types.ObjectId, ref: "Produto" },
 });
-
-const Movimento = mongoose.model("Movimento", movimentacaoSchema);
-const Categoria = mongoose.model("Categoria", categoriaSchema);
-const Produto = mongoose.model("Produto", produtosSchema);
-const Deposito = mongoose.model("Deposito", depositoSchema);
-const ItemMovimento = mongoose.model("ItemMovimento", itemMovimentoSchema);
 
 // se o deposito for excluido, o endereco tbm é
 depositoSchema.pre("remove", async function (next) {
   try {
+    this.populate("cod_produto");
     await Endereco.deleteOne({ _id: this.endereco });
     // verifica se há referencia em item movimento
     const item = await ItemMovimento.findOne({ deposito: this._id });
@@ -106,6 +101,9 @@ depositoSchema.pre("remove", async function (next) {
   }
 });
 
+
+// se o produto for excluido, o deposito tbm é
+
 produtosSchema.pre("remove", async function (next) {
   try {
     // verifica se há referencia em item movimento
@@ -118,5 +116,11 @@ produtosSchema.pre("remove", async function (next) {
     next(error);
   }
 });
+
+const Movimento = mongoose.model("Movimento", movimentacaoSchema);
+const Categoria = mongoose.model("Categoria", categoriaSchema);
+const Produto = mongoose.model("Produto", produtosSchema);
+const Deposito = mongoose.model("Deposito", depositoSchema);
+const ItemMovimento = mongoose.model("ItemMovimento", itemMovimentoSchema);
 
 module.exports = { Categoria, Produto, Deposito, Movimento, ItemMovimento };

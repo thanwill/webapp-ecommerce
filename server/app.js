@@ -7,7 +7,6 @@ const logger = require("morgan");
 const cors = require("cors");
 const path = require("path");
 
-
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/usuario");
 const CategoriaRouter = require("./routes/categoria");
@@ -15,7 +14,8 @@ const ProdutoRouter = require("./routes/produto");
 const DepositoRouter = require("./routes/deposito");
 const EnderecoRouter = require("./routes/endereco.js");
 const MovimentoRouter = require("./routes/movimento.js");
-const AuthRouter = require('./routes/auth');
+const AuthRouter = require("./routes/auth");
+
 
 connectDB();
 app.use(cors());
@@ -27,16 +27,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public'))); // Verificar a funcionalidade desse código.
+app.use(express.static(path.join(__dirname, "public"))); // Verificar a funcionalidade desse código.
 
-app.use('/', indexRouter);
-app.use('/usuario', usersRouter);
-app.use('/categoria', CategoriaRouter);
-app.use('/produto', ProdutoRouter);
-app.use('/deposito', DepositoRouter);
-app.use('/endereco', EnderecoRouter);
+app.use("/", indexRouter);
+app.use("/usuario", usersRouter);
+app.use("/categoria", CategoriaRouter);
+app.use("/produto", ProdutoRouter);
+app.use("/deposito", DepositoRouter);
+app.use("/endereco", EnderecoRouter);
 app.use("/movimento", MovimentoRouter);
-app.use('/auth', AuthRouter);
+app.use("/auth", AuthRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
