@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import ItemStep from "./ItemStep";
 import MovimentoStep from "./MovimentoStep";
 import Resumo from "./Resumo";
-import { AuthService } from "../../services/login";
 import jwt from "jwt-decode";
 
 export default class CadastroMovimento extends Component {

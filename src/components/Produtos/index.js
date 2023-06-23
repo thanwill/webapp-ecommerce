@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 export default function Produtos({ itens, categorias }) {
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState();
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState(0);
 
   const handleCategoriaChange = event => {
     const categoria = parseInt(event.target.value);
     setCategoriaSelecionada(categoria);
   };
 
-  console.log(itens);
-  console.log(categorias);
-  console.log(categoriaSelecionada);
-
-  const produtosFiltrados = categoriaSelecionada === 0 ? itens : itens.filter(item => item.cod_categoria === categoriaSelecionada);
-
+  const produtosFiltrados =
+    categoriaSelecionada === 0
+      ? itens
+      : itens.filter(item => item.cod_categoria === categoriaSelecionada);
 
   return (
     <>
@@ -20,10 +18,7 @@ export default function Produtos({ itens, categorias }) {
         <div className='card-body'>
           <div className='flex-between-center row'>
             <div className='d-flex align-items-center mb-2 mb-sm-0 col-sm-auto'>
-              <select
-                className='form-select form-select-sm'
-                value={categoriaSelecionada.toString()}
-                onChange={handleCategoriaChange}>
+              <select className='form-select form-select-sm'>
                 {
                   // verifica se a lista de categorias está vazia
                   categorias.length === 0 ? (
@@ -49,8 +44,8 @@ export default function Produtos({ itens, categorias }) {
         </div>
       </div>
 
-      {produtosFiltrados.length > 0 ? (
-        produtosFiltrados.map(item => (
+      {itens ? (
+        itens.map(item => (
           <div className='card mt-5' key={item.cod_item}>
             <svg
               className='bd-placeholder-img card-img-top'
@@ -92,7 +87,6 @@ export default function Produtos({ itens, categorias }) {
         <div className='alert alert-warning mt-5' role='alert'>
           Nenhum item encontrado
         </div>
-
       )}
     </>
   );

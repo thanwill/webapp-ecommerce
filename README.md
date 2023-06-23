@@ -48,6 +48,6 @@ O prazo de entrega para este projeto é até o dia 31/05/2023 às 23:59. A entre
 
 ## Contato
 
-Para mais informações, entre em contato através do email: [jonathan14willian@gmail.com]
+Para mais informações, entre em contato através do email: jonathan14willian@gmail.com
 WhatsApp: [Entre em contato](https://wa.me/5541987233861)
 
