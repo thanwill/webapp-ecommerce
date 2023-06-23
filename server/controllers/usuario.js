@@ -7,7 +7,7 @@ const { enderecoController } = require("./endereco");
 
 class UsuarioController {
   // cadastra um novo usuário
-  async criar(req, res) {
+  async criarOld(req, res) {
     try {
       const { nome, email, senha, notificacoes, telefone, cpf, plano, cartao } = req.body;
       // endereco
@@ -54,22 +54,8 @@ class UsuarioController {
         });
       }
       
-      // cria um novo endereco
-      const endereco = new Endereco({
-        rua,
-        numero,
-        complemento,
-        bairro,
-        cidade,
-        estado,
-        cep,        
-      });
 
-      const novo_endereco = await enderecoController.criar(endereco, res);
-      console.log(novo_endereco);
       
-      // procura o _id do novo endereco
-      const _id = String((await Endereco.findOne(novo_endereco))._id);
 
 
       // cria um novo endereco
@@ -118,6 +104,10 @@ class UsuarioController {
         error: error.message,
       });
     }
+  }
+
+  async criar (req, res) {
+    return null;
   }
 
 
