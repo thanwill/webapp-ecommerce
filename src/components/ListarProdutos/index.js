@@ -18,6 +18,7 @@ export default function ListarProdutos() {
     });
   }, []);
   return (
+
     <>
       <div className='container '>
         <div className='row'>
@@ -63,11 +64,8 @@ export default function ListarProdutos() {
             <div className='row'>
               <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'>
                 <Title title='Produtos' subtitle='Confira nossos produtos' />
-
                 <Produtos itens={itens} categorias={categorias} />
-                {
-                  //<Produtos produtos={itens} categorias={categorias}/>
-                }
+                
               </div>
             </div>
           </div>

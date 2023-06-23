@@ -21,7 +21,6 @@ function Header() {
     fetchUsuario();
   }, [atualizarUsuarios]);
 
-
   const handleUsuarioCadastrado = () => {
     setAtualizarUsuarios(true);
   };

@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
+import "./style.css";
 export default function Header() {
+  const storedToken = localStorage.getItem("token");
+
   return (
     <>
       <nav className='navbar fixed-top navbar-light bg-light mt'>
@@ -15,7 +18,7 @@ export default function Header() {
               />
             </Link>
 
-            <span className='m-3 text-desable'>E-commerce PetShop</span>
+            <span className='m-3 text-desable'>E-commerce</span>
           </div>
           <button
             className='navbar-toggler'
@@ -78,6 +81,30 @@ export default function Header() {
               </form>
             </div>
           </div>
+        </div>
+      </nav>
+
+      <nav class=' bg-light fixed-bottom p-3  ali mt-5 text-center'>
+        <div className='row'>
+          <div
+            class='btn-group'
+            role='group'
+            aria-label='Basic outlined example'>
+            <button type='button' class='btn btn-outline-primary'>
+              <Link to='/'>Início</Link>
+            </button>
+            <button type='button' class='btn btn-outline-primary'>
+              <Link to='/estoque'>Carrinho</Link>
+            </button>
+            <button type='button' class='btn btn-outline-primary'>
+              {storedToken ? (
+                <Link to='/perfil'>Perfil</Link>
+              ) : (
+                <Link to='/login'>Login</Link>
+              )}
+            </button>
+          </div>
+         
         </div>
       </nav>
     </>
