@@ -21,6 +21,7 @@ export default function Profile() {
 
   console.log(usuario);
 
+  
   return (
     <>
       <div className='container '>
