@@ -7,7 +7,7 @@
 */
 import React from "react";
 
-const CaixaStep = ({ values, nextStep, prevStep, handeSubmit }) => {
+const CaixaStep = ({ nextStep, prevStep, handeSubmit }) => {
   const continuar = e => {
     e.preventDefault();
     nextStep();
@@ -20,7 +20,7 @@ const CaixaStep = ({ values, nextStep, prevStep, handeSubmit }) => {
 
   return (
     <>
-      <div className='row mt-5'>
+      <div className='row mt-5 mb-5'>
         <div className='col-12 '>
           {prevStep && (
             <button className='btn btn-secondary float-start' onClick={voltar}>

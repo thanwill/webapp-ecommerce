@@ -100,7 +100,7 @@ export default class CadastroMovimento extends Component {
           <Resumo
             nextStep={this.nextStep}
             prevStep={this.prevStep}
-            handleChange={this.handleChange}
+            
             // handeSubmit
             handeSubmit={this.handeSubmit}
             values={values}

@@ -20,12 +20,12 @@ export default class CadastrarUsuario extends Component {
       numero: "",
       cvc: "",
     },
-    rua: "",
-    numero: "",
+    logradouro: "",
     complemento: "",
+    numero: "",
     bairro: "",
-    cidade: "",
-    estado: "",
+    localidade: "",
+    uf: "",
     cep: "",
   };
 
@@ -154,14 +154,40 @@ export default class CadastrarUsuario extends Component {
     switch (step) {
       case 1:
         return (
-          <Perfil />
+          <Perfil
+            nextStep={this.nextStep}
+            handleChange={this.handleChange}
+            values={values}
+          />
         );
       case 2:
-        return <Endereco />;
+        return (
+          <Endereco
+            nextStep={this.nextStep}
+            prevStep={this.prevStep}
+            handleChange={this.handleChange}
+            values={values}
+          />
+        );
       case 3:
-        return <Pagamento />;
+        return (
+          <Pagamento
+            nextStep={this.nextStep}
+            prevStep={this.prevStep}
+            handleChange={this.handleChange}
+            values={values}
+          />
+        );
       case 4:
-        return <Resumo />;
+        return (
+          <Resumo
+            nextStep={this.nextStep}
+            prevStep={this.prevStep}
+            handeSubmit={this.handeSubmit}
+            handleChange={this.handleChange}
+            values={values}
+          />
+        );
       // nunca esqueça o padrão caso contrário, o código VS seria louco!
       default:
         return <p>Erro</p>;

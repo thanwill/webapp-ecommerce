@@ -1,87 +1,143 @@
 import React from "react";
-import Botoes from "./Botoes";
+import Title from "../Title/index";
+import { Form } from "react-bootstrap";
+import CaixaStep from "../Movimento/CaixaStep";
 
-const Perfil = () => {
+const Perfil = ({ values, nextStep, prevStep, handeSubmit }) => {
+  const [validated, setValidated] = React.useState(false);
+
   return (
     <>
-      <div class='row mt-5'>
-        <div class='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'>
-          <div class='undefined mb-3'>
-            <div class='row'>
-              <h1 class=''>Movimentos</h1>
-              <p class='text-muted'>Selecione a categoria do movimento</p>
-            </div>
+      <Title
+        title='Perfil'
+        subtitle='Queremos saber um pouco mais sobre você.'
+      />
+
+      <Form
+        noValidate
+        encType='multipart/form-data'
+        onChange={e => {
+          // captura o foco de cada input e valida se o pattern está correto ou não adicionando a classe is-invalid ou is-valid
+
+          if (e.target.value !== "") {
+            if (e.target.validity.valid) {
+              e.target.classList.remove("is-invalid");
+              e.target.classList.add("is-valid");
+              setValidated(false);
+            } else {
+              e.target.classList.remove("is-valid");
+              e.target.classList.add("is-invalid");
+              setValidated(true);
+              // cria um elemento span para exibir a mensagem de erro com a tag invalid-feedback
+              const span = document.createElement("span");
+              span.classList.add("invalid-feedback");
+              span.textContent = e.target.validationMessage;
+            }
+          }
+        }}>
+        <div className='mb-3'>
+          <div className='form-floating mb-3'>
+            <input
+              type='text'
+              name='nome'
+              className='form-control'
+              id='nome-cadastro'
+              placeholder='Johe Doe'
+              // validacao
+              required
+              minLength={3}
+              maxLength={100}
+              pattern="^[a-zA-Zà-úÀ-Ú0-9]+(([' -][a-zA-Zà-úÀ-Ú0-9])?[a-zA-Zà-úÀ-Ú0-9]*)*$"
+            />
+            <label htmlFor='nome-cadastro'>Nome completo</label>
           </div>
-          <form class=''>
-            <div class='row'>
-              <div class='input-group mt-3'>
-                <select class='form-select' aria-label='Selecione o motivo'>
-                  <option disabled=''>Selecione o motivo</option>
-                  <option value='Compra de estoque'>Compra de estoque</option>
-                  <option value='Venda de estoque'>Venda de estoque</option>
-                  <option value='Devolução de cliente'>
-                    Devolução de cliente
-                  </option>
-                  <option value='Devolução de fornecedor'>
-                    Devolução de fornecedor
-                  </option>
-                  <option value='Transferência interna'>
-                    Transferência interna
-                  </option>
-                  <option value='Ajuste de estoque'>Ajuste de estoque</option>
-                  <option value='Perda ou roubo de estoque'>
-                    Perda ou roubo de estoque
-                  </option>
-                  <option value='Inventário físico'>Inventário físico</option>
-                  <option value='Outro motivo'>Outro motivo</option>
-                </select>
+          {validated && (
+            <div className='form-text'>Por favor, insira um nome válido.</div>
+          )}
+        </div>
+        <div className='mb-3'>
+          <div className='form-floating mb-3'>
+            <input
+              type='email'
+              name='email-cadastro'
+              className='form-control'
+              id='email-cadastro'
+              placeholder='name@example.com'
+              pattern='^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$'
+              autoComplete='on'
+            />
+            <label htmlFor='email-cadastro'>E-mail</label>
+          </div>
+          {validated ? (
+            <div className='form-text'>
+              Por favor, insira um e-mail válido.
+            </div>
+          ) : (
+            <div className='form-text'>
+              Nós nunca compartilharemos seu e-mail com mais ninguém.
+            </div>
+          )}
+        </div>
+        <div className='mb-3'>
+          <div className='form-floating'>
+            <input
+              type='password'
+              name='senha-cadastro'
+              className='form-control'
+              id='senha-cadastro'
+              placeholder='Senha'
+              pattern='^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$'
+            />
+            <label htmlFor='senha-cadastro'>Senha</label>
+          </div>
+
+          {
+            // se validated for true, exibe a mensagem de erro abaixo se for false, a mensagem não é exibida e some da tela
+            validated && (
+              <div id='emailHelp' className='form-text'>
+                A senha deve conter no mínimo 8 caracteres, uma letra maiúscula,
+                uma minúscula e um número.
               </div>
-            </div>
-            <div class='row'>
-              <div class='input-group mt-3'>
-                <select class='form-select' aria-label='Selecione o motivo'>
-                  <option disabled=''>Selecione o documento</option>
-                  <option value='Nota fiscal de compra'>
-                    Nota fiscal de compra
-                  </option>
-                  <option value='Nota fiscal de venda'>
-                    Nota fiscal de venda
-                  </option>
-                  <option value='Ordem de compra'>Ordem de compra</option>
-                  <option value='Ordem de venda'>Ordem de venda</option>
-                  <option value='Recibo de devolução'>
-                    Recibo de devolução
-                  </option>
-                  <option value='Fatura de transferência'>
-                    Fatura de transferência
-                  </option>
-                  <option value='Relatório de ajuste'>
-                    Relatório de ajuste
-                  </option>
-                  <option value='Boletim de ocorrência'>
-                    Boletim de ocorrência
-                  </option>
-                  <option value='Nenhum documento'>Nenhum documento</option>
-                </select>
-              </div>
-            </div>
-            <div class='row'>
-              <div class='input-group mt-3'>
-                <select class='form-select' aria-label='Selecione a orgem'>
-                  <option disabled=''>Selecione a origem</option>
-                  <option value='DEP2023615224950'>Unidade Joinville</option>
-                  <option value='DEP2023615233322'>Unidade Brusque</option>
-                </select>
-              </div>
-            </div>
-          </form>
-          <div class='row mt-5'>
-            <div class='col-12 '>
-              <button class='btn btn-primary float-end'>Continuar</button>
-            </div>
+            )
+          }
+        </div>
+        <div className='mb-3 confirma-senha-usuario'>
+          <div className='form-floating'>
+            <input
+              type='password'
+              name='confirma-senha-cadastro'
+              className='form-control'
+              id='confirma-senha-cadastro'
+              placeholder='Password'
+              pattern='^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$'
+            />
+            <label htmlFor='confirma-senha-cadastro'>Confirme a senha</label>
           </div>
         </div>
-      </div>
+        <div className='mb-3'>
+          <div className='form-floating'>
+            <input
+              type='text'
+              name='cpf-ccadastro'
+              className='form-control'
+              id='cpf-cadastro'
+              placeholder='CPF'
+              pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+              onChange={e => {
+                // cria uma mascara para formatar o CPF
+                e.target.value = e.target.value
+                  .replace(/\D/g, "")
+                  .replace(/(\d{3})(\d)/, "$1.$2")
+                  .replace(/(\d{3})(\d)/, "$1.$2")
+                  .replace(/(\d{3})(\d{1,2})/, "$1-$2")
+                  .replace(/(-\d{2})\d+?$/, "$1");
+              }}
+            />
+            <label htmlFor='confirma-senha-cadastro'>CPF</label>
+          </div>
+        </div>
+      </Form>
+      <CaixaStep nextStep={nextStep} />
     </>
   );
 };

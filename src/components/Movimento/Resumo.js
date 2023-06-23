@@ -3,7 +3,7 @@ import Title from "../Title";
 import CaixaStep from "./CaixaStep";
 import { ItensServices } from "../../services/estoque";
 
-const Resumo = ({ nextStep, prevStep, handleChange, handeSubmit, values }) => {
+const Resumo = ({ prevStep, handeSubmit, values }) => {
 
   return (
     <>
