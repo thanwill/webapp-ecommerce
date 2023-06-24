@@ -84,19 +84,19 @@ export default function Header() {
         </div>
       </nav>
 
-      <nav class=' bg-light fixed-bottom p-3  ali mt-5 text-center'>
+      <nav className=' bg-light fixed-bottom p-3  ali mt-5 text-center'>
         <div className='row'>
           <div
-            class='btn-group'
+            className='btn-group'
             role='group'
             aria-label='Basic outlined example'>
-            <button type='button' class='btn btn-outline-primary'>
+            <button type='button' className='btn btn-outline-primary'>
               <Link to='/'>Início</Link>
             </button>
-            <button type='button' class='btn btn-outline-primary'>
+            <button type='button' className='btn btn-outline-primary'>
               <Link to='/estoque'>Carrinho</Link>
             </button>
-            <button type='button' class='btn btn-outline-primary'>
+            <button type='button' className='btn btn-outline-primary'>
               {storedToken ? (
                 <Link to='/perfil'>Perfil</Link>
               ) : (

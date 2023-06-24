@@ -79,7 +79,8 @@ export default function AtualizarPerfil({ usuario }) {
                           required
                           minLength={3}
                           maxLength={100}
-                          pattern="^[a-zA-Zà-úÀ-Ú0-9]+(([' -][a-zA-Zà-úÀ-Ú0-9])?[a-zA-Zà-úÀ-Ú0-9]*)*$"
+                          
+                          pattern="^[a-zA-Zà-úÀ-Ú0-9]+(([' -][a-zA-Zà-úÀ-Ú0-9])?[a-zA-Zà-úÀ-Ú0-9]*)*$" 
                         />
                         <label htmlFor='nome-update'>Nome completo</label>
                       </div>

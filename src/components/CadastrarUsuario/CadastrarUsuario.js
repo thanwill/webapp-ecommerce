@@ -1,28 +1,29 @@
 import React, { Component } from "react";
+import { UsuarioService } from "../../services/usuario.js";
 import Endereco from "./Endereco";
 import Pagamento from "./Pagamento";
 import Resumo from "./Resumo";
 import Perfil from "./Perfil";
 import jwt from "jwt-decode";
+import Contato from "./Contato.js";
 
 export default class CadastrarUsuario extends Component {
+  //navigator = Navigate();
+  //navigator = Navigate();
+
   state = {
     step: 1,
     nome: "",
-    email: "",
-    senha: "",
-    notificacoes: true,
-    telefone: "",
     cpf: "",
-    plano: 1,
-    cartao: {
-      nome: "",
-      numero: "",
-      cvc: "",
-    },
+    email: "",
+    telefone: "",
+    senha: "",
+    nome_cartao: "",
+    numero_cartao: "",
+    cvc_cartao: "",
     logradouro: "",
-    complemento: "",
     numero: "",
+    complemento: "",
     bairro: "",
     localidade: "",
     uf: "",
@@ -40,116 +41,24 @@ export default class CadastrarUsuario extends Component {
   };
 
   handleChange = input => e => {
-    const { value } = e.target;
-    if (input === "itens") {
-      const { itens } = this.state;
-      const isChecked = itens.includes(value);
-
-      if (isChecked) {
-        this.setState(prevState => ({
-          itens: prevState.itens.filter(item => item !== value),
-        }));
-      } else {
-        this.setState(prevState => ({
-          itens: [...prevState.itens, value],
-        }));
-      }
-    } else {
-      this.setState({ [input]: value });
-    }
+    this.setState({ [input]: e.target.value });
   };
 
   handeSubmit = () => {
-    const {
-      nome,
-      email,
-      senha,
-      notificacoes,
-      telefone,
-      cpf,
-      plano,
-      cartao,
-      rua,
-      numero,
-      complemento,
-      bairro,
-      cidade,
-      estado,
-      cep,
-    } = this.state;
+    const usuario = this.state;
 
-    const usuario = {
-      nome,
-      email,
-      senha,
-      notificacoes,
-      telefone,
-      cpf,
-      plano,
-      cartao,
-      rua,
-      numero,
-      complemento,
-      bairro,
-      cidade,
-      estado,
-      cep,
-    };
-
-    console.log(usuario);
-
-    const storedToken = localStorage.getItem("token");
-
-    if (storedToken) {
-      try {
-        const data = jwt(storedToken);
-        console.log(data);
-        alert("Compra efetuada com sucesso para o cliente codigo:");
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      alert("Usuario não autenticado! Por favor fazer o login!");
+    // manda atraves do service
+    try {
+      UsuarioService.criar(usuario);
+      this.props.history.push("/login"); // redireciona para a pagina de login
+    } catch (error) {
+      console.log(error);
     }
   };
 
   render() {
     const { step } = this.state;
-    const  {
-      nome,
-      email,
-      senha,
-      notificacoes,
-      telefone,
-      cpf,
-      plano,
-      cartao,
-      rua,
-      numero,
-      complemento,
-      bairro,
-      cidade,
-      estado,
-      cep,
-    } = this.state;
-
-    const values = {
-      nome,
-      email,
-      senha,
-      notificacoes,
-      telefone,
-      cpf,
-      plano,
-      cartao,
-      rua,
-      numero,
-      complemento,
-      bairro,
-      cidade,
-      estado,
-      cep,
-    };
+    const values = this.state;
 
     switch (step) {
       case 1:
@@ -160,7 +69,15 @@ export default class CadastrarUsuario extends Component {
             values={values}
           />
         );
-      case 2:
+        case 2:
+        return (
+          <Contato
+            nextStep={this.nextStep}
+            prevStep={this.prevStep}
+            handleChange={this.handleChange}
+          />
+        );
+      case 3:
         return (
           <Endereco
             nextStep={this.nextStep}
@@ -169,7 +86,7 @@ export default class CadastrarUsuario extends Component {
             values={values}
           />
         );
-      case 3:
+      case 4:
         return (
           <Pagamento
             nextStep={this.nextStep}
@@ -178,7 +95,7 @@ export default class CadastrarUsuario extends Component {
             values={values}
           />
         );
-      case 4:
+      case 5:
         return (
           <Resumo
             nextStep={this.nextStep}

@@ -3,13 +3,13 @@ import Title from "../Title/index";
 import { Form } from "react-bootstrap";
 import CaixaStep from "../Movimento/CaixaStep";
 
-const Perfil = ({ values, nextStep, prevStep, handeSubmit }) => {
+const Perfil = ({ values, nextStep, prevStep, handleChange }) => {
   const [validated, setValidated] = React.useState(false);
 
   return (
     <>
       <Title
-        title='Perfil'
+        title='Informações pessoais!'
         subtitle='Queremos saber um pouco mais sobre você.'
       />
 
@@ -48,6 +48,7 @@ const Perfil = ({ values, nextStep, prevStep, handeSubmit }) => {
               minLength={3}
               maxLength={100}
               pattern="^[a-zA-Zà-úÀ-Ú0-9]+(([' -][a-zA-Zà-úÀ-Ú0-9])?[a-zA-Zà-úÀ-Ú0-9]*)*$"
+              onChange={handleChange("nome")}
             />
             <label htmlFor='nome-cadastro'>Nome completo</label>
           </div>
@@ -55,29 +56,7 @@ const Perfil = ({ values, nextStep, prevStep, handeSubmit }) => {
             <div className='form-text'>Por favor, insira um nome válido.</div>
           )}
         </div>
-        <div className='mb-3'>
-          <div className='form-floating mb-3'>
-            <input
-              type='email'
-              name='email-cadastro'
-              className='form-control'
-              id='email-cadastro'
-              placeholder='name@example.com'
-              pattern='^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$'
-              autoComplete='on'
-            />
-            <label htmlFor='email-cadastro'>E-mail</label>
-          </div>
-          {validated ? (
-            <div className='form-text'>
-              Por favor, insira um e-mail válido.
-            </div>
-          ) : (
-            <div className='form-text'>
-              Nós nunca compartilharemos seu e-mail com mais ninguém.
-            </div>
-          )}
-        </div>
+        
         <div className='mb-3'>
           <div className='form-floating'>
             <input
@@ -87,6 +66,8 @@ const Perfil = ({ values, nextStep, prevStep, handeSubmit }) => {
               id='senha-cadastro'
               placeholder='Senha'
               pattern='^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$'
+              required
+              onChange={handleChange("senha")}
             />
             <label htmlFor='senha-cadastro'>Senha</label>
           </div>
@@ -110,9 +91,23 @@ const Perfil = ({ values, nextStep, prevStep, handeSubmit }) => {
               id='confirma-senha-cadastro'
               placeholder='Password'
               pattern='^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$'
+              required
+              onChange={e => {
+                // valida se a senha e a confirmação de senha são iguais
+                if (e.target.value === values.senha) {
+                  e.target.classList.remove("is-invalid");
+                  e.target.classList.add("is-valid");
+                  setValidated(false);
+                }
+              }}
             />
             <label htmlFor='confirma-senha-cadastro'>Confirme a senha</label>
           </div>
+          {validated && (
+            <div className='form-text'>
+              As senhas não coincidem. Por favor, tente novamente.
+            </div>
+          )}
         </div>
         <div className='mb-3'>
           <div className='form-floating'>
@@ -122,7 +117,7 @@ const Perfil = ({ values, nextStep, prevStep, handeSubmit }) => {
               className='form-control'
               id='cpf-cadastro'
               placeholder='CPF'
-              pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+              pattern='\d{3}\.\d{3}\.\d{3}-\d{2}'
               onChange={e => {
                 // cria uma mascara para formatar o CPF
                 e.target.value = e.target.value
@@ -131,7 +126,10 @@ const Perfil = ({ values, nextStep, prevStep, handeSubmit }) => {
                   .replace(/(\d{3})(\d)/, "$1.$2")
                   .replace(/(\d{3})(\d{1,2})/, "$1-$2")
                   .replace(/(-\d{2})\d+?$/, "$1");
+
+                handleChange("cpf")(e);
               }}
+              required
             />
             <label htmlFor='confirma-senha-cadastro'>CPF</label>
           </div>

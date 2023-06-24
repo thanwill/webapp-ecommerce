@@ -1,28 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import CaixaStep from "../Movimento/CaixaStep";
 import Title from "../Title/index";
 import Form from "react-bootstrap/Form";
-const Endereco = ({ values, nextStep, prevStep, handeSubmit }) => {
+const Endereco = ({
+  values,
+  nextStep,
+  prevStep,
+  handleChange,
+  
+}) => {
   const [validated, setValidated] = React.useState(false);
-  const [cep, setCep] = React.useState("");
-  const [endereco, setEndereco] = React.useState({});
-
-  useEffect(() => {
-    // captura o cep digitado
-    const cep = document.getElementById("cep-cadastro").value.replace("-", "");
-    // usa a api do viacep para preencher os campos de endereço
-    fetch(`https://viacep.com.br/ws/${cep}/json/`)
-      .then(response => response.json())
-      .then(data => {
-        setEndereco(data);
-      })
-
-      .catch(error => {
-        console.log(error);
-      });
-  }, [cep]);
-
-  console.log(endereco);
 
   return (
     <>
@@ -56,21 +43,19 @@ const Endereco = ({ values, nextStep, prevStep, handeSubmit }) => {
           <div className='form-floating mb-3'>
             <input
               type='text'
-              name='cep-cadastro'
+              name='cep'
               className='form-control'
-              id='cep-cadastro'
+              id='cep'
               placeholder='80123-500'
               // validacao
               required
               pattern='[0-9]{5}-[\d]{3}'
               onChange={e => {
-                // cria a mascara do cep
                 e.target.value = e.target.value.replace(
                   /(\d{5})(\d{3})/,
                   "$1-$2"
                 );
-                // captura o cep digitado
-                setCep(e.target.value);
+                handleChange("cep")(e);
               }}
             />
             <label htmlFor='nome-cadastro'>CEP</label>
@@ -81,7 +66,7 @@ const Endereco = ({ values, nextStep, prevStep, handeSubmit }) => {
         </div>
         {
           // verifica se endereco nao esta vazio e exibe os campos de endereco
-          Object.keys(endereco).length !== 0 && (
+          Object.keys(values.cep).length !== 0 && (
             <>
               <div className='mb-3'>
                 <div className='form-floating mb-3'>
@@ -91,10 +76,10 @@ const Endereco = ({ values, nextStep, prevStep, handeSubmit }) => {
                     className='form-control'
                     id='logradouro'
                     placeholder='Rua das Flores'
-                    // validacao
                     required
                     pattern='[A-Za-zÀ-ú0-9 ]{3,}'
-                    defaultValue={endereco.logradouro}
+                    defaultValue={values.logradouro}
+                    onChange={handleChange("logradouro")}
                   />
                   <label htmlFor='logradouro'>Logradouro</label>
                 </div>
@@ -116,6 +101,7 @@ const Endereco = ({ values, nextStep, prevStep, handeSubmit }) => {
                     // validacao
                     required
                     pattern='[0-9]{1,}'
+                    onChange={handleChange("numero")}
                   />
                   <label htmlFor='numero'>Número</label>
                 </div>
@@ -132,7 +118,7 @@ const Endereco = ({ values, nextStep, prevStep, handeSubmit }) => {
                     // validacao
                     required
                     pattern='[A-Za-zÀ-ú0-9 ]{3,}'
-                    defaultValue={endereco.bairro}
+                    onChange={handleChange("bairro")}
                   />
                   <label htmlFor='bairro'>Bairro</label>
                 </div>
@@ -146,14 +132,16 @@ const Endereco = ({ values, nextStep, prevStep, handeSubmit }) => {
                 <div className='form-floating mb-3'>
                   <input
                     type='text'
-                    name='cidade'
+                    name='localidade'
                     className='form-control'
-                    id='cidade'
+                    id='localidade'
                     placeholder='Curitiba'
                     // validacao
                     required
                     pattern='[A-Za-zÀ-ú0-9 ]{3,}'
-                    defaultValue={endereco.localidade}
+                    onChange={e => {
+                      handleChange("localidade")(e);
+                    }}
                   />
                   <label htmlFor='cidade'>Cidade</label>
                 </div>
@@ -171,8 +159,12 @@ const Endereco = ({ values, nextStep, prevStep, handeSubmit }) => {
                     id='uf'
                     name='uf'
                     required
-                    defaultValue={endereco.uf}>
-                    <option value='' disabled selected>Selecione um estado</option>
+                    onChange={e => {
+                      handleChange("uf")(e);
+                    }}>
+                    <option value='' disabled selected>
+                      Selecione um estado
+                    </option>
                     <option value='AC'>Acre</option>
                     <option value='AL'>Alagoas</option>
                     <option value='AP'>Amapá</option>

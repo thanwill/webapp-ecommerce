@@ -1,16 +1,22 @@
 import React from 'react'
 import CaixaStep from "../Movimento/CaixaStep";
 import Title from '../Title/index';
-const Resumo = ({ values, nextStep, prevStep, handeSubmit }) => {
-  console.log(values)
+const Resumo = ({ values, prevStep, handeSubmit }) => {
   return (
     <>
     <Title title='Quase lá!' subtitle='Aqui vai um resumo das informações.' />
+
     {
-      // cria uma tela de confirmação com as informações do usuário
-      
-      
+     values && Object.keys(values).map((key, index) => {
+        return (
+          <div key={index}>
+            <p>{key}: {values[key]}</p>
+          </div>
+        )
+      })
+
     }
+    
     <CaixaStep prevStep={prevStep} handeSubmit={handeSubmit} />
     </>
 

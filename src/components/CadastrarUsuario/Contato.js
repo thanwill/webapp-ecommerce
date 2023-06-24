@@ -1,19 +1,18 @@
 import React from "react";
 import CaixaStep from "../Movimento/CaixaStep";
 import Title from "../Title/index";
-import Form from "react-bootstrap/Form";
-const Pagamento = ({ values, nextStep, prevStep, handleChange }) => {
+import { Form } from "react-bootstrap";
+
+const Contato = ({ nextStep, prevStep, handleChange }) => {
   const [validated, setValidated] = React.useState(false);
+
   return (
     <>
-      <Title title='Pagamento' subtitle='Defina a sua forma de pagamento.' />
-      {/*
-        cartao: {
-          nome: "",
-          numero: "",
-          cvc: "",
-        },
-        */}
+      <Title
+        title='Dados de contato!'
+        subtitle='Queremos saber um pouco mais sobre você.'
+      />
+
       <Form
         noValidate
         encType='multipart/form-data'
@@ -40,42 +39,50 @@ const Pagamento = ({ values, nextStep, prevStep, handleChange }) => {
           <div className='form-floating mb-3'>
             <input
               type='text'
-              name='nome'
               className='form-control'
-              id='nome'
-              placeholder='Nome'
-              pattern='[A-Za-zÀ-ú ]{2,}'
+              placeholder='(DDD) 99999-9999)'
               required
-              onChange={handleChange("nome_cartao")}
+              // cria um pattern para o telefone
+              pattern='^\([1-9]{2}\) [2-9][0-9]{3,4}\-[0-9]{4}$'
+              onChange={e => {
+                e.target.value = e.target.value.replace(
+                  // cria uma mascara para o telefone
+                  /^(\d{2})(\d{5})(\d{4}).*/,
+                  "($1) $2-$3"
+                );
+                handleChange("telefone")(e);
+              }}
             />
-            <label htmlFor='nome'>Nome completo</label>
+            <label htmlFor='nome-cadastro'>Telefone</label>
           </div>
+          {validated && (
+            <div className='form-text'>
+              Por favor, insira um telefone válido.
+            </div>
+          )}
+        </div>
+        <div className='mb-3'>
           <div className='form-floating mb-3'>
             <input
-              type='text'
-              name='numero'
+              type='email'
+              name='email-cadastro'
               className='form-control'
-              id='numero'
-              placeholder='Número'
-              pattern='[0-9]{16}'
+              id='email-cadastro'
+              placeholder='name@example.com'
+              pattern='^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$'
+              autoComplete='on'
               required
-              onChange={handleChange("numero_cartao")}
+              onChange={handleChange("email")}
             />
-            <label htmlFor='numero'>Número</label>
+            <label htmlFor='email-cadastro'>E-mail</label>
           </div>
-          <div className='form-floating mb-3'>
-            <input
-              type='text'
-              name='cvc'
-              className='form-control'
-              id='cvc'
-              placeholder='CVC'
-              pattern='[0-9]{3}'
-              required
-              onChange={handleChange("cvc_cartao")}
-            />
-            <label htmlFor='cvc'>CVC</label>
-          </div>
+          {validated ? (
+            <div className='form-text'>Por favor, insira um e-mail válido.</div>
+          ) : (
+            <div className='form-text'>
+              Nós nunca compartilharemos seu e-mail com mais ninguém.
+            </div>
+          )}
         </div>
       </Form>
 
@@ -84,4 +91,4 @@ const Pagamento = ({ values, nextStep, prevStep, handleChange }) => {
   );
 };
 
-export default Pagamento;
+export default Contato;
