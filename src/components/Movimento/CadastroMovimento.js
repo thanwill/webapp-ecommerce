@@ -73,8 +73,7 @@ export default class CadastroMovimento extends Component {
 
   render() {
     const { step } = this.state;
-    const { motivo, documento, deposito_origem, local_destino, itens } =
-      this.state;
+    const { motivo, documento, deposito_origem, local_destino, itens } = this.state;
     const values = { motivo, documento, deposito_origem, local_destino, itens };
 
     switch (step) {

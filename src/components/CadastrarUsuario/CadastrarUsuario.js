@@ -115,7 +115,7 @@ export default class CadastrarUsuario extends Component {
 
   render() {
     const { step } = this.state;
-    const {
+    const  {
       nome,
       email,
       senha,

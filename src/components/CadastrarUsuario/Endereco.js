@@ -104,6 +104,23 @@ const Endereco = ({ values, nextStep, prevStep, handeSubmit }) => {
                   </div>
                 )}
               </div>
+
+              <div className='mb-3'>
+                <div className='form-floating mb-3'>
+                  <input
+                    type='text'
+                    name='numero'
+                    className='form-control'
+                    id='numero'
+                    placeholder='123'
+                    // validacao
+                    required
+                    pattern='[0-9]{1,}'
+                  />
+                  <label htmlFor='numero'>Número</label>
+                </div>
+              </div>
+
               <div className='mb-3'>
                 <div className='form-floating mb-3'>
                   <input
@@ -146,26 +163,46 @@ const Endereco = ({ values, nextStep, prevStep, handeSubmit }) => {
                   </div>
                 )}
               </div>
+
               <div className='mb-3'>
                 <div className='form-floating mb-3'>
-                  <input
-                    type='text'
-                    name='estado'
-                    className='form-control'
-                    id='estado'
-                    placeholder='Paraná'
-                    // validacao
+                  <select
+                    className='form-select'
+                    id='uf'
+                    name='uf'
                     required
-                    pattern='[A-Za-zÀ-ú0-9 ]{3,}'
-                    defaultValue={endereco.uf}
-                  />
-                  <label htmlFor='estado'>Estado</label>
+                    defaultValue={endereco.uf}>
+                    <option value='' disabled selected>Selecione um estado</option>
+                    <option value='AC'>Acre</option>
+                    <option value='AL'>Alagoas</option>
+                    <option value='AP'>Amapá</option>
+                    <option value='AM'>Amazonas</option>
+                    <option value='BA'>Bahia</option>
+                    <option value='CE'>Ceará</option>
+                    <option value='DF'>Distrito Federal</option>
+                    <option value='ES'>Espírito Santo</option>
+                    <option value='GO'>Goiás</option>
+                    <option value='MA'>Maranhão</option>
+                    <option value='MT'>Mato Grosso</option>
+                    <option value='MS'>Mato Grosso do Sul</option>
+                    <option value='MG'>Minas Gerais</option>
+                    <option value='PA'>Pará</option>
+                    <option value='PB'>Paraíba</option>
+                    <option value='PR'>Paraná</option>
+                    <option value='PE'>Pernambuco</option>
+                    <option value='PI'>Piauí</option>
+                    <option value='RJ'>Rio de Janeiro</option>
+                    <option value='RN'>Rio Grande do Norte</option>
+                    <option value='RS'>Rio Grande do Sul</option>
+                    <option value='RO'>Rondônia</option>
+                    <option value='RR'>Roraima</option>
+                    <option value='SC'>Santa Catarina</option>
+                    <option value='SP'>São Paulo</option>
+                    <option value='SE'>Sergipe</option>
+                    <option value='TO'>Tocantins</option>
+                  </select>
+                  <label htmlFor='uf'>UF</label>
                 </div>
-                {validated && (
-                  <div className='form-text'>
-                    Por favor, insira um estado válido.
-                  </div>
-                )}
               </div>
             </>
           )
