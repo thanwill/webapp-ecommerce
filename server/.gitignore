@@ -1,0 +1,29 @@
+# Logs
+logs
+*.log
+
+# Arquivos de construção
+build/
+
+# Dependências
+node_modules/
+
+# Arquivos de ambiente
+.env
+
+# Arquivos de configuração do IDE
+.vscode/
+
+# Arquivos de compilação
+dist/
+
+# Arquivos de cobertura de testes
+coverage/
+
+# Cache
+.cache/
+
+# Arquivos de instalação
+*.iml
+*.swp
+*.DS_Store

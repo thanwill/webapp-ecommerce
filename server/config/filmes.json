@@ -1,0 +1,154 @@
+[
+  {
+      "_id": "6477f4f9f8f258f2164b64a9",
+      "id": 14,
+      "titulo": "Avengers: Age of Ultron",
+      "ano": 2015,
+      "poster": "https://upload.wikimedia.org/wikipedia/pt/2/22/OsVingadores2.jpg?20150224175213",
+      "nota": 4.3,
+      "assistido": false,
+      "comentarios": [],
+      "__v": 0
+  },
+  {
+      "_id": "6477f4f9f8f258f2164b64ab",
+      "id": 96,
+      "titulo": "Avengers: Infinity War",
+      "ano": 2018,
+      "poster": "https://upload.wikimedia.org/wikipedia/pt/9/90/Avengers_Infinity_War.jpg?20180316152122",
+      "nota": 4.8,
+      "assistido": true,
+      "comentarios": [],
+      "__v": 0
+  },
+  {
+      "_id": "6477f4f9f8f258f2164b64ad",
+      "id": 78,
+      "titulo": "Avengers: Endgame",
+      "ano": 2019,
+      "poster": "https://upload.wikimedia.org/wikipedia/pt/9/9b/Avengers_Endgame.jpg?20190317150357",
+      "nota": 3.8,
+      "assistido": true,
+      "comentarios": [],
+      "__v": 0
+  },
+  {
+      "_id": "6477f4f9f8f258f2164b64af",
+      "id": 36,
+      "titulo": "Wonder Woman",
+      "ano": 2017,
+      "poster": "https://upload.wikimedia.org/wikipedia/pt/9/9f/Mulher_Maravilha_2009.jpg?20171230123503",
+      "nota": 5,
+      "assistido": false,
+      "comentarios": [],
+      "__v": 0
+  },
+  {
+      "_id": "6477f4f9f8f258f2164b64b1",
+      "id": 39,
+      "titulo": "Doctor Strange",
+      "ano": 2016,
+      "poster": "https://upload.wikimedia.org/wikipedia/pt/c/c7/Doctor_Strange_poster.jpg",
+      "nota": 5,
+      "assistido": true,
+      "comentarios": [],
+      "__v": 0
+  },
+  {
+      "_id": "6477f4f9f8f258f2164b64b3",
+      "id": 80,
+      "titulo": "Guardians of the Galaxy",
+      "ano": 2014,
+      "poster": "https://upload.wikimedia.org/wikipedia/pt/b/b2/Guardiansgalaxyposter.jpg",
+      "nota": 4.8,
+      "assistido": true,
+      "comentarios": [],
+      "__v": 0
+  },
+  {
+      "_id": "6477f4f9f8f258f2164b64b5",
+      "id": 43,
+      "titulo": "Iron Man 2",
+      "ano": 2021,
+      "poster": "https://upload.wikimedia.org/wikipedia/pt/9/9a/Homem_de_Ferro_2_-_Poster.jpg",
+      "nota": 4.7,
+      "assistido": true,
+      "comentarios": [],
+      "__v": 0
+  },
+  {
+      "_id": "6477f4f9f8f258f2164b64b7",
+      "id": 61,
+      "titulo": "Iron Man",
+      "ano": 2008,
+      "poster": "https://upload.wikimedia.org/wikipedia/pt/0/00/Iron_Man_poster.jpg",
+      "nota": 5,
+      "assistido": false,
+      "comentarios": [],
+      "__v": 0
+  },
+  {
+      "_id": "6477f513c21fae51b24d2a28",
+      "id": 97,
+      "titulo": "Filme exemplo203",
+      "ano": 2023,
+      "poster": "https://example.com/poster.jpg",
+      "nota": 9.9,
+      "assistido": false,
+      "comentarios": [
+          {
+              "texto": "Ótimo filme! Recomendo.",
+              "autor": "João",
+              "_id": "6477f513c21fae51b24d2a29"
+          },
+          {
+              "texto": "Gostei da trama.",
+              "autor": "Maria",
+              "_id": "6477f513c21fae51b24d2a2a"
+          },
+          {
+              "texto": "Gostei bastante da  .",
+              "autor": "Clara",
+              "_id": "6477f513c21fae51b24d2a2b"
+          },
+          {
+              "texto": "Gostei bastante da trama.",
+              "autor": "Pedro",
+              "_id": "6477f513c21fae51b24d2a2c"
+          }
+      ],
+      "__v": 0
+  },
+  {
+      "_id": "6477f5d9141ae3349ca005fd",
+      "id": 99,
+      "titulo": "Meu novo filme ",
+      "ano": 2023,
+      "poster": "https://example.com/poster.jpg",
+      "nota": 9.9,
+      "assistido": false,
+      "comentarios": [
+          {
+              "texto": "Ótimo filme! Recomendo.",
+              "autor": "João",
+              "_id": "6477f5d9141ae3349ca005fe"
+          },
+          {
+              "texto": "Gostei da trama.",
+              "autor": "Maria",
+              "_id": "6477f5d9141ae3349ca005ff"
+          },
+          {
+              "texto": "Gostei bastante da  .",
+              "autor": "Clara",
+              "_id": "6477f5d9141ae3349ca00600"
+          },
+          {
+              "texto": "Gostei bastante da trama.",
+              "autor": "Pedro",
+              "_id": "6477f5d9141ae3349ca00601"
+          }
+      ],
+      "__v": 0
+  }
+]
