@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import "./style.css";
 export default function Header() {
   const storedToken = localStorage.getItem("token");
-
   return (
     <>
       <nav className='navbar fixed-top navbar-light bg-light mt'>

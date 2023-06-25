@@ -24,7 +24,8 @@ export default function Login() {
   function handleSubmit(event) {
     event.preventDefault();
     AuthService.login(usuario.email, usuario.senha);
-    navigate("/estoque");
+    navigate("/perfil");
+
   }
 
   return (
@@ -74,6 +75,7 @@ export default function Login() {
                 </form>
               </div>
             </div>
+            
             <div className='text-center mt-4'>
               <Link to='/cadastro'>
                 <div href='#'>Não tem cadastro? Cadastre-se aqui</div>
