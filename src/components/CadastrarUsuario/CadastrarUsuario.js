@@ -4,7 +4,6 @@ import Endereco from "./Endereco";
 import Pagamento from "./Pagamento";
 import Resumo from "./Resumo";
 import Perfil from "./Perfil";
-import jwt from "jwt-decode";
 import Contato from "./Contato.js";
 
 export default class CadastrarUsuario extends Component {

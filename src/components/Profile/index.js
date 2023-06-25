@@ -118,7 +118,7 @@ export default function Profile() {
                         <span class='placeholder col-6'></span>
                         <span class='placeholder col-8'></span>
                       </p>
-                      <a class='btn btn-primary disabled placeholder col-6'></a>
+                      <div class='btn btn-primary disabled placeholder col-6'></div>
                     </div>
                   </div>
                 </>

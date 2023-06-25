@@ -2,8 +2,8 @@ import React from "react";
 import CaixaStep from "../Movimento/CaixaStep";
 import Title from "../Title/index";
 import Form from "react-bootstrap/Form";
-const Pagamento = ({ values, nextStep, prevStep, handleChange }) => {
-  const [validated, setValidated] = React.useState(false);
+const Pagamento = ({ nextStep, prevStep, handleChange }) => {
+  //const [validated, setValidated] = React.useState(false);
   return (
     <>
       <Title title='Pagamento' subtitle='Defina a sua forma de pagamento.' />
@@ -24,11 +24,11 @@ const Pagamento = ({ values, nextStep, prevStep, handleChange }) => {
             if (e.target.validity.valid) {
               e.target.classList.remove("is-invalid");
               e.target.classList.add("is-valid");
-              setValidated(false);
+              //setValidated(false);
             } else {
               e.target.classList.remove("is-valid");
               e.target.classList.add("is-invalid");
-              setValidated(true);
+              //setValidated(true);
               // cria um elemento span para exibir a mensagem de erro com a tag invalid-feedback
               const span = document.createElement("span");
               span.classList.add("invalid-feedback");
