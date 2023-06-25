@@ -11,7 +11,7 @@ export default function Produtos({ itens, categorias }) {
     categoriaSelecionada === 0
       ? itens
       : itens.filter(item => item.cod_categoria === categoriaSelecionada);
-
+ 
   return (
     <>
       <div className='mb-3 card'>
@@ -43,10 +43,9 @@ export default function Produtos({ itens, categorias }) {
           </div>
         </div>
       </div>
-
-      {itens ? (
+      {itens & categorias ? (
         itens.map(item => (
-          <div className='card mt-5' key={item.cod_item}>
+          <div className='card' key={item.cod_item}>
             <svg
               className='bd-placeholder-img card-img-top'
               width='100%'
@@ -75,7 +74,7 @@ export default function Produtos({ itens, categorias }) {
               <li className='list-group-item'>Categoria: {item.categoria}</li>
               <li className='list-group-item'>Semelhantes</li>
             </ul>
-            <div className='card-body'>
+            <div className='card-body mb-5'>
               <div className='card-link text-center'>
                 <i className='bi bi-bag p-3'></i> COMPRAR
               </div>
@@ -84,9 +83,35 @@ export default function Produtos({ itens, categorias }) {
         ))
       ) : (
         // se não houver itens, exibe uma mensagem
-        <div className='alert alert-warning mt-5' role='alert'>
-          Nenhum item encontrado
-        </div>
+        <div className='card mt-5'>
+            <svg
+              className='bd-placeholder-img card-img-top'
+              width='100%'
+              height='200'
+              role='img'
+              aria-label='Placeholder: Image cap'
+              preserveAspectRatio='xMidYMid slice'
+              focusable='false'>
+              <title>Placeholder</title>
+              <rect width='100%' height='100%' fill='#868e96'></rect>
+            </svg>
+            <div className='card-body'>
+              <h5 className='card-title'>Lorem ipsum dolor sit.</h5>
+              <p className='card-text'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, molestiae.</p>
+            </div>
+            <ul className='list-group list-group-flush'>
+              <li className='list-group-item'>
+                R$ 0,00
+              </li>
+              <li className='list-group-item'>Categoria</li>
+              <li className='list-group-item'>Semelhantes</li>
+            </ul>
+            <div className='card-body'>
+              <div className='card-link text-center'>
+                <i className='bi bi-bag p-3'></i> COMPRAR
+              </div>
+            </div>
+          </div>
       )}
     </>
   );

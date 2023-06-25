@@ -2,13 +2,15 @@ const Endereco = require("../models/endereco");
 const Usuario = require("../models/usuario");
 
 class EnderecoController {
-  // rua, numero, complemento, bairro, cidade, estado, cep
-
-  // cadastra um novo endereco e retorna o cod_endereco para ser salvo no usuario
-  // retorna o _id do endereco criado no monogo para relacionar com usuário.
+  // cria um novo endereco
   async criar(endereco, res) {
     try {
       await Endereco.create(endereco);
+
+      if (!endereco) {
+        return res.status(400).json({ error: "Endereço não cadastrado" });
+      }
+
       return endereco;
     } catch (error) {
       console.log(error);
@@ -23,7 +25,6 @@ class EnderecoController {
       if (!enderecos.length) {
         return res.status(404).json({ error: "Não há endereços cadastrados" });
       }
-
       return res.status(200).json(enderecos);
     } catch (error) {
       return res.status(500).json({ error: error.message });
@@ -89,7 +90,6 @@ class EnderecoController {
       });
     }
   }
-  
 }
 
 const enderecoController = new EnderecoController();

@@ -18,10 +18,11 @@ export default function ListarProdutos() {
     });
   }, []);
   return (
-
     <>
-      <div className='container '>
-        <div className='row'>
+      <div className='mt-5 mb-5'>
+        {
+          /*
+          <div className='row'>
           <div className='col-10 offset-1 col-md-6'>
             <ul className='nav nav-pills mb-3' id='pills-tab' role='tablist'>
               <li className='nav-item' role='presentation'>
@@ -37,22 +38,11 @@ export default function ListarProdutos() {
                   Produtos
                 </button>
               </li>
-              <li className='nav-item' role='presentation'>
-                <button
-                  className='nav-link'
-                  id='pills-profile-tab'
-                  data-bs-toggle='pill'
-                  data-bs-target='#pills-profile'
-                  type='button'
-                  role='tab'
-                  aria-controls='pills-profile'
-                  aria-selected='false'>
-                  Serviços
-                </button>
-              </li>
             </ul>
           </div>
         </div>
+          */
+        }
 
         <div className='tab-content' id='pills-tabContent'>
           <div
@@ -65,7 +55,6 @@ export default function ListarProdutos() {
               <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'>
                 <Title title='Produtos' subtitle='Confira nossos produtos' />
                 <Produtos itens={itens} categorias={categorias} />
-                
               </div>
             </div>
           </div>
