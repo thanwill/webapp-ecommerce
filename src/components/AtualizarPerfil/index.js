@@ -27,7 +27,7 @@ export default function AtualizarPerfil({ usuario }) {
   const handleSubmit = event => {
     event.preventDefault();
 
-    UsuarioService.atualizar(usuario.id, usuarioAtualizado)
+    UsuarioService.atualizar(usuario.cod_usuario, usuarioAtualizado)
       .then(response => {
         console.log(response);
       })
@@ -40,7 +40,7 @@ export default function AtualizarPerfil({ usuario }) {
     <>
       <div
         className='modal fade'
-        id={`modal-update-${usuario.id}`}
+        id={`modal-update-${usuario.cod_usuario}`}
         data-bs-backdrop='static'
         data-bs-keyboard='false'
         tabIndex='-1'
@@ -79,8 +79,7 @@ export default function AtualizarPerfil({ usuario }) {
                           required
                           minLength={3}
                           maxLength={100}
-                          
-                          pattern="^[a-zA-Zà-úÀ-Ú0-9]+(([' -][a-zA-Zà-úÀ-Ú0-9])?[a-zA-Zà-úÀ-Ú0-9]*)*$" 
+                          pattern="^[a-zA-Zà-úÀ-Ú0-9]+(([' -][a-zA-Zà-úÀ-Ú0-9])?[a-zA-Zà-úÀ-Ú0-9]*)*$"
                         />
                         <label htmlFor='nome-update'>Nome completo</label>
                       </div>
@@ -102,65 +101,25 @@ export default function AtualizarPerfil({ usuario }) {
                         <label htmlFor='email-update'>Email</label>
                       </div>
                     </div>
-
+                    {
+                      // campo para atualizar o telefone
+                    }
                     <div className='mb-3'>
-                      <div className='input-group mb-3'>
+                      <div className='form-floating mb-3'>
                         <input
-                          type={showPassword ? "text" : "password"}
-                          name='senha'
+                          type='tel'
+                          name='telefone'
                           className='form-control'
-                          id='senha-update'
-                          placeholder='Senha'
+                          id='telefone-update'
+                          placeholder='(00) 00000-0000'
                           required
-                          defaultValue={usuario.senha}
+                          defaultValue={usuario.telefone}
                           onChange={handleChange}
-                          minLength={6}
-                          maxLength={20}
-                          aria-describedby='button-addon2'
+                          minLength={14}
+                          maxLength={15}
+                          pattern='^\([1-9]{2}\) [2-9][0-9]{3,4}\-[0-9]{4}$'
                         />
-                        <button
-                          className='btn btn-outline-secondary'
-                          type='button'
-                          id='button-addon2'
-                          onClick={handleTogglePassword}>
-                          <i
-                            className={`bi bi-eye${
-                              showPassword ? "-slash-fill" : "-fill"
-                            }`}></i>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className='row'>
-                      <div className='input-group mb-3 mt-5'>
-                        <div className='form-check form-switch'>
-                          <input
-                            type='checkbox'
-                            name='newsletter'
-                            className='form-check-input'
-                            role='switch'
-                            id='newsletter-switch'
-                            checked={
-                              usuario.newsletter ? usuario.newsletter : false
-                            }
-                            onChange={handleChange}
-                          />
-
-                          <label
-                            className='form-check-label text-muted '
-                            htmlFor='newsletter-switch'>
-                            Quero receber novidades por e-mail
-                          </label>
-                        </div>
-                        {usuario.newsletter ? (
-                          <div className='form-text'>
-                            Você já está cadastrado em nossa newsletter.
-                          </div>
-                        ) : (
-                          <div className='form-text'>
-                            Você não receberá nossas novidades por email.
-                          </div>
-                        )}
+                        <label htmlFor='telefone-update'>Telefone</label>
                       </div>
                     </div>
                   </div>
@@ -177,6 +136,7 @@ export default function AtualizarPerfil({ usuario }) {
               <button
                 type='button'
                 className='btn btn-primary'
+                data-bs-dismiss='modal'
                 onClick={handleSubmit}>
                 Salvar
               </button>

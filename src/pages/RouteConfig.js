@@ -8,6 +8,7 @@ import ListarProdutos from "../components/ListarProdutos";
 import GestaoEstoque from "../components/GestaoEstoque";
 import Profile from "../components/Profile";
 import Cadastro from "./cadastro";
+import Carrinho from "./carrinho";
 const RouteConfig = () => {
   return (
     <Router basename={process.env.PUBLIC_URL}>
@@ -17,6 +18,7 @@ const RouteConfig = () => {
         <Route path='/usuarios' element={<FuncoesUsuarios />} />
         <Route path='/estoque' element={<GestaoEstoque />} />
         <Route path='/produtos' element={<ListarProdutos />} />
+        <Route path='/carrinho' element={<Carrinho />} />
         <Route path='/login' element={<Login />} />
         <Route path='/cadastro' element={<Cadastro />} />
         <Route path='/perfil' element={<Profile />} />

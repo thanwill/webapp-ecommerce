@@ -3,10 +3,9 @@ import Title from "../Title/index";
 import { useState, useEffect } from "react";
 import { UsuarioService } from "../../services/usuario";
 import jwtDecode from "jwt-decode";
-
+import AtualizarPerfil from "../AtualizarPerfil/index";
 export default function Profile() {
   const storedToken = localStorage.getItem("token");
-
   const [usuario, setUsuario] = useState(null);
   useEffect(() => {
     async function fetchUsuario() {
@@ -85,16 +84,33 @@ export default function Profile() {
                     </div>
                     <div className='card-footer'>
                       {
-                        // botao de logout
-
-                        <button
-                          className='btn btn-danger'
-                          onClick={() => {
-                            localStorage.removeItem("token");
-                            window.location.reload();
-                          }}>
-                          Sair
-                        </button>
+                        <>
+                          <div className='row'>
+                            <div className='col'>
+                              <button
+                                className='btn btn-danger'
+                                onClick={() => {
+                                  localStorage.removeItem("token");
+                                  window.location.reload();
+                                }}>
+                                Sair
+                              </button>
+                            </div>
+                            <div className='col'>
+                              {usuario ? (
+                                <>
+                                  <div
+                                    className='btn btn-primary'
+                                    data-bs-toggle='modal'
+                                    data-bs-target={`#modal-update-${usuario.cod_usuario}`}>
+                                    Editar
+                                  </div>
+                                  <AtualizarPerfil usuario={usuario} />
+                                </>
+                              ) : null}
+                            </div>
+                          </div>
+                        </>
                       }
                     </div>
                   </div>
@@ -118,7 +134,7 @@ export default function Profile() {
                         <span class='placeholder col-6'></span>
                         <span class='placeholder col-8'></span>
                       </p>
-                      <a class='btn btn-primary disabled placeholder col-6'></a>
+                      <div class='btn btn-primary disabled placeholder col-6'></div>
                     </div>
                   </div>
                 </>

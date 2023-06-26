@@ -28,9 +28,9 @@ export const UsuarioService = {
     }
   },
   // exibe um usuario pelo id
-  async exibir(id) {
+  async exibir(cod_usuario) {
     try {
-      const response = await api.get(`/usuario/${id}`);
+      const response = await api.get(`/usuario/${cod_usuario}`);
       return response.data;
     } catch (error) {
       console.error(error);

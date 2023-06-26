@@ -334,20 +334,25 @@ class ItensMovimentoController {
 
   async criar(req, res) {
     try {
-      const { valor_unitario, cod_produto, quantidade } = req.body;
-      // const _id = String((await Usuario.findOne({ cod_usuario }))._id); // pega o id do usuário a partir do cod_usuario
+      const itens = req.body;
+      // percore o array de itens e verifica se o produto existe
+      itens.forEach(async (item) => {
+        const { produto } = item;
+        const produtoConsulta = await Produto.findOne({ cod_produto: produto });
 
-      const produto = await Produto.findOne({ produto: cod_produto }).populate("categoria");
+        if (!produto) {
+          return res.status(404).json({ error: "Produto não encontrado" });
+        }
+        const itemMovimento = new ItemMovimento({
+          valor_unitario: item.valor_unitario,
+          produto: produtoConsulta._id,
+          quantidade: item.quantidade,
+        });
 
-      if (!produto) {
-        return res.status(404).json({ error: "Produto não encontrado" });
-      }
+        itemMovimento.save();
+      });
 
-      const item = new ItemMovimento({ valor_unitario, produto: produto._id, quantidade });
-
-      await item.save();
-
-      return res.status(201).json(item);
+      return res.status(201).json(itens);
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: "Erro ao criar item" });
@@ -400,7 +405,7 @@ class ItensMovimentoController {
 
     // itens_completos agora contém os itens no formato desejado
 
-    return res.status(200).json( itens );
+    return res.status(200).json(itens);
   }
 
   async listar_cod(req, res) {

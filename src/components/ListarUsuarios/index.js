@@ -62,7 +62,7 @@ export default function ListarUsuarios({ usuarios }) {
                     <div
                       className='btn btn-primary'
                       data-bs-toggle='modal'
-                      data-bs-target={`#modal-update-${usuario.id}`}>
+                      data-bs-target={`#modal-update-${usuario.cod_usuario}`}>
                       Editar
                     </div>
                     <AtualizarPerfil usuario={usuario} />

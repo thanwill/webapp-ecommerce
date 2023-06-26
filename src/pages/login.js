@@ -25,7 +25,6 @@ export default function Login() {
     event.preventDefault();
     AuthService.login(usuario.email, usuario.senha);
     navigate("/perfil");
-
   }
 
   return (

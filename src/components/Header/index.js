@@ -92,7 +92,7 @@ export default function Header() {
               <Link to='/'>Início</Link>
             </button>
             <button type='button' className='btn btn-outline-primary'>
-              <Link to='/estoque'>Carrinho</Link>
+              <Link to='/carrinho'>Carrinho</Link>
             </button>
             <button type='button' className='btn btn-outline-primary'>
               {storedToken ? (

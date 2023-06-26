@@ -76,7 +76,7 @@ const itemMovimentoSchema = new mongoose.Schema({
   // valor_unitario float
   valor_unitario: { type: Number, required: true },
   quantidade: { type: Number, required: true },
-  produto: { type: mongoose.Schema.Types.ObjectId, ref: "Produto" },
+  produto: { type: mongoose.Schema.Types.ObjectId, ref: "Produto", required: true },
 });
 
 // se o deposito for excluido, o endereco tbm é
