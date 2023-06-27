@@ -1,6 +1,8 @@
 const Usuario = require("../models/usuario");
 const Endereco = require("../models/endereco");
 const auth = require('../config/auth.js');
+const secret = require('../config/app.json').appId;
+const jwt = require('jsonwebtoken');
 
 const Joi = require("joi");
 const { enderecoController } = require("./endereco");
@@ -103,6 +105,25 @@ class UsuarioController {
     }
   }
 
+  // exibe usuario pelo token
+  async exibir_token(req, res){
+    try{
+      const token = req.headers.Authorization ? req.headers.Authorization.split(' ')[1] : false;
+      if(!token) return res.status(401).json({error: 'Token não informado'});
+
+      const { id } = jwt.verify(token, secret);
+
+      const User = await Usuario.findOne({ _id: id });
+      const Address = await Endereco.findOne({ _id: User.endereco });
+
+      return res.status(200).json({
+        User,
+        endereco: Address
+      })
+    }catch(err){
+      return res.status(403).json({error: err.message})
+    }
+  }
 
   // passa o cod_endereco para o usuário
   async adicionar_endereco(req, res) {

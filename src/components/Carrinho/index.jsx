@@ -1,38 +1,81 @@
-import React from 'react'
+import React, {useEffect, useContext, useState} from 'react'
 import { Section, Container } from './styles.js'
 import ItemProduct from './itemProduct'
+import { CartContext } from '../../context/cartContext.jsx'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export default function Carrinho(){
+
+    const { cart } = useContext(CartContext)
+    const navigate = useNavigate()
+    const [usuario, setUsuario] = useState({})
+
+    useEffect(() => {
+        if(cart.length === 0){
+            toast.error('Seu carrinho está vazio')
+            //navigate('/')
+        }
+
+        const user = fetch('http://localhost:3000/user/me', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        .then((response) => response.json()).then((data) => {
+            setUsuario(data)
+        }).catch((err) => {
+            console.log(err)
+            navigate('/login')
+            toast.error('Você precisa estar logado para acessar essa página')
+        })
+
+        return () => {
+        }
+    },[
+        cart,
+        navigate
+    ])
+
     return(
         <Container>
             <Section>
                 <h3>Seu Carrinho</h3>
-                <ItemProduct id={1} img={'https://2.bp.blogspot.com/-TOCRLYBV3N4/UsbbAXBZmkI/AAAAAAAAPuM/DbPHOcuv6HA/s1600/A-Menina-Que-Roubava-Livros-capa-filme-1.jpg'} name={'Bololo'} price={'123'} quantity={1} />
+                {cart.length > 0 ? cart.map((item) => (
+                    <ItemProduct
+                        key={item._id}
+                        id={item._id}
+                        nome={item.name}
+                        quantidade={item.quantity}
+                    />
+                )) : (<h4>Seu carrinho está vazio</h4>)}
             </Section>
             <Section>
                 <h3>Dados de entrega</h3>
                 <form>
                     <label>Nome do Destinatário:</label>
-                    <input type="text" name="name" />
+                    <input type="text" name="name" defaultValue={usuario.nome} />
                     <label>Rua:</label>
-                    <input type="text" name="street" />
+                    <input type="text" name="street" defaultValue={usuario.endereco.rua}/>
                     <label>Número:</label>
-                    <input type="text" name="number" />
+                    <input type="text" name="number" defaultValue={usuario.endereco.numero}/>
                     <label>Complemento:</label>
-                    <input type="text" name="complement" />
+                    <input type="text" name="complement" defaultValue={usuario.endereco.complemento} />
                     <label>Bairro:</label>
-                    <input type="text" name="district" />
+                    <input type="text" name="district" defaultValue={usuario.endereco.bairro}/>
                     <label>Cidade:</label>
-                    <input type="text" name="city" />
+                    <input type="text" name="city" defaultValue={usuario.endereco.cidade}/>
                     <label>Estado:</label>
-                    <select name="state">
+                    <select name="state" defaultValue={usuario.endereco.estado}>
                         <option value="AC">AC</option>
                         <option value="AL">AL</option>
                         <option value="AM">AM</option>
                         <option value="AP">AP</option>
                         <option value="BA">BA</option>
                         <option value="CE">CE</option>
-                        <option value="DF" selected>DF</option>
+                        <option value="DF">DF</option>
                         <option value="ES">ES</option>
                         <option value="GO">GO</option>
                         <option value="MA">MA</option>
@@ -59,7 +102,9 @@ export default function Carrinho(){
             <Section>
                 <h3>Forma de pagamento:</h3>
                 <select>
-                    <option value="boleto">Mastercard 55020918</option>
+                    <option value="boleto">Boleto</option>
+                    <option value="pix">PIX</option>
+                    {usuario.cartao ? <option value="cartao">Cartao: {usuario.cartao.numero}</option> : null}
                 </select>
             </Section>
             <Section>
