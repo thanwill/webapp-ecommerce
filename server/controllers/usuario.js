@@ -1,15 +1,24 @@
 const Usuario = require("../models/usuario");
 const Endereco = require("../models/endereco");
-const auth = require("../config/auth.js");
+const auth = require('../config/auth.js');
+const multer = require('multer');
+
+const upload = multer({
+  storage: multer.memoryStorage(), 
+});
+
+const Joi = require("joi");
 const { enderecoController } = require("./endereco");
 
 class UsuarioController {
   // cadastra um novo usuário
-  async criarOld(req, res) {
+  async criar(req, res) {
     try {
-      const { nome, email, senha, notificacoes, telefone, cpf, plano, cartao } = req.body;
+      const { nome, email, senha, notificacoes, telefone, cpf, foto, plano, cartao } = req.body;
+      // endereco
+      const { rua, numero, complemento, bairro, cidade, estado, cep } = req.body;
 
-      // verifica se o usuário já existe
+      // Verifica se o usuário já existe
       const usuarioJaExiste = await Usuario.findOne({ email });
 
       if (usuarioJaExiste) {
@@ -17,6 +26,46 @@ class UsuarioController {
           error: "Usuário já cadastrado",
         });
       }
+
+
+
+      const schema = Joi.object({
+        nome: Joi.string().min(3).required(),
+        email: Joi.string().email().required(),
+        senha: Joi.string().min(6).required(),
+        notificacoes: Joi.boolean().required(),
+        plano: Joi.number().integer().min(0).max(3).required(),
+        telefone: Joi.string().min(11).max(11).required(),
+        cpf: Joi.string().min(11).max(11).required(),
+        foto: Joi.object({
+          data: Joi.binary().required(),
+          contentType: Joi.string().required()
+        }).required(),
+        cartao: Joi.object().keys({
+          nome: Joi.string().min(3).required(),
+          numero: Joi.string().min(16).max(16).required(),
+          cvc: Joi.string().min(3).max(3).required(),
+        }),
+      });
+
+      const { error } = schema.validate({
+        nome,
+        email,
+        senha,
+        notificacoes,
+        plano,
+        telefone,
+        cpf,
+        foto,
+        cartao,
+      });
+
+      if (error) {
+        return res.status(400).json({
+          error: error.details[0].message,
+        });
+      }
+
 
       // cria um novo endereco
       const endereco = new Endereco({
@@ -26,12 +75,12 @@ class UsuarioController {
         bairro,
         cidade,
         estado,
-        cep,
+        cep,        
       });
 
       const novo_endereco = await enderecoController.criar(endereco, res);
       console.log(novo_endereco);
-
+      
       // procura o _id do novo endereco
       const _id = String((await Endereco.findOne(novo_endereco))._id);
 
@@ -43,9 +92,15 @@ class UsuarioController {
         plano,
         telefone,
         cpf,
+        foto,
         cartao,
         endereco: _id,
       });
+
+        if (req.file) {
+        console.log(req.file);
+        usuario.foto = req.file.path;
+    }
 
       // cria um novoc usuário com a nova foto
       await usuario.save();
@@ -56,6 +111,7 @@ class UsuarioController {
         success: true,
         message: "Usuário cadastrado com sucesso!",
       });
+      
     } catch (error) {
       console.log(error);
       return res.status(500).json({
@@ -65,96 +121,6 @@ class UsuarioController {
     }
   }
 
-  async criar(req, res) {
-    const usuario = req.body;
-
-    try {
-      // verifica se o usuário já existe
-      const usuarioJaExiste = await Usuario.findOne({ email: usuario.email });
-
-      if (usuarioJaExiste) {
-        return res.status(409).json({
-          error: "Usuário já cadastrado",
-        });
-      }
-      /*
-{
-  "rua": "Rua Antônio Escorsin",
-  "numero": "123",
-  "complemento": "Sala 501",
-  "bairro": "Santa Cândida",
-  "cidade": "Curitiba",
-  "estado": "PR",
-  "cep": "82940-250"
-}
-{
-    "step": 4,
-    "nome": "Jonathan William Pereira",
-    "cpf": "106.747.759-45",
-    "email": "jonathan14willian@gmail.com",
-    "telefone": "",
-    "senha": "Atzmkl712",
-    "nome_cartao": "Jonathan William Pereira",
-    "numero_cartao": "1231231231231232",
-    "cvc": "",
-    "logradouro": "Rua das flores",
-    "numero": "231",
-    "complemento": "",
-    "bairro": "Cajuru",
-    "localidade": "Curitiba",
-    "uf": "PR",
-    "cep": "82940-250",
-    "cvc_cartao": "123"
-}
-      */
-
-      // cria um novo endereco
-      const endereco = new Endereco({
-        rua: usuario.logradouro,
-        numero: usuario.numero,
-        complemento: usuario.complemento,
-        bairro: usuario.bairro,
-        cidade: usuario.localidade,
-        estado: usuario.uf,
-        cep: usuario.cep,
-      });
-
-      const novo_endereco = await enderecoController.criar(endereco, res);
-
-      // procura o _id do novo endereco
-      const _id = String((await Endereco.findOne(novo_endereco))._id);
-
-      const novo_usuario = new Usuario({
-        nome: usuario.nome,
-        cpf: usuario.cpf,
-        email: usuario.email,
-        telefone: usuario.telefone,
-        senha: usuario.senha,
-        cartao: {
-          nome: usuario.nome_cartao,
-          numero: usuario.numero_cartao,
-          cvc: usuario.cvc_cartao,
-        },
-        endereco: _id,
-      });
-
-      // cria um novoc usuário com a nova foto
-      await novo_usuario.save();
-
-      auth.incluirToken(novo_usuario);
-
-      return res.status(201).json({
-        success: true,
-        message: "Usuário cadastrado com sucesso!",
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-        success: false,
-        error: error.message,
-      });
-    }
-  }
 
   // passa o cod_endereco para o usuário
   async adicionar_endereco(req, res) {
@@ -190,6 +156,8 @@ class UsuarioController {
         }
       );
 
+      console.log(usuarioJaExiste);
+
       return res.status(200).json({
         success: true,
         message: "Endereço adicionado com sucesso!",
@@ -217,7 +185,7 @@ class UsuarioController {
     try {
       const { cod_usuario } = req.params;
 
-      const usuario = await Usuario.findOne({ cod_usuario }).populate("endereco");
+      const usuario = await Usuario.findOne({ cod_usuario });
 
       if (!usuario) {
         return res.status(404).json({ error: "Usuário não encontrado" });
@@ -297,6 +265,7 @@ class UsuarioController {
   // exclui toda a base
   async excluirTudo(res) {
     try {
+
       // verifica se há usuários cadastrados e retorna o n'umero de usuários
       const usuarios = await Usuario.find({});
       if (usuarios.length === 0) {
