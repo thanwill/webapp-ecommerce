@@ -6,7 +6,6 @@ export default class CarrinhoController extends Component {
   state = {
     step: 1,
   };
-
   nextStep = () => {
     const { step } = this.state;
     this.setState({ step: step + 1 });
@@ -43,6 +42,7 @@ export default class CarrinhoController extends Component {
             nextStep={this.nextStep}
             handleChange={this.handleChange}
             values={values}
+
           />
         );
       case 2:

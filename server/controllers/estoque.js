@@ -327,6 +327,19 @@ class MovimentoController {
       return res.status(500).json({ error: "Erro ao criar movimento" });
     }
   }
+
+  async listar_movimentos(req, res) {
+    try {
+      const movimentos = await Movimento.find()
+        .populate("deposito_origem")
+        .populate("local_destino")
+        .populate("itens");
+      return res.status(200).json(movimentos);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Erro ao listar movimentos" });
+    }
+  }
 }
 
 class ItensMovimentoController {

@@ -57,4 +57,15 @@ router.post("/", async (req, res) => {
   }
 });
 
+// get para listar todos os movimentos
+router.get("/", async (req, res) => {
+  try {
+    await movimentoController.listar_movimentos(req, res);
+  } catch (error) {
+    res.status(500).json({
+      error: `${error}`,
+    });
+  }
+});
+
 module.exports = router;

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import Toast from "../Toast";
 export default function Produtos({ itens, categorias }) {
   const [categoriaSelecionada, setCategoriaSelecionada] = useState(0);
-
+  const [carrinho, setCarrinho] = useState([]);
   const handleCategoriaChange = event => {
     const categoria = parseInt(event.target.value);
     setCategoriaSelecionada(categoria);
@@ -11,14 +12,22 @@ export default function Produtos({ itens, categorias }) {
     categoriaSelecionada === 0
       ? itens
       : itens.filter(item => item.cod_categoria === categoriaSelecionada);
+  const handleShowToast = () => {
+    const toastElement = document.getElementById("myToast");
+    const toast = new Toast(toastElement, {
+      delay: 2000, // Tempo de exibição do Toast em milissegundos
+    });
+    toast.show();
+  };
   function handleAdicionarAoCarrinho(item) {
     // Verifica se o carrinho já existe no localStorage
-    const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+    const carrinhoSalvo = JSON.parse(localStorage.getItem("carrinho")) || [];
 
     // Verifica se o produto já está no carrinho
-    const produtoExistente = carrinho.find(
-      produto => produto.cod_produto === item.cod_item
+    const produtoExistente = carrinhoSalvo.find(
+      produto => produto.cod_produto === item.cod_produto
     );
+
     if (produtoExistente) {
       // Produto já está no carrinho, faça alguma lógica adicional se necessário
       console.log("Produto já está no carrinho:", produtoExistente);
@@ -27,13 +36,14 @@ export default function Produtos({ itens, categorias }) {
       const novoProduto = {
         nome: item.nome,
         cod_produto: item.cod_produto,
-        quantidade : 1,
-        valor_unitario: item.valor_unitario                         
+        quantidade: 1,
+        valor_unitario: item.valor_unitario,
       };
-      carrinho.push(novoProduto);
 
-      // Atualize o carrinho no localStorage
-      localStorage.setItem("carrinho", JSON.stringify(carrinho));
+      const novoCarrinho = [...carrinhoSalvo, novoProduto];
+
+      localStorage.setItem("carrinho", JSON.stringify(novoCarrinho));
+
       console.log("Produto adicionado ao carrinho:", novoProduto);
     }
   }
@@ -105,7 +115,7 @@ export default function Produtos({ itens, categorias }) {
                 handleAdicionarAoCarrinho(item);
                 console.log(item);
               }}>
-              <div className='card-link text-center'>
+              <div className='card-link text-center' id='liveToastBtn'>
                 <i className='bi bi-bag p-3'></i> COMPRAR
               </div>
             </div>

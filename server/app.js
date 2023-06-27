@@ -15,6 +15,7 @@ const DepositoRouter = require("./routes/deposito");
 const EnderecoRouter = require("./routes/endereco.js");
 const MovimentoRouter = require("./routes/movimento.js");
 const AuthRouter = require("./routes/auth");
+const VendaRouter = require("./routes/venda");
 
 connectDB();
 app.use(cors());
@@ -36,6 +37,7 @@ app.use("/deposito", DepositoRouter);
 app.use("/endereco", EnderecoRouter);
 app.use("/movimento", MovimentoRouter);
 app.use("/auth", AuthRouter);
+app.use("/vendas", VendaRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -58,10 +58,10 @@ const movimentacaoSchema = new mongoose.Schema({
   motivo: { type: String, required: true },
   documento: { type: String, required: true },
   data_criacao: { type: Date, required: true, default: Date.now },
-  deposito_origem: { type: mongoose.Schema.Types.ObjectId, ref: "Deposito" },
+  deposito_origem: { type: mongoose.Schema.Types.ObjectId, ref: "Deposito", required: true },
   local_destino: { type: mongoose.Schema.Types.ObjectId, ref: "Deposito" },
   // recebe um array de itens
-  itens: [{ type: mongoose.Schema.Types.ObjectId, ref: "ItemMovimento" }],
+  itens: [{ type: mongoose.Schema.Types.ObjectId, ref: "ItemMovimento", required: true }],
 });
 
 const itemMovimentoSchema = new mongoose.Schema({
