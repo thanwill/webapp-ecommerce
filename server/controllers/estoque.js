@@ -356,6 +356,7 @@ class ItensMovimentoController {
         if (!produto) {
           return res.status(404).json({ error: "Produto não encontrado" });
         }
+        
         const itemMovimento = new ItemMovimento({
           valor_unitario: item.valor_unitario,
           produto: produtoConsulta._id,

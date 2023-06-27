@@ -43,7 +43,7 @@ class VendaController {
       detalhes.forEach((detalhe) => {
         const { produto } = detalhe;
         const produtoConsulta = Produto.findOne({ cod_produto: produto });
-
+        
         if (!produtoConsulta) {
           return res.status(404).json({
             success: false,
@@ -51,7 +51,7 @@ class VendaController {
           });
         }
 
-        const itemConsulta = ItemMovimento.findOne({ cod_produto: produtoConsulta.cod_produto });
+        const itemConsulta = ItemMovimento.findOne({ produto: produtoConsulta._id });
 
         if (!itemConsulta) {
           return res.status(404).json({
@@ -72,7 +72,6 @@ class VendaController {
           quantidade: detalhe.quantidade,
           valor_unitario: detalhe.valor_unitario,
         });
-        
 
         // salva o item no banco de dados
         detalhe.save();
@@ -179,6 +178,7 @@ class VendaController {
       });
     }
   }
+
 }
 
 module.exports = new VendaController();

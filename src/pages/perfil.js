@@ -3,6 +3,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import FuncoesUsuario from "../components/FuncoesUsuario";
+import Profile from '../components/Profile/index';
 
 export default function Perfil() {
   const navigate = useNavigate();
@@ -13,7 +14,9 @@ export default function Perfil() {
 
   return (
     <>
-      <FuncoesUsuario />
+      <div className='container'>
+        <Profile/>        
+      </div>
     </>
   );
 }
