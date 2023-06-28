@@ -269,6 +269,13 @@ class UsuarioController {
     }
   }
 
+  async exibe_usuario(id){
+    const usuario = await Usuario.findById({_id: id});
+    const endereco = await Endereco.findById({_id: usuario.endereco});
+
+    return { usuario, endereco: endereco}
+  }
+
   async excluir_id(req, res) {
     try {
       const { cod_usuario } = req.params;
