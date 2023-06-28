@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {  produtoController } = require("../controllers/estoque");
-
+const { ProdutoLogic } = require("../logic/produtos");
 
 /* ROTAS PARA PRODUTOS */
 
@@ -60,6 +60,7 @@ router.post("/", async (req, res) => {
       res.status(500).json({ error: `${error}` });
     }
   });
+
   
   module.exports = router;
 

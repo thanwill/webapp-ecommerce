@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 // banco de dados local
-const mongoDBURL = 'mongodb+srv://felipenether:felipeholanda123@cluster0.4xwy9pc.mongodb.net/?retryWrites=true&w=majority';
+const mongoDBURL = 'mongodb://localhost:27017/catalogo';
 // banco de dados no MongoDB Atlas hospedado no Railway
 //const mongoDBURL = 'mongodb://mongo:v6VkU3iApbmdr2w7uzgg@containers-us-west-160.railway.app:6723';
 

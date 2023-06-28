@@ -1,1 +1,27 @@
-node_modules
+# Logs
+logs
+*.log
+
+# Arquivos de construção
+build/
+dist/
+
+# Dependências
+node_modules/
+
+# Arquivos de ambiente
+.env
+
+# Arquivos de configuração do IDE
+.vscode/
+
+# Arquivos de compilação
+*.map
+
+# Cache
+.cache/
+
+# Arquivos de instalação
+*.iml
+*.swp
+*.DS_Store

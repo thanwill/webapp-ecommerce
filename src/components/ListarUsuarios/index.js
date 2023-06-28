@@ -8,11 +8,7 @@ export default function ListarUsuarios({ usuarios }) {
         title='Usuários'
         subtitle='Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur, labore!'
       />
-      <ul className='list-group'>
-        {
-          // cria um campo de busca para filtar por nome, sobrenome, cidade, estado e status
-          // cria um botão para excluir o usuario
-        }
+      <ul className='list-group'>      
         {usuarios ? (
           usuarios.map(usuario => (
             <li className='card mb-3' key={usuario.id}>

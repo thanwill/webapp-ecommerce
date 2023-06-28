@@ -14,17 +14,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Exibe dados do usuário através do Token
-router.get("/me", async (req, res) => {
-  try {
-    await Usuario.exibir_token(req, res);
-  } catch (error) {
-    res.status(500).json({
-      error:error.message,
-    });
-  }
-})
-
 // adiciona um endereço ao usuário
 router.put("/endereco/:cod_usuario", async (req, res) => {
   try {

@@ -4,7 +4,6 @@ import './style/App.css';
 import RouteConfig from './pages/RouteConfig';
 import ErrorBoundary from './components/ErrorBoundary';
 import MessageDisplay from './components/MessageDisplay';
-import CartProvider from './context/cartContext';
 function App() {
   const [showComponent, setShowComponent] = useState(false);
 
@@ -29,9 +28,7 @@ function App() {
           <MessageDisplay />
         ) : (
           <>
-          <CartProvider>
             <RouteConfig/>
-          </CartProvider>
           </>
         )}
       </ErrorBoundary>

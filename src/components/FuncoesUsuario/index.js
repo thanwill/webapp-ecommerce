@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import "./index.css";
-import UserProfile from "../Profile";
+
 import CriarUsuario from "../CriarUsuario";
 import ListarUsuarios from "../ListarUsuarios/index";
 import { UsuarioService } from "../../services/usuario";
@@ -22,14 +21,13 @@ function Header() {
     fetchUsuario();
   }, [atualizarUsuarios]);
 
-
   const handleUsuarioCadastrado = () => {
     setAtualizarUsuarios(true);
   };
 
   return (
     <>
-      <div className='container '>
+      <div className='container mb-5 '>
         <div className='row'>
           <div className='col-10 offset-1 col-md-6'>
             <ul className='nav nav-pills mb-3' id='pills-tab' role='tablist'>
@@ -59,19 +57,6 @@ function Header() {
                   Registros
                 </button>
               </li>
-              <li className='nav-item' role='presentation'>
-                <button
-                  className='nav-link'
-                  id='pills-contact-tab'
-                  data-bs-toggle='pill'
-                  data-bs-target='#pills-contact'
-                  type='button'
-                  role='tab'
-                  aria-controls='pills-contact'
-                  aria-selected='false'>
-                  Perfil
-                </button>
-              </li>
             </ul>
           </div>
         </div>
@@ -84,7 +69,7 @@ function Header() {
             aria-labelledby='pills-home-tab'
             tabIndex='0'>
             <div className='row'>
-              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'>
+              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-3 mb-5'>
                 <CriarUsuario onCreate={handleUsuarioCadastrado} />
               </div>
             </div>
@@ -96,7 +81,7 @@ function Header() {
             aria-labelledby='pills-profile-tab'
             tabIndex='0'>
             <div className='row'>
-              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'>
+              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-3 mb-5'>
                 <ListarUsuarios usuarios={usuarios} />
               </div>
             </div>
@@ -108,9 +93,7 @@ function Header() {
             aria-labelledby='pills-contact-tab'
             tabIndex='0'>
             <div className='row'>
-              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5'>
-                <UserProfile id={5} />
-              </div>
+              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5'></div>
             </div>
           </div>
           <div

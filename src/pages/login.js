@@ -1,18 +1,13 @@
-// OAuth 2.0 do Google
-
-// 1. Criar um projeto no Google Cloud Platform
-// 2. Ativar a API do Google+ no projeto
-// 3. Criar um OAuth Client ID no projeto
-// 4. Configurar o OAuth Client ID no projeto
-// 5. Configurar o OAuth Client ID no frontend
-// 6. Configurar o OAuth Client ID no backend
-// 7. Testar o login com o Google
-
 import React from "react";
 import { useState } from "react";
 import Title from "../components/Title/index";
+import { AuthService } from "../services/login";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [usuario, setUsuario] = useState({
     email: "",
     senha: "",
@@ -28,7 +23,9 @@ export default function Login() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(usuario);
+    AuthService.login(usuario.email, usuario.senha);
+    navigate("/perfil");
+
   }
 
   return (
@@ -36,13 +33,8 @@ export default function Login() {
       <div className='container'>
         <div className='row'>
           <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'>
+            <Title title='Login' subtitle='Faça login para acessar o sistema' />
             <div className='card'>
-              <div className='card-header'>
-                <Title
-                  title='Login'
-                  subtitle='Faça login para acessar o sistema'
-                />
-              </div>
               <div className='card-body'>
                 <form className=''>
                   <div className='mb-3 email-usuario'>
@@ -76,12 +68,18 @@ export default function Login() {
                   </div>
                   <button
                     type='submit'
-                    className='btn btn-primary btn-block'
+                    className='btn btn-primary btn-block offset-4 mt-3'
                     onClick={handleSubmit}>
                     Entrar
                   </button>
                 </form>
               </div>
+            </div>
+            
+            <div className='text-center mt-4'>
+              <Link to='/cadastro'>
+                <div href='#'>Não tem cadastro? Cadastre-se aqui</div>
+              </Link>
             </div>
           </div>
         </div>

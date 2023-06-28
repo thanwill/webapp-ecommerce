@@ -1,227 +1,132 @@
 import React from "react";
-import "./styles.css";
 import Title from "../Title/index";
 import { useState, useEffect } from "react";
 import { UsuarioService } from "../../services/usuario";
-import AtualizarPerfil from "../AtualizarPerfil/index";
-import { Form } from "react-bootstrap";
-export default function Profile({ id }) {
+import jwtDecode from "jwt-decode";
+
+export default function Profile() {
+  const storedToken = localStorage.getItem("token");
+
   const [usuario, setUsuario] = useState(null);
   useEffect(() => {
     async function fetchUsuario() {
       try {
-        const response = await UsuarioService.exibir(id);
-        setUsuario(response);
+        const response = jwtDecode(storedToken);
+        const data = await UsuarioService.exibir(response.id);
+        setUsuario(data);
       } catch (error) {
         console.error(error);
       }
     }
     fetchUsuario();
-  }, [id]);
+  }, [storedToken]);
 
   return (
     <>
-      <Title
-        title='Perfil do usuário'
-        subtitle='Aqui você pode ver e editar as informações do seu perfil'
-      />
-      {
-        // se o usuário existir, renderiza o componente de atualização
-        usuario ? (
-          <>
-            <div className='user-profile  '>
-              {
-                // se o usuário tiver uma foto, mostra a foto, senão mostra a imagem padrão
-                usuario.foto ? (
-                  <img
-                    src={usuario.foto}
-                    alt={usuario.nome}
-                    className='user-photo'
-                  />
-                ) : (
+      <div className='mt-5 mb-5'>
+        {/*
+          <div className='row'>
+          <div className='col-10 offset-1 col-md-6'>
+            <ul className='nav nav-pills mb-3' id='pills-tab' role='tablist'>
+              <li className='nav-item' role='presentation'>
+                <button
+                  className='nav-link active'
+                  id='pills-home-tab'
+                  data-bs-toggle='pill'
+                  data-bs-target='#pills-home'
+                  type='button'
+                  role='tab'
+                  aria-controls='pills-home'
+                  aria-selected='true'>
+                  Produtos
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+          */}
+
+        <div className='row'>
+          <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'>
+            <Title
+              title='Perfil'
+              subtitle='Consulte os detalhes do seu cadastro'
+            />
+            {
+              // verifica se o usuário está logado
+              storedToken ? (
+                <>
                   <img
                     src='./assets/beta.png'
-                    alt={`Aqui`}
-                    className='user-photo'
-                  />
-                )
-              }
-              <div className='user-details'>
-                <h2>{usuario.nome}</h2>
-                <p>{usuario.email}</p>
+                    class='rounded mx-auto d-block circle'
+                    width={200}
+                    alt='...'></img>
+                  <div class='card' aria-hidden='true'>
+                    <div class='card-body'>
+                      <h5 class='card-title placeholder-glow'>
+                        {usuario ? usuario.nome : "Carregando..."}
+                      </h5>
+                      <small class='text-body-secondary'>
+                        {usuario ? usuario.email : "Carregando..."}
+                      </small>
+                      <br />
+                      <small class='text-body-secondary'>
+                        {usuario ? usuario.telefone : "Carregando..."}
+                      </small>
+                      <br />
+                      <small class='text-body-secondary'>
+                        {
+                          // adiciona uma mascara de asteristicos para o cpf ocultando os 9 primeiros digitos
+                          usuario
+                            ? usuario.cpf.replace(/.(?=.{7})/g, "*")
+                            : "Carregando..."
+                        }
+                      </small>
+                    </div>
+                    <div className='card-footer'>
+                      {
+                        // botao de logout
 
-                <p>
-                  Plano:
-                  {
-                    // mostra o plano do usuario basic 1, standard 2, premium 3
-                    usuario.plano === 1
-                      ? " Basic"
-                      : usuario.plano === 2
-                      ? " Standard"
-                      : " Premium"
-                  }
-                </p>
-              </div>
-            </div>
-            <div
-              className='btn btn-primary'
-              data-bs-toggle='modal'
-              data-bs-target={`#modal-edit-${usuario.id}`}>
-              Editar
-            </div>
-            {
-              <>
-                <div
-                  className='modal fade'
-                  id={`modal-edit-${usuario.id}`}
-                  data-bs-backdrop='static'
-                  data-bs-keyboard='false'
-                  tabIndex='-1'
-                  aria-labelledby='staticBackdropLabel'
-                  aria-hidden='true'>
-                  <div className='modal-dialog'>
-                    <div className='modal-content'>
-                      <div className='modal-header'>
-                        <h1
-                          className='modal-title fs-5'
-                          id='staticBackdropLabel'>
-                          Atualizar perfil
-                        </h1>
                         <button
-                          type='button'
-                          className='btn-close'
-                          data-bs-dismiss='modal'
-                          aria-label='Close'></button>
-                      </div>
-                      <div className='modal-body'>
-                        <Title
-                          subtitle={`Olá, ${usuario.nome}. Atualize aqui informações do seu perfil e mantenha sua conta sempre em dia.`}
-                        />
-                        <Form>
-                          <div className='row'>
-                            <div className=' col-10 offset-1 col-md-6 offset-md-3 mt-3'>
-                              <div className='mb-3'>
-                                <div className='form-floating mb-3'>
-                                  <input
-                                    type='text'
-                                    name='nome'
-                                    className='form-control'
-                                    id='nome-update'
-                                    placeholder='Johe Doe'
-                                    defaultValue={usuario.nome}
-                                    // validacao
-                                    required
-                                    minLength={3}
-                                    maxLength={100}
-                                    pattern="^[a-zA-Zà-úÀ-Ú0-9]+(([' -][a-zA-Zà-úÀ-Ú0-9])?[a-zA-Zà-úÀ-Ú0-9]*)*$"
-                                  />
-                                  <label htmlFor='nome-update'>
-                                    Nome completo
-                                  </label>
-                                </div>
-                              </div>
-                              <div className='mb-3'>
-                                <div className='form-floating mb-3'>
-                                  <input
-                                    type='email'
-                                    name='email'
-                                    className='form-control'
-                                    id='email-update'
-                                    placeholder='example@gmail.com'
-                                    required
-                                    defaultValue={usuario.email}
-                                    autoComplete='on'
-                                    pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
-                                  />
-                                  <label htmlFor='email-update'>Email</label>
-                                </div>
-                              </div>
-
-                              <div className='mb-3'>
-                                <div className='input-group mb-3'>
-                                  <input
-                                    name='senha'
-                                    className='form-control'
-                                    id='senha-update'
-                                    placeholder='Senha'
-                                    required
-                                    defaultValue={usuario.senha}
-                                    minLength={6}
-                                    maxLength={20}
-                                    aria-describedby='button-addon2'
-                                  />
-                                  <button
-                                    className='btn btn-outline-secondary'
-                                    type='button'
-                                    id='button-addon2'
->                                    <i
-                                      className={`bi bi-eye`}></i>
-                                  </button>
-                                </div>
-                              </div>
-
-                              <div className='row'>
-                                <div className='input-group mb-3 mt-5'>
-                                  <div className='form-check form-switch'>
-                                    <input
-                                      type='checkbox'
-                                      name='newsletter'
-                                      className='form-check-input'
-                                      role='switch'
-                                      id='newsletter-switch'
-                                      checked={
-                                        usuario.newsletter
-                                          ? usuario.newsletter
-                                          : false
-                                      }
-                                    />
-
-                                    <label
-                                      className='form-check-label text-muted '
-                                      htmlFor='newsletter-switch'>
-                                      Quero receber novidades por e-mail
-                                    </label>
-                                  </div>
-                                  {usuario.newsletter ? (
-                                    <div className='form-text'>
-                                      Você já está cadastrado em nossa
-                                      newsletter.
-                                    </div>
-                                  ) : (
-                                    <div className='form-text'>
-                                      Você não receberá nossas novidades por
-                                      email.
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </Form>
-                      </div>
-                      <div className='modal-footer'>
-                        <button
-                          type='button'
-                          className='btn btn-secondary'
-                          data-bs-dismiss='modal'>
-                          Fechar
+                          className='btn btn-danger'
+                          onClick={() => {
+                            localStorage.removeItem("token");
+                            window.location.reload();
+                          }}>
+                          Sair
                         </button>
-                        <button type='button' className='btn btn-primary'>
-                          
-                          Salvar
-                        </button>
-                      </div>
+                      }
                     </div>
                   </div>
-                </div>
-              </>
+                </>
+              ) : (
+                <>
+                  <img
+                    src='./assets/beta.png'
+                    class='rounded mx-auto d-block'
+                    width={200}
+                    alt='...'></img>
+                  <div class='card' aria-hidden='true'>
+                    <div class='card-body'>
+                      <h5 class='card-title placeholder-glow'>
+                        <span class='placeholder col-6'></span>
+                      </h5>
+                      <p class='card-text placeholder-glow'>
+                        <span class='placeholder col-7'></span>
+                        <span class='placeholder col-4'></span>
+                        <span class='placeholder col-4'></span>
+                        <span class='placeholder col-6'></span>
+                        <span class='placeholder col-8'></span>
+                      </p>
+                      <div class='btn btn-primary disabled placeholder col-6'></div>
+                    </div>
+                  </div>
+                </>
+              )
             }
-            <AtualizarPerfil usuario={usuario} />
-          </>
-        ) : (
-          <p>Carregando...</p>
-        )
-      }
+          </div>
+        </div>
+      </div>
     </>
   );
 }
