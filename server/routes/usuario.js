@@ -2,6 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const Usuario = require("../controllers/usuario");
+const jwt = require("jsonwebtoken");
+const secret = require("../config/app.json").appId;
 
 // cadastra um novo usuário
 router.post("/", async (req, res) => {
@@ -35,6 +37,23 @@ router.get("/", async (req, res) => {
     });
   }
 });
+
+router.get("/me", async (req, res) => {
+  const token = req.headers.authorization.split(" ")[1];
+  if(!token) return res.status(401).json({ error: "Token não encontrado" });
+
+  try {
+    const {_id} = jwt.verify(token, secret);
+    const usuario = await Usuario.exibe_usuario(_id);
+    return res.status(200).json(usuario);
+  } catch (error) {
+    console.log(error)
+    return res.status(403).json({
+      error: error.message,
+    });
+  }
+
+})
 
 // busca por cod_usuario
 router.get("/:cod_usuario", async (req, res) => {
