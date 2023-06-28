@@ -5,7 +5,7 @@ const bcryptjs = require("bcryptjs");
 // inclui o token no objeto usuario
 async function incluirToken(usuario) {
 
-  const token = jwt.sign({ id: usuario.cod_usuario }, auth.appId, {
+  const token = jwt.sign({ id: usuario.cod_usuario, _id: usuario._id }, auth.appId, {
     expiresIn: 86400, // expira em 24 horas
   });
   
