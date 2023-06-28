@@ -9,9 +9,9 @@ export default function ItemProduct({ id, name, quantity}){
 
     return (
         <Container>
-            <p>{name}</p>
+            <small>{name}</small>
             <div className='quantity'>
-                <p>{quantity}</p>
+                <small>{quantity}</small>
                 <div className='buttonSet'>
                     <button className="plus" onClick={increment(id)}>
                         <i class='bx bx-plus'></i>

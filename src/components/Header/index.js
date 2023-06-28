@@ -1,6 +1,12 @@
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./style.css";
+import { CartContext } from "../../context/cartContext";
+
+
 export default function Header() {
+  const { cart } = useContext(CartContext);
+
   const storedToken = localStorage.getItem("token");
   return (
     <>
@@ -15,6 +21,7 @@ export default function Header() {
             // verificando se o token existe
             storedToken ? (
               <>
+             
                 <button
                   className='navbar-toggler'
                   type='button'
@@ -24,6 +31,7 @@ export default function Header() {
                   aria-label='Toggle navigation'>
                   <span className='navbar-toggler-icon'></span>
                 </button>
+              
                 <div
                   className='offcanvas offcanvas-end'
                   tabIndex='-1'
@@ -59,6 +67,11 @@ export default function Header() {
                       <li className='nav-item'>
                         <div className='nav-link'>
                           <Link to='estoque'>Estoque</Link>
+                        </div>
+                      </li>
+                      <li className='nav-item'>
+                        <div className='nav-link'>
+                          <Link to='/carrinho'>Carrinho {`(${cart.length})`} </Link>
                         </div>
                       </li>
                     </ul>

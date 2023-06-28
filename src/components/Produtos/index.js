@@ -1,5 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { CartContext } from "../../context/cartContext";
+
+
 export default function Produtos({ itens, categorias }) {
+
+  const {addItem} = useContext(CartContext);
+
   const [categoriaSelecionada, setCategoriaSelecionada] = useState(0);
 
   const handleCategoriaChange = event => {
@@ -75,7 +81,9 @@ export default function Produtos({ itens, categorias }) {
               <li className='list-group-item'>Semelhantes</li>
             </ul>
             <div className='card-body mb-5'>
-              <div className='card-link text-center'>
+            <div className='card-link text-center' style={{
+                cursor: 'pointer'
+              }} onClick={()=>addItem()}>
                 <i className='bi bi-bag p-3'></i> COMPRAR
               </div>
             </div>
@@ -107,7 +115,9 @@ export default function Produtos({ itens, categorias }) {
               <li className='list-group-item'>Semelhantes</li>
             </ul>
             <div className='card-body'>
-              <div className='card-link text-center'>
+              <div className='card-link text-center' style={{
+                cursor: 'pointer'
+              }} onClick={()=>addItem()}>
                 <i className='bi bi-bag p-3'></i> COMPRAR
               </div>
             </div>

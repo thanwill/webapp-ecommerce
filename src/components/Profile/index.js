@@ -19,7 +19,7 @@ export default function Profile() {
       }
     }
     fetchUsuario();
-  }, [storedToken]);
+  }, []);
 
   return (
     <>
@@ -58,23 +58,23 @@ export default function Profile() {
                 <>
                   <img
                     src='./assets/beta.png'
-                    class='rounded mx-auto d-block circle'
+                    className='rounded mx-auto d-block circle'
                     width={200}
                     alt='...'></img>
-                  <div class='card' aria-hidden='true'>
-                    <div class='card-body'>
-                      <h5 class='card-title placeholder-glow'>
+                  <div className='card' aria-hidden='true'>
+                    <div className='card-body'>
+                      <h5 className='card-title placeholder-glow'>
                         {usuario ? usuario.nome : "Carregando..."}
                       </h5>
-                      <small class='text-body-secondary'>
+                      <small className='text-body-secondary'>
                         {usuario ? usuario.email : "Carregando..."}
                       </small>
                       <br />
-                      <small class='text-body-secondary'>
+                      <small className='text-body-secondary'>
                         {usuario ? usuario.telefone : "Carregando..."}
                       </small>
                       <br />
-                      <small class='text-body-secondary'>
+                      <small className='text-body-secondary'>
                         {
                           // adiciona uma mascara de asteristicos para o cpf ocultando os 9 primeiros digitos
                           usuario
@@ -103,22 +103,22 @@ export default function Profile() {
                 <>
                   <img
                     src='./assets/beta.png'
-                    class='rounded mx-auto d-block'
+                    className='rounded mx-auto d-block'
                     width={200}
                     alt='...'></img>
-                  <div class='card' aria-hidden='true'>
-                    <div class='card-body'>
-                      <h5 class='card-title placeholder-glow'>
-                        <span class='placeholder col-6'></span>
+                  <div className='card' aria-hidden='true'>
+                    <div className='card-body'>
+                      <h5 className='card-title placeholder-glow'>
+                        <span className='placeholder col-6'></span>
                       </h5>
-                      <p class='card-text placeholder-glow'>
-                        <span class='placeholder col-7'></span>
-                        <span class='placeholder col-4'></span>
-                        <span class='placeholder col-4'></span>
-                        <span class='placeholder col-6'></span>
-                        <span class='placeholder col-8'></span>
+                      <p className='card-text placeholder-glow'>
+                        <span className='placeholder col-7'></span>
+                        <span className='placeholder col-4'></span>
+                        <span className='placeholder col-4'></span>
+                        <span className='placeholder col-6'></span>
+                        <span className='placeholder col-8'></span>
                       </p>
-                      <div class='btn btn-primary disabled placeholder col-6'></div>
+                      <div className='btn btn-primary disabled placeholder col-6'></div>
                     </div>
                   </div>
                 </>

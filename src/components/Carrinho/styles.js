@@ -36,10 +36,23 @@ export const Section = styled.section`
             cursor: pointer;
         }
     }
+
+    form{
+        display: flex;
+        flex-direction: column;
+
+        input{
+            padding: 1em;
+            border-radius: .5em;
+            border: none;
+            border: 1px solid #ccc;
+        }
+    }
     `
 export const Container = styled.div`
     margin-top: 3em;
     padding: 1em;
+    margin-bottom: 5em;
 `
 
 export const ItemProduct = styled.div`
@@ -51,6 +64,8 @@ export const ItemProduct = styled.div`
     margin: 0 auto;
     padding: 1em;
     font-size: 1.2em;
+    color: #000;
+    border-bottom: 1px solid #ccc;
 
     img{
         width: 50px;
@@ -89,4 +104,9 @@ export const ItemProduct = styled.div`
             }
         }
     }
+`
+
+export const CartDiv = styled.div`
+    display: flex;
+    color: #000;
 `
