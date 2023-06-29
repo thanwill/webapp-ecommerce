@@ -47,7 +47,7 @@ const VendaSchema = new mongoose.Schema({
   },
   data: { type: Date, required: true, default: Date.now },
   // vencimento padrão 30 dias
-  data_vencimento: { type: Date, required: true, default: Date.now + 30 },
+  data_vencimento: { type: Date, required: true, default: () => (Date.now() + 30 * 24 * 60 * 60 * 1000) },
   valor_original: { type: Number, required: true },
   status: { type: String, required: true, default: "aberto" },
   data_pagamento: { type: Date },
