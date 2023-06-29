@@ -139,6 +139,7 @@ class VendaController {
     }
   }
 
+
   // Cria transação
   async criaTransacao(req, res) {
     try {
