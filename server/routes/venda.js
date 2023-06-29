@@ -42,6 +42,19 @@ router.post("/detalhes/", async (req, res) => {
     }
 });
 
+// lista dos detalhes
+router.get("/detalhes", async (req, res) => {
+  try {
+    await Venda.listaDetalhes(req, res);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Erro ao listar vendas!",
+    });
+  }
+});
+
 
 // lista as movimentações de uma venda
 router.get("/movimentacoes/", async (req, res) => {
