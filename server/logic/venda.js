@@ -1,7 +1,7 @@
 // classe de venda do sistema
 const { MovimentoTransacao, Detalhes, Venda } = require("../models/transacoes");
 const { Produto, Deposito, Movimento, ItemMovimento } = require("../models/estoque");
-
+const Usuario = require("../models/usuario");
 class VendaController {
   // cria um movimento de transação
 
@@ -139,19 +139,29 @@ class VendaController {
     }
   }
 
+  // Cria transação
   async criaTransacao(req, res) {
     try {
-      const { cliente, detalhes, venda, tipo } = req.body;
+      const { cliente, detalhes, venda, tipo } = req.params;
+      
+      const clienteId = await Usuario.findOne({ cod_usuario: cliente });
 
+      if (!clienteId) {
+        return res.status(404).json({
+          success: false,
+          message: "Cliente não encontrado!",
+        });
+      }
+      
       const movimento = new MovimentoTransacao({
-        cliente,
-        detalhes,
-        venda,
-        tipo,
+        cliente: clienteId._id, // Atribui o ID do cliente encontrado
+        detalhes, 
+        venda, 
+        tipo
       });
-
+  
       const data = await movimento.save();
-
+  
       return res.status(201).json({
         success: true,
         message: "Movimento de transação criado com sucesso!",
@@ -165,6 +175,7 @@ class VendaController {
       });
     }
   }
+  
 
   // lista os movimentos de transação
   async listaTransacoes(req, res) {

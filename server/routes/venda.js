@@ -69,5 +69,17 @@ router.get("/movimentacoes/", async (req, res) => {
     }
 });
 
+router.post("/movimentacoes", async (req, res) => {
+  try {
+    await Venda.criaTransacao(req, res);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Erro ao criar venda!",
+    });
+  }
+});
+
 
 module.exports = router;
