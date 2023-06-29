@@ -34,57 +34,44 @@ class VendaController {
   }
 
   async gerarDetalhes(req, res) {
-    var data = [];
     try {
-      // { produto, quantidade, valor_unitario } = detalhes
+      const { produto, quantidade, valor_unitario } = req.body;
 
-      const detalhes = req.body;
+      const produtoConsulta = await Produto.findOne({ cod_produto: produto });
 
-      detalhes.forEach((detalhe) => {
-        const { produto } = detalhe;
-        const produtoConsulta = Produto.findOne({ cod_produto: produto });
-        
-        if (!produtoConsulta) {
-          return res.status(404).json({
-            success: false,
-            message: "Produto não encontrado!",
-          });
-        }
-
-        const itemConsulta = ItemMovimento.findOne({ produto: produtoConsulta._id });
-
-        if (!itemConsulta) {
-          return res.status(404).json({
-            success: false,
-            message: "Item não encontrado no estoque!",
-          });
-        }
-
-        if (itemConsulta.quantidade < detalhe.quantidade) {
-          return res.status(404).json({
-            success: false,
-            message: "Quantidade insuficiente no estoque!",
-          });
-        }
-
-        detalhe = new Detalhes({
-          produto: produtoConsulta._id,
-          quantidade: detalhe.quantidade,
-          valor_unitario: detalhe.valor_unitario,
-        });
-
-        // salva o item no banco de dados
-        detalhe.save();
-        data.push(detalhe);
-      });
-
-      // veriiica se o array está vazio
-      if (data.length === 0) {
+      if (!produtoConsulta) {
         return res.status(404).json({
           success: false,
-          message: "Nenhum item encontrado!",
+          message: "Produto não encontrado!",
         });
       }
+
+      const itemConsulta = await ItemMovimento.findOne({ produto: produtoConsulta._id });
+
+      if (!itemConsulta) {
+        return res.status(404).json({
+          success: false,
+          message: "Item não encontrado no estoque!",
+        });
+      }
+
+      if (itemConsulta.quantidade < quantidade) {
+        return res.status(404).json({
+          success: false,
+          message: "Quantidade insuficiente no estoque!",
+        });
+
+      }
+
+      const detalhe = new Detalhes({
+        produto: produtoConsulta._id,
+        quantidade,
+        valor_unitario,
+      });
+
+      // salva o item no banco de dados
+
+      const data = await detalhe.save();
 
       return res.status(201).json({
         success: true,
@@ -116,6 +103,32 @@ class VendaController {
         success: true,
         count: vendas.length,
         data: vendas,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        success: false,
+        message: "Erro ao listar vendas!",
+      });
+    }
+  }
+
+  // Lista os detalhes
+  async listaDetalhes(req, res) {
+    try {
+      const detalhes = await Detalhes.find();
+      // verifica se existem vendas
+      if (detalhes.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Nenhuma venda encontrada!",
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        count: detalhes.length,
+        data: detalhes,
       });
     } catch (error) {
       console.log(error);
