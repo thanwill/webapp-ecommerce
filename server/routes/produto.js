@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const {  produtoController } = require("../controllers/estoque");
-const { ProdutoLogic } = require("../logic/produtos");
 
 /* ROTAS PARA PRODUTOS */
 
