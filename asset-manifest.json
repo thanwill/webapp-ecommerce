@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/mongo-node/static/css/main.eb34578d.css",
-    "main.js": "/mongo-node/static/js/main.8f81c173.js",
+    "main.js": "/mongo-node/static/js/main.d6ce7450.js",
     "static/js/787.0bfccc2a.chunk.js": "/mongo-node/static/js/787.0bfccc2a.chunk.js",
     "index.html": "/mongo-node/index.html",
     "main.eb34578d.css.map": "/mongo-node/static/css/main.eb34578d.css.map",
-    "main.8f81c173.js.map": "/mongo-node/static/js/main.8f81c173.js.map",
+    "main.d6ce7450.js.map": "/mongo-node/static/js/main.d6ce7450.js.map",
     "787.0bfccc2a.chunk.js.map": "/mongo-node/static/js/787.0bfccc2a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.eb34578d.css",
-    "static/js/main.8f81c173.js"
+    "static/js/main.d6ce7450.js"
   ]
 }
