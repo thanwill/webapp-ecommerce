@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-//import { ProdutosService } from "../../services/produtos.js";
-import { CategoriaService } from "../../services/estoque.js";
+
+
 import "./style.css";
 export default function Categorias({ props }) {
   return (
@@ -11,8 +10,8 @@ export default function Categorias({ props }) {
             <div className='d-flex align-items-center mb-2 mb-sm-0 col-sm-auto'>
               <select className='form-select form-select-sm'>
                 {
-                  // verifica se a lista de categorias está vazia
-                  props.length === 0 ? (
+                  // Se não existir nada em props
+                  props === undefined || props.length === 0 ? (
                     // se estiver vazia, exibe uma opção vazia
                     <option value='0'>Nenhuma categoria cadastrada</option>
                   ) : (

@@ -20,8 +20,7 @@ export default function ListarProdutos() {
   return (
     <>
       <div className='mt-5 mb-5'>
-        {
-          /*
+        {/*
           <div className='row'>
           <div className='col-10 offset-1 col-md-6'>
             <ul className='nav nav-pills mb-3' id='pills-tab' role='tablist'>
@@ -41,8 +40,7 @@ export default function ListarProdutos() {
             </ul>
           </div>
         </div>
-          */
-        }
+          */}
 
         <div className='tab-content' id='pills-tabContent'>
           <div
@@ -52,39 +50,11 @@ export default function ListarProdutos() {
             aria-labelledby='pills-home-tab'
             tabIndex='0'>
             <div className='row'>
-              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'>
+              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-3 mb-5'>
                 <Title title='Produtos' subtitle='Confira nossos produtos' />
                 <Produtos itens={itens} categorias={categorias} />
               </div>
             </div>
-          </div>
-          <div
-            className='tab-pane fade'
-            id='pills-profile'
-            role='tabpanel'
-            aria-labelledby='pills-profile-tab'
-            tabIndex='0'>
-            <div className='row'>
-              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5 mb-5'></div>
-            </div>
-          </div>
-          <div
-            className='tab-pane fade'
-            id='pills-contact'
-            role='tabpanel'
-            aria-labelledby='pills-contact-tab'
-            tabIndex='0'>
-            <div className='row'>
-              <div className='col-10 offset-1 col-md-6 offset-md-3 mt-5'></div>
-            </div>
-          </div>
-          <div
-            className='tab-pane fade'
-            id='pills-disabled'
-            role='tabpanel'
-            aria-labelledby='pills-disabled-tab'
-            tabIndex='0'>
-            ...
           </div>
         </div>
       </div>

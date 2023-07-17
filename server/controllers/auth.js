@@ -11,7 +11,10 @@ class LoginController {
       return res.status(400).send({ error: "Usuário não encontrado!" });
     }
     if (!(await bcryptjs.compare(senha, cliente.senha))) {
-      return res.status(400).send({ error: "Senha inválida!" });
+      return res.status(400).send({ 
+        status: false,
+        message: "Senha inválida!"        
+       });
     }
 
     await auth.incluirToken(cliente);
@@ -19,6 +22,7 @@ class LoginController {
     return res.status(200).json({
       status: true,
       token: cliente.token,
+      message: "Login realizado com sucesso!"
     });
 
     //res.status(200).json(cliente);
@@ -34,7 +38,28 @@ class LoginController {
     }
 
     await auth.incluirToken(cliente);
-    res.status(200).json(cliente);
+    res.status(200).json({
+      status: true,
+      message : "Token encontrado!",
+      token: cliente.token
+      
+    });
+  }
+
+  async logout(req, res) {
+    const cliente = await Usuario.findOne({ token: req.headers.authorization });
+
+    if (!cliente) {
+      return res.status(400).send({ status:false, message: "Usuário não encontrado!" });
+    }
+
+    await auth.removerToken(cliente);
+
+    return res.status(200).json({
+      status: true,
+      message: "Logout realizado com sucesso!",
+      token: cliente.token
+    });
   }
 }
 

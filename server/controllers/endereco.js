@@ -8,13 +8,16 @@ class EnderecoController {
       await Endereco.create(endereco);
 
       if (!endereco) {
-        return res.status(400).json({ error: "Endereço não cadastrado" });
+        return res.status(400).json({
+          status: false,
+          message: "Não foi possível cadastrar o endereço",
+        });
       }
 
       return endereco;
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: error.message });
+      return res.status(500).json({ status: false, message: error.message });
     }
   }
 
@@ -23,11 +26,55 @@ class EnderecoController {
     try {
       const enderecos = await Endereco.find({});
       if (!enderecos.length) {
-        return res.status(404).json({ error: "Não há endereços cadastrados" });
+        return res.status(404).json({ status: false, message: "Não há endereços cadastrados" });
       }
-      return res.status(200).json(enderecos);
+      return res.status(200).json({ status: true, enderecos });
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return res.status(500).json({ sttus: false, message: error.message });
+    }
+  }
+
+  // atualiza um endereco por ID
+  async atualizar(req, res) {
+    try {
+      const { cod_endereco } = req.params;
+      const enderecoAtualizado = req.body;
+      const endereco = await Endereco.findOne({ cod_endereco });
+
+      if (!endereco) {
+        return res.status(404).json({ status: false, message: "Endereço não encontrado" });
+      }
+
+      /*
+        "rua": "Rua Antônio Escorsin",
+        "numero": 123,
+        "bairro": "Santa Cândida",
+        "cidade": "Curitiba",
+        "estado": "PR",
+        "cep": "82940250",
+        "complemento": "Sala 501",
+      */
+
+      // cria um objeto com os dados atualizados do endereco, verificando se o campo foi preenchido
+      const dadosEndereco = {
+        rua: enderecoAtualizado.rua ? enderecoAtualizado.rua : endereco.rua,
+        numero: enderecoAtualizado.numero ? enderecoAtualizado.numero : endereco.numero,
+        bairro: enderecoAtualizado.bairro ? enderecoAtualizado.bairro : endereco.bairro,
+        cidade: enderecoAtualizado.cidade ? enderecoAtualizado.cidade : endereco.cidade,
+        estado: enderecoAtualizado.estado ? enderecoAtualizado.estado : endereco.estado,
+        cep: enderecoAtualizado.cep ? enderecoAtualizado.cep : endereco.cep,
+        complemento: enderecoAtualizado.complemento ? enderecoAtualizado.complemento : endereco.complemento,
+      };
+
+      await Endereco.findOneAndUpdate({ cod_endereco }, dadosEndereco, { new: true }); //
+
+      if (!endereco) {
+        return res.status(404).json({ status: false, message: "Endereço não encontrado" });
+      }
+
+      return res.status(200).json({ status: true, message:"Os dados de endereço foram atualizados com sucesso.",endereco });
+    } catch (error) {
+      return res.status(500).json({ status: false, message: error.message });
     }
   }
 
@@ -38,12 +85,12 @@ class EnderecoController {
       const endereco = await Endereco.findOne({ cod_endereco });
 
       if (!endereco) {
-        return res.status(404).json({ error: "Endereço não encontrado" });
+        return res.status(404).json({ status: false, error: "Endereço não encontrado" });
       }
 
-      return res.status(200).json(endereco);
+      return res.status(200).json({ status: true, endereco });
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return res.status(500).json({ status: false, message: error.message });
     }
   }
 
@@ -54,18 +101,18 @@ class EnderecoController {
       const usuario = await Usuario.findOne({ cod_usuario });
 
       if (!usuario) {
-        return res.status(404).json({ error: "Usuário não encontrado" });
+        return res.status(404).json({ status: false, message: "Usuário não encontrado" });
       }
 
       const endereco = await Endereco.findOne({ _id: usuario.endereco });
 
       if (!endereco) {
-        return res.status(404).json({ error: "Endereço não encontrado" });
+        return res.status(404).json({ status: false, message: "Endereço não encontrado" });
       }
 
-      return res.status(200).json(endereco);
+      return res.status(200).json({ status: true, endereco });
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return res.status(500).json({ status: false, message: error.message });
     }
   }
 
@@ -75,18 +122,21 @@ class EnderecoController {
       const enderecos = await Endereco.find({});
       if (enderecos.length === 0) {
         return res.status(404).json({
-          error: "Não há endereços cadastrados",
+          status: false,
+          message: "Não há endereços cadastrados",
         });
       }
       console.log(enderecos);
       await Endereco.deleteMany({});
       return res.status(200).json({
+        status: true,
         message: "Todos os endereços foram removidos com sucesso",
       });
     } catch (error) {
       console.log(error);
       return res.status(500).json({
-        error: error.message,
+        status: false,
+        message: error.message,
       });
     }
   }

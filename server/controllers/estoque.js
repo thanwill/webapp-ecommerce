@@ -10,21 +10,31 @@ class CategoriaController {
 
       await categoria.save();
 
-      return res.status(201).json(categoria);
+      return res.status(201).json({
+        status: true,
+        message: "Categoria criada com sucesso!",
+        categoria,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erro ao criar categoria" });
+      return res.status(500).json({
+        status: false,
+        message: "Erro ao criar categoria",
+      });
     }
   }
 
   async listar_categorias(req, res) {
     try {
       const categorias = await Categoria.find();
-
-      return res.status(200).json(categorias);
+      return res.status(200).json({
+        status: true,
+        message: "Categorias listadas com sucesso!",
+        categorias,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erro ao listar categorias" });
+      return res.status(500).json({ status: false, message: "Erro ao listar categorias" });
     }
   }
 
@@ -34,10 +44,14 @@ class CategoriaController {
 
       const categoria = await Categoria.findOne({ cod_categoria });
 
-      return res.status(200).json(categoria);
+      return res.status(200).json({
+        status: true,
+        message: "Categoria listada com sucesso!",
+        categoria,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erro ao listar categoria" });
+      return res.status(500).json({ status: false, message: "Erro ao listar categoria" });
     }
   }
 
@@ -49,17 +63,20 @@ class CategoriaController {
       const categoria = req.body;
 
       if (!categoria) {
-        return res.status(404).json({ error: "Categoria não encontrada" });
+        return res.status(404).json({
+          status: false,
+          message: "Categoria não encontrada",
+        });
       }
 
       // await Usuario.findByIdAndUpdate(_id, cliente);
 
       await Categoria.findByIdAndUpdate(_id, categoria);
 
-      return res.status(200).json({ message: "Categoria atualizada com sucesso" });
+      return res.status(200).json({ status: true, message: "Categoria atualizada com sucesso" });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erro ao atualizar categoria" });
+      return res.status(500).json({ status: false, message: "Erro ao atualizar categoria" });
     }
   }
 
@@ -71,15 +88,15 @@ class CategoriaController {
       const categoria = await Categoria.findOne({ cod_categoria });
 
       if (!categoria) {
-        return res.status(404).json({ error: "Categoria não encontrada" });
+        return res.status(404).json({ status: false, message: "Categoria não encontrada" });
       }
 
       await Categoria.findByIdAndDelete(_id);
 
-      return res.status(200).json({ message: "Categoria excluída com sucesso" });
+      return res.status(200).json({ status: true, message: "Categoria excluída com sucesso" });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erro ao excluir categoria" });
+      return res.status(500).json({ status: false, message: "Erro ao excluir categoria" });
     }
   }
 }
@@ -92,44 +109,34 @@ class ProdutoController {
       const categoria = await Categoria.findOne({ cod_categoria: cod_categoria });
 
       if (!categoria) {
-        return res.status(404).json({ error: "Categoria não encontrada" });
+        return res.status(404).json({ status: false, message: "Categoria não encontrada" });
       }
       const produto = new Produto({ nome, descricao, preco, categoria });
 
       await produto.save();
 
-      return res.status(201).json(produto);
+      return res.status(201).json({
+        status: true,
+        message: "Produto criado com sucesso!",
+        produto,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erro ao criar produto" });
-    }
-  }
-
-  async criarOld(req, res) {
-    try {
-      const { nome, descricao, preco, cod_categoria } = req.body;
-      const categoria = await Categoria.findOne({ cod_categoria });
-
-      if (!categoria) {
-        return res.status(404).json({ error: "Categoria não encontrada" });
-      }
-
-      const produto = new Produto({ nome, descricao, preco, categoria });
-      await produto.save();
-      return res.status(201).json(produto);
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({ error: "Erro ao criar produto" });
+      return res.status(500).json({ status: false, message: "Erro ao criar produto" });
     }
   }
 
   async listar_produtos(req, res) {
     try {
       const produtos = await Produto.find();
-      return res.status(200).json(produtos);
+      return res.status(200).json({
+        status: true,
+        message: "Produtos listados com sucesso!",
+        produtos,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erro ao listar produtos" });
+      return res.status(500).json({ status: false, message: "Erro ao listar produtos" });
     }
   }
 
@@ -139,13 +146,17 @@ class ProdutoController {
       const produto = await Produto.findOne({ cod_produto }).populate("categoria");
 
       if (!produto) {
-        return res.status(404).json({ error: "Produto não encontrado" });
+        return res.status(404).json({ status: false, message: "Produto não encontrado" });
       }
 
-      return res.status(200).json(produto);
+      return res.status(200).json({
+        status: true,
+        message: "Produto listado com sucesso!",
+        produto,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erro ao listar produto" });
+      return res.status(500).json({ status: false, message: "Erro ao listar produto" });
     }
   }
 
@@ -157,14 +168,14 @@ class ProdutoController {
       const produto = req.body;
 
       if (!produto) {
-        return res.status(404).json({ error: "Produto não encontrado" });
+        return res.status(404).json({ status : false, message: "Produto não encontrado"});
       }
 
       await Produto.findByIdAndUpdate(_id, produto);
-      return res.status(200).json({ message: "Produto atualizado com sucesso" });
+      return res.status(200).json({ status: true, message: "Produto atualizado com sucesso", produto });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erro ao atualizar produto" });
+      return res.status(500).json({ status: false, message: "Erro ao atualizar produto"});
     }
   }
 
@@ -175,20 +186,20 @@ class ProdutoController {
       const _id = String((await Produto.findOne({ cod_produto }))._id);
       const produto = await Produto.findOne({ cod_produto });
       if (!produto) {
-        return res.status(404).json({ error: "Produto não encontrado" });
+        return res.status(404).json({ status: false, message: "Produto não encontrado" });
       }
 
       // verifica se o _id é null
 
       if (_id == null) {
-        return res.status(404).json({ error: "Produto não encontrado" });
+        return res.status(404).json({ status: false, message: "Produto não encontrado" });
       }
 
       await Produto.findByIdAndDelete(_id);
-      return res.status(200).json({ message: "Produto excluído com sucesso" });
+      return res.status(200).json({ status: true, message: "Produto excluído com sucesso" });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erro ao excluir produto" });
+      return res.status(500).json({ status: false, message: "Erro ao excluir produto" });
     }
   }
 
@@ -197,13 +208,17 @@ class ProdutoController {
       const { cod_categoria } = req.params;
       const categoria = await Categoria.findOne({ cod_categoria });
       if (!categoria) {
-        return res.status(404).json({ error: "Categoria não encontrada" });
+        return res.status(404).json({ status: false, message: "Categoria não encontrada" });
       }
       const produtos = await Produto.find({ categoria });
-      return res.status(200).json(produtos);
+      return res.status(200).json({
+        status: true,
+        message: "Produtos listados com sucesso!",
+        produtos,
+      });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erro ao listar produtos" });
+      return res.status(500).json({ status: false, message: "Erro ao listar produtos" });
     }
   }
 }
@@ -330,10 +345,7 @@ class MovimentoController {
 
   async listar_movimentos(req, res) {
     try {
-      const movimentos = await Movimento.find()
-        .populate("deposito_origem")
-        .populate("local_destino")
-        .populate("itens");
+      const movimentos = await Movimento.find().populate("deposito_origem").populate("local_destino").populate("itens");
       return res.status(200).json(movimentos);
     } catch (error) {
       console.log(error);
@@ -356,7 +368,7 @@ class ItensMovimentoController {
         if (!produto) {
           return res.status(404).json({ error: "Produto não encontrado" });
         }
-        
+
         const itemMovimento = new ItemMovimento({
           valor_unitario: item.valor_unitario,
           produto: produtoConsulta._id,

@@ -16,10 +16,10 @@ export default function ItemProduct({ id, img, name, price, quantity}){
                 <p>{quantity}</p>
                 <div className='buttonSet'>
                     <button className="plus" onClick={increment(id)}>
-                        <i class='bx bx-plus'></i>
+                        <i className='bx bx-plus'></i>
                     </button>
                     <button className="minus" onClick={decrement(id)}>
-                        <i class='bx bx-minus'></i>
+                        <i className='bx bx-minus'></i>
                     </button>
                 </div>
             </div>

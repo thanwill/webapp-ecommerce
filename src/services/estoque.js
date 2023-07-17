@@ -37,7 +37,6 @@ export const DepositosServices = {
       const response = await api.get("/deposito");
       return response.data;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   },
@@ -50,7 +49,6 @@ export const ProdutosServices = {
       const response = await api.get("/produto");
       return response.data;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   },
@@ -63,7 +61,6 @@ export const ItensServices = {
       const response = await api.get("movimento/itens");
       return response.data;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   },
@@ -73,7 +70,6 @@ export const ItensServices = {
       const response = await api.post("movimento/itens", item);
       return response.data;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   },
@@ -84,7 +80,6 @@ export const ItensServices = {
       const response = await api.get(`/movimento/itens/${id}`);
       return response.data;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   },
@@ -109,7 +104,6 @@ export const CategoriaService = {
       return response.data;
     } catch (error) {
       console.error(error);
-      throw error;
     }
   },
 

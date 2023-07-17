@@ -32,7 +32,15 @@ router.get("/usuario/:cod_usuario", async (req, res) => {
   }
 });
 
-
+// atualiza o endereco pelo id
+router.put("/:cod_endereco", async (req, res) => {
+  try {
+    await enderecoController.atualizar(req, res);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: `${error}` });
+  }
+});
 
 // lista os endereços
 router.get("/", async (req, res) => {
