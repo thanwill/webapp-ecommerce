@@ -21,6 +21,7 @@ export default class CadastrarUsuario extends Component {
     nome_cartao: "",
     numero_cartao: "",
     cvc_cartao: "",
+    
     logradouro: "",
     numero: "",
     complemento: "",

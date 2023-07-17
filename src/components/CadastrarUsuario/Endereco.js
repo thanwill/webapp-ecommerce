@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect} from "react";
 import CaixaStep from "../Movimento/CaixaStep";
 import Title from "../Title/index";
 import Form from "react-bootstrap/Form";
@@ -7,9 +7,39 @@ const Endereco = ({
   nextStep,
   prevStep,
   handleChange,
-  
 }) => {
   const [validated, setValidated] = React.useState(false);
+  const [cep, setCep] = useState("");
+
+  // consulta a api do viacep e preenche os campos de endereco
+  useEffect(() => {
+    // verifica se o cep nao esta vazio e contem 8 digitos
+    if (cep !== "" && cep.length === 8) {
+      fetch(`https://viacep.com.br/ws/${values.cep}/json/`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.erro) {
+            alert("CEP não encontrado.");
+          } else {
+            console.log(data);
+            handleChange("logradouro")({
+              target: { value: data.logradouro },
+            });
+            handleChange("bairro")({ target: { value: data.bairro } });
+            handleChange("localidade")({ target: { value: data.localidade } });
+            handleChange("uf")({ target: { value: data.uf } });
+          }
+        });
+    } else {
+      handleChange("logradouro")({ target: { value: "" } });
+      handleChange("bairro")({ target: { value: "" } });
+      handleChange("localidade")({ target: { value: "" } });
+      handleChange("uf")({ target: { value: "" } });
+    }
+
+  }, [cep]);
+
+
 
   return (
     <>
@@ -54,7 +84,8 @@ const Endereco = ({
                 e.target.value = e.target.value.replace(
                   /(\d{5})(\d{3})/,
                   "$1-$2"
-                );
+                );                
+                setCep(e.target.value);
                 handleChange("cep")(e);
               }}
             />
@@ -101,6 +132,7 @@ const Endereco = ({
                     // validacao
                     required
                     pattern='[0-9]{1,}'
+                    
                     onChange={handleChange("numero")}
                   />
                   <label htmlFor='numero'>Número</label>
@@ -118,6 +150,7 @@ const Endereco = ({
                     // validacao
                     required
                     pattern='[A-Za-zÀ-ú0-9 ]{3,}'
+                    defaultValue={values.bairro}
                     onChange={handleChange("bairro")}
                   />
                   <label htmlFor='bairro'>Bairro</label>
@@ -139,8 +172,9 @@ const Endereco = ({
                     // validacao
                     required
                     pattern='[A-Za-zÀ-ú0-9 ]{3,}'
+                    defaultValue={values.localidade}
                     onChange={e => {
-                      handleChange("localidade")(e);
+                      handleChange("localidade");
                     }}
                   />
                   <label htmlFor='cidade'>Cidade</label>
@@ -159,6 +193,7 @@ const Endereco = ({
                     id='uf'
                     name='uf'
                     required
+                    defaultValue={values.uf}
                     onChange={e => {
                       handleChange("uf")(e);
                     }}>
